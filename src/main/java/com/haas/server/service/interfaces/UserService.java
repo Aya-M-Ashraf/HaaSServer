@@ -19,4 +19,6 @@ public interface UserService {
 
     public String generateRandomPassword();
 
+    public void updateUser(UserDTO user);
+
 }

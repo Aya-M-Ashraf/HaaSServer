@@ -1,5 +1,7 @@
 package commons.ws;
 
+import commons.dto.BaseObject;
+
 /**
  *
  * @author Aya M. Ashraf
@@ -9,7 +11,7 @@ public class Result {
     private boolean success;
     private String code;
     private String msg;
-    private Object obj;
+    private BaseObject obj;
 
     public boolean isSuccess() {
         return success;
@@ -35,11 +37,11 @@ public class Result {
         this.msg = msg;
     }
 
-    public Object getObj() {
+    public BaseObject getObj() {
         return obj;
     }
 
-    public void setObj(Object obj) {
+    public void setObj(BaseObject obj) {
         this.obj = obj;
     }
     

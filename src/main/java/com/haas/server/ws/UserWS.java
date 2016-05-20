@@ -14,6 +14,8 @@ import org.springframework.stereotype.Component;
 import com.haas.server.service.interfaces.UserService;
 import com.haas.server.utils.PasswordSenderMail;
 import com.haas.server.utils.Validation;
+import javax.ws.rs.FormParam;
+import javax.ws.rs.POST;
 
 @Path("/user")
 @Component
@@ -23,7 +25,6 @@ public class UserWS {
     private UserService userServiceImpl;
 
     public UserWS() {
-        System.out.println("------------- UserWS is crested");
     }
 
     @GET
@@ -35,10 +36,14 @@ public class UserWS {
         if (!Validation.mobileValidation(phone)) {
             result.setSuccess(false);
             result.setMsg("user's mobile number is not valid");
+            result.setCode("register");
+            result.setObj(null);
             return result;
         } else if (!Validation.mobileValidation(email)) {
             result.setSuccess(false);
             result.setMsg("user's email is not valid");
+            result.setCode("register");
+            result.setObj(null);
             return result;
         } else {
             UserDTO userDto = new UserDTO();
@@ -54,9 +59,12 @@ public class UserWS {
             if (userDto != null) {
                 result.setSuccess(true);
                 result.setObj(userDto);
+                result.setCode("register");
             } else {
                 result.setSuccess(false);
+                result.setObj(null);
                 result.setMsg("user can't be added");
+                result.setCode("register");
             }
             return result;
         }
@@ -83,9 +91,34 @@ public class UserWS {
     }
 
     @GET
+    @Path("/updateProfile")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Result updateProfile(@QueryParam(Constants.EMAIL) String email, @QueryParam(Constants.F_NAME) String firstName, @QueryParam(Constants.L_NAME) String lastName, @QueryParam(Constants.PASSWORD) String password) {
+        Result result = new Result();
+        UserDTO user = userServiceImpl.getUserByEmail(email);
+        if (user == null) {
+            result.setSuccess(false);
+            result.setMsg("This Email doesn't belong to anyone");
+            result.setObj(null);
+            result.setCode("updateProfile");
+        } else {
+            user.setFirstName(firstName);
+            user.setLastName(lastName);
+            user.setPassword(password);
+            userServiceImpl.updateUser(user);
+            
+            result.setSuccess(true);
+            result.setMsg(null);
+            result.setObj(user);
+            result.setCode("updateProfile");
+        }
+        return result;
+    }
+
+    @POST
     @Path("/login")
     @Produces(MediaType.APPLICATION_JSON)
-    public Result login(@QueryParam(Constants.EMAIL) String email, @QueryParam(Constants.PASSWORD) String password) {
+    public Result login(@FormParam(Constants.EMAIL) String email, @FormParam(Constants.PASSWORD) String password) {
         Result result = new Result();
         UserDTO user = userServiceImpl.getUserByEmail(email);
         if (user == null) {
@@ -102,12 +135,11 @@ public class UserWS {
             return result;
         } else {
             result.setSuccess(true);
-            result.setMsg(null);
+            result.setMsg("login is done successfully");
             result.setObj(user);
             result.setCode("login");
             return result;
         }
-
     }
 
     @GET

@@ -34,12 +34,11 @@ public class UserServiceImpl implements UserService {
     private static final int PASSWORD_LENGTH = 8;
 
     public UserServiceImpl() {
-        System.out.println("------------- userServiceImpl is created");
+       
     }
 
     @PostConstruct
     public void init() {
-        System.out.println("--------------  in the init of UserServiceImpl");
         userDaoImpl.findAll();
     }
 
@@ -62,11 +61,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO updateUserPassword(String email, String phone) {
-        User user = userDaoImpl.getUserByEmail(email);
+       User user = userDaoImpl.getUserByEmail(email);
         if (user == null) {
             return null;
         } else if (user.getPhone().equals(phone)) {
-            user.setPassword("ChangeThisPassword");
+            user.setPassword(generateRandomPassword());
             userDaoImpl.update(user);
             return entityMapper.mapUserToUserDto(user);
         } else {
@@ -109,7 +108,6 @@ public class UserServiceImpl implements UserService {
                         userTransferCoinsUser.setCoinsAmount(coinsCount);
                         userTransferCoinsDAO.makePersistent(userTransferCoinsUser);
 
-//                    getSession().per
                         System.out.println("Successful coins transferring");
                         result.add("Successful coins transferring");
                     } catch (Exception e) {
@@ -175,7 +173,6 @@ public class UserServiceImpl implements UserService {
     }
 
     public void setUserDaoImpl(UserDao userDaoImpl) {
-        System.out.println("---------------- in the setter of userDaoImpl");
         this.userDaoImpl = userDaoImpl;
     }
 
@@ -196,6 +193,12 @@ public class UserServiceImpl implements UserService {
             password += letters.substring(index, index + 1);
         }
         return password;
+    }
+
+    @Override
+    public void updateUser(UserDTO userDto) {
+       User user = entityMapper.mapUserDtoToUser(userDto);
+       userDaoImpl.update(user);
     }
 
 }

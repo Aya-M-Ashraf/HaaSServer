@@ -4,7 +4,7 @@ package commons.dto;
 /**
  * Author Shall
  */
-public class DeviceDTO implements java.io.Serializable {
+public class DeviceDTO extends BaseObject implements java.io.Serializable {
 
     private Integer deviceId;
     private String serialNumber;

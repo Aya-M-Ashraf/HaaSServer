@@ -21,10 +21,10 @@ public class Constants {
 
     public static final String REGISTER_WS_CODE = "register";
     public static final String VIEW_PROFILE_WS_CODE = "viewProfile";
-    
-    public static final String  CONSUMED_MB = "consumedMB";
+
+    public static final String CONSUMED_MB = "consumedMB";
     public static final String DATE_TIME_STAMP = "timeStamp";
-    public static final String  KEEP_ALIVE_STATUS  = "keepAliveStatus";
+    public static final String KEEP_ALIVE_STATUS = "keepAliveStatus";
     public static final String UPDATED_VERSION = "updatedVersion";
 
 }
