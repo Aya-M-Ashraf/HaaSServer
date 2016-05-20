@@ -90,10 +90,10 @@ public class UserWS {
         return result;
     }
 
-    @GET
+    @POST
     @Path("/updateProfile")
     @Produces(MediaType.APPLICATION_JSON)
-    public Result updateProfile(@QueryParam(Constants.EMAIL) String email, @QueryParam(Constants.F_NAME) String firstName, @QueryParam(Constants.L_NAME) String lastName, @QueryParam(Constants.PASSWORD) String password) {
+    public Result updateProfile(@FormParam(Constants.EMAIL) String email, @FormParam(Constants.F_NAME) String firstName, @FormParam(Constants.L_NAME) String lastName, @FormParam(Constants.PASSWORD) String password) {
         Result result = new Result();
         UserDTO user = userServiceImpl.getUserByEmail(email);
         if (user == null) {
