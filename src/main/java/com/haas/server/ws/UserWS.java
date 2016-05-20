@@ -27,10 +27,10 @@ public class UserWS {
     public UserWS() {
     }
 
-    @GET
+    @POST
     @Path("/register")
     @Produces(MediaType.APPLICATION_JSON)
-    public Result register(@QueryParam(Constants.EMAIL) String email, @QueryParam(Constants.F_NAME) String fName, @QueryParam(Constants.L_NAME) String lName, @QueryParam(Constants.PHONE) String phone, @QueryParam(Constants.PASSWORD) String password) {
+    public Result register(@FormParam(Constants.EMAIL) String email, @FormParam(Constants.F_NAME) String fName, @FormParam(Constants.L_NAME) String lName, @FormParam(Constants.PHONE) String phone, @FormParam(Constants.PASSWORD) String password) {
 
         Result result = new Result();
         if (!Validation.mobileValidation(phone)) {
