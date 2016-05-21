@@ -13,16 +13,16 @@ public class Validation {
     
     public static boolean eMailValidation(String email) {
 
-        if (email.matches("^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$")) {
+        if (email.matches("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")) {
             return true;
         }
 
         return false;
     }
     
-     public static boolean passwordValidation(String email) {
+     public static boolean passwordValidation(String pass) {
 
-        if (email.matches("^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])[^\\s]{8,}$")) {
+        if (pass.matches("^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])[^\\s]{8,}$")) {
             return true;
         }
 

@@ -4,7 +4,7 @@ package commons.dto;
 /**
  * Author Shall
  */
-public class UserDTO extends BaseObject implements java.io.Serializable {
+public class UserDTO implements java.io.Serializable {
 
     private Integer userId;
     private String email;

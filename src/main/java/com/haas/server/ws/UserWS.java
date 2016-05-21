@@ -35,12 +35,14 @@ public class UserWS {
 
         Result result = new Result();
         if (!Validation.mobileValidation(phone)) {
+            System.out.println("mobile");
             result.setSuccess(false);
             result.setMsg("user's mobile number is not valid");
             result.setCode("register");
             result.setObj(null);
             return result;
-        } else if (!Validation.mobileValidation(email)) {
+        } else if (!Validation.eMailValidation(email)) {
+            System.out.println("email");
             result.setSuccess(false);
             result.setMsg("user's email is not valid");
             result.setCode("register");
@@ -60,6 +62,7 @@ public class UserWS {
             if (userDto != null) {
                 result.setSuccess(true);
                 result.setObj(userDto);
+                result.setMsg("User added Successfully");
                 result.setCode("register");
             } else {
                 result.setSuccess(false);
@@ -87,7 +90,7 @@ public class UserWS {
             result.setSuccess(true);
             result.setMsg(null);
             result.setObj(user);
-            result.setObjectType(ObjectType.USER_DTO);
+            result.setObjectType(Constants.USER_DTO);
             result.setCode("viewProfile");
         }
         return result;
@@ -114,7 +117,7 @@ public class UserWS {
             result.setSuccess(true);
             result.setMsg(null);
             result.setObj(user);
-            result.setObjectType(ObjectType.USER_DTO);
+            result.setObjectType(Constants.USER_DTO);
             result.setCode("updateProfile");
         }
         return result;
@@ -144,7 +147,7 @@ public class UserWS {
             result.setSuccess(true);
             result.setMsg("login is done successfully");
             result.setObj(user);
-            result.setObjectType(ObjectType.USER_DTO);
+            result.setObjectType(Constants.USER_DTO);
             result.setCode("login");
             return result;
         }

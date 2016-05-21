@@ -1,26 +1,25 @@
 package commons.ws;
 
-import commons.dto.BaseObject;
-
 /**
  *
  * @author Aya M. Ashraf
  */
-public class Result extends BaseObject {
+public class Result {
 
     private boolean success;
     private String code;
     private String msg;
     private Object obj;
-    private ObjectType objectType;
+    private String objectType;
 
-    public ObjectType getObjectType() {
+    public String getObjectType() {
         return objectType;
     }
 
-    public void setObjectType(ObjectType objectType) {
+    public void setObjectType(String objectType) {
         this.objectType = objectType;
     }
+
 
     public boolean isSuccess() {
         return success;
