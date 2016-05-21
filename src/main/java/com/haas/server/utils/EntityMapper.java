@@ -13,11 +13,11 @@ import org.springframework.stereotype.Component;
 public class EntityMapper {
 
     public EntityMapper() {
-        System.out.println("------------- EntityMapper is created");
+      
     }
       
     public User mapUserDtoToUser (UserDTO userDto){
-        User user = new User(userDto.getEmail(),userDto.getFirstName(),userDto.getLastName(),userDto.getPhone(),userDto.getPassword(),userDto.getGoldenCoins(),userDto.getSilverCoins());
+        User user = new User(userDto.getUserId(),userDto.getEmail(),userDto.getFirstName(),userDto.getLastName(),userDto.getPhone(),userDto.getPassword(),userDto.getGoldenCoins(),userDto.getSilverCoins());
         return user;
     }
     

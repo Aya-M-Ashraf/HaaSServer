@@ -12,11 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserDaoImpl extends GenericHibernateDAO<User, String> implements UserDao {
 
     public UserDaoImpl() {
-         System.out.println("------------- userDaoImpl is created");
     }
     
-    
-
     @Override
     public User getUserByEmail(String email) {
         Query query = getSession().createQuery("from User where email= :email");
@@ -24,5 +21,13 @@ public class UserDaoImpl extends GenericHibernateDAO<User, String> implements Us
         User user = (User) query.uniqueResult();
         return user;
     } 
+
+    @Override
+    public User getUserByPhone(String phone) {
+        Query query = getSession().createQuery("from User where phone= :phone");
+        query.setParameter("phone", phone);
+        User user = (User) query.uniqueResult();
+        return user;
+    }
 
 }

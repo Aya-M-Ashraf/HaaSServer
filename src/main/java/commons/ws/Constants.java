@@ -29,5 +29,9 @@ public class Constants {
     
     public static final String USER_DTO = "userDTO";
     public static final String DEVICE_DTO = "deviceDTO";
+    
+    
+    public static final String OLD_PASSWORD = "oldPassword";
+    
 
 }

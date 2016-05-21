@@ -4,7 +4,6 @@ import com.haas.server.dao.GenericHibernateDAO;
 import com.haas.server.dao.interfaces.DeviceOldSessionDevicesDAO;
 import com.haas.server.entity.DeviceOldSessionDevices;
 import com.haas.server.entity.key.DeviceOldSessionDevicesPK;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Repository
 @Transactional
-@ComponentScan
 public class DeviceOldSessionDevicesDAOImpl extends GenericHibernateDAO<DeviceOldSessionDevices, DeviceOldSessionDevicesPK> implements DeviceOldSessionDevicesDAO{
     
 }

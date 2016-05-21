@@ -13,10 +13,9 @@ import com.haas.server.entity.key.DeviceCurrentlyConnectedDevicesPK;
 import com.haas.server.entity.key.DeviceOldSessionDevicesPK;
 import com.haas.server.entity.key.UserUsesDevicePK;
 import java.util.Date;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.FileSystemXmlApplicationContext;
 import com.haas.server.service.interfaces.DeviceService;
 import com.haas.server.utils.EntityMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  *
@@ -24,19 +23,19 @@ import com.haas.server.utils.EntityMapper;
  */
 public class DeviceServiceImpl implements DeviceService {
 
+    @Autowired
     DeviceDAO deviceDAO;
+    @Autowired
     UserDao userDAO;
+    @Autowired
     UserUsesDevicesDAO userUsesDevicesDAO;
-    ApplicationContext context;
+    @Autowired
     EntityMapper mapper;
+    @Autowired
     DeviceCurrentlyConnectedDevicesDAO deviceCurrentlyConnectedDevicesDAO;
 
     public DeviceServiceImpl() {
-        context = new FileSystemXmlApplicationContext("C:\\Users\\Shall\\Documents\\NetBeansProjects\\com.HaaS.server\\src\\java\\beans.xml");
-        deviceDAO = (DeviceDAO) context.getBean("deviceDAOImpl");
-        userDAO = (UserDao) context.getBean("userDAOImpl");
-        userUsesDevicesDAO = (UserUsesDevicesDAO) context.getBean("userUsesDevicesDAOImpl");
-        mapper = new EntityMapper();
+
     }
 
     @Override
@@ -84,7 +83,7 @@ public class DeviceServiceImpl implements DeviceService {
                 case "initiate": {
                     deviceCurrentlyConnectedDevices = new DeviceCurrentlyConnectedDevices(new DeviceCurrentlyConnectedDevicesPK(hostDevice.getDeviceId(), guestDevice.getDeviceId()), timeStamp, updatedVersion, consumedMB);
                     deviceCurrentlyConnectedDevicesDAO.makePersistent(deviceCurrentlyConnectedDevices);
-                    success=true;
+                    success = true;
                     break;
                 }
 
@@ -93,18 +92,18 @@ public class DeviceServiceImpl implements DeviceService {
                     deviceCurrentlyConnectedDevices.setConsumedMb(consumedMB);
                     deviceCurrentlyConnectedDevices.setUpdateVer(updatedVersion);
                     deviceCurrentlyConnectedDevicesDAO.update(deviceCurrentlyConnectedDevices);
-                    success=true;
+                    success = true;
                     break;
                 }
 
                 case "end": {
                     deviceOldSessionDevices = new DeviceOldSessionDevices(new DeviceOldSessionDevicesPK(hostDevice.getDeviceId(), guestDevice.getDeviceId(), deviceCurrentlyConnectedDevices.getStartTimestamp()), timeStamp, consumedMB);
-                    success=true;
+                    success = true;
                     break;
                 }
             }
         } else {
-            success=false;
+            success = false;
         }
         return success;
     }

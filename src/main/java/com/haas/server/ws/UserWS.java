@@ -14,7 +14,6 @@ import org.springframework.stereotype.Component;
 import com.haas.server.service.interfaces.UserService;
 import com.haas.server.utils.PasswordSenderMail;
 import com.haas.server.utils.Validation;
-import commons.ws.ObjectType;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
 
@@ -29,19 +28,19 @@ public class UserWS {
     }
 
     @POST
-    @Path("/register")
+    @Path("")
     @Produces(MediaType.APPLICATION_JSON)
     public Result register(@FormParam(Constants.EMAIL) String email, @FormParam(Constants.F_NAME) String fName, @FormParam(Constants.L_NAME) String lName, @FormParam(Constants.PHONE) String phone, @FormParam(Constants.PASSWORD) String password) {
 
         Result result = new Result();
-        if (!Validation.mobileValidation(phone)) {
+        if (!Validation.mobileValidation(phone) || userServiceImpl.getUserByPhone(phone) != null) {
             System.out.println("mobile");
             result.setSuccess(false);
-            result.setMsg("user's mobile number is not valid");
+            result.setMsg("This phone is already registered");
             result.setCode("register");
             result.setObj(null);
             return result;
-        } else if (!Validation.eMailValidation(email)) {
+        } else if (!Validation.eMailValidation(email) || userServiceImpl.getUserByEmail(email) != null) {
             System.out.println("email");
             result.setSuccess(false);
             result.setMsg("user's email is not valid");
@@ -99,23 +98,40 @@ public class UserWS {
     @POST
     @Path("/updateProfile")
     @Produces(MediaType.APPLICATION_JSON)
-    public Result updateProfile(@FormParam(Constants.EMAIL) String email, @FormParam(Constants.F_NAME) String firstName, @FormParam(Constants.L_NAME) String lastName, @FormParam(Constants.PASSWORD) String password) {
+    public Result updateProfile(@FormParam(Constants.EMAIL) String email, @FormParam(Constants.F_NAME) String firstName, @FormParam(Constants.L_NAME) String lastName, @FormParam(Constants.PASSWORD) String newPassword, @FormParam(Constants.OLD_PASSWORD) String oldPassword, @FormParam(Constants.PHONE) String phone) {
         Result result = new Result();
         UserDTO user = userServiceImpl.getUserByEmail(email);
+        UserDTO phoneUser = userServiceImpl.getUserByPhone(phone);
         if (user == null) {
             result.setSuccess(false);
             result.setMsg("This Email doesn't belong to anyone");
             result.setObj(null);
             result.setObjectType(null);
             result.setCode("updateProfile");
+            
+        } else if (phoneUser != null && !phoneUser.getEmail().equals(email)) {
+            result.setSuccess(false);
+            result.setMsg("This phone is already registered");
+            result.setObj(null);
+            result.setObjectType(null);
+            result.setCode("updateProfile");
+
+        } else if (!user.getPassword().equals(oldPassword)) {
+            result.setSuccess(false);
+            result.setMsg("Your old password is incorrect");
+            result.setObj(null);
+            result.setObjectType(null);
+            result.setCode("updateProfile");
+
         } else {
             user.setFirstName(firstName);
             user.setLastName(lastName);
-            user.setPassword(password);
+            user.setPassword(newPassword);
+            user.setPhone(phone);
             userServiceImpl.updateUser(user);
 
             result.setSuccess(true);
-            result.setMsg(null);
+            result.setMsg("Your profile has been updated successfully");
             result.setObj(user);
             result.setObjectType(Constants.USER_DTO);
             result.setCode("updateProfile");
@@ -136,6 +152,7 @@ public class UserWS {
             result.setObjectType(null);
             result.setCode("login");
             return result;
+            
         } else if (!user.getPassword().equals(password)) {
             result.setSuccess(false);
             result.setMsg("This password is incorrect");
@@ -143,6 +160,7 @@ public class UserWS {
             result.setObjectType(null);
             result.setCode("login");
             return result;
+            
         } else {
             result.setSuccess(true);
             result.setMsg("login is done successfully");

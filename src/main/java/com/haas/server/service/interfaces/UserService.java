@@ -21,4 +21,6 @@ public interface UserService {
 
     public void updateUser(UserDTO user);
 
+    public UserDTO getUserByPhone(String phone);
+
 }

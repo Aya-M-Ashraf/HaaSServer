@@ -34,12 +34,7 @@ public class UserServiceImpl implements UserService {
     private static final int PASSWORD_LENGTH = 8;
 
     public UserServiceImpl() {
-       
-    }
 
-    @PostConstruct
-    public void init() {
-        userDaoImpl.findAll();
     }
 
     @Override
@@ -60,8 +55,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UserDTO getUserByPhone(String phone) {
+        User user = userDaoImpl.getUserByPhone(phone);
+        if (user == null) {
+            return null;
+        } else {
+            return entityMapper.mapUserToUserDto(user);
+        }
+    }
+
+    @Override
     public UserDTO updateUserPassword(String email, String phone) {
-       User user = userDaoImpl.getUserByEmail(email);
+        User user = userDaoImpl.getUserByEmail(email);
         if (user == null) {
             return null;
         } else if (user.getPhone().equals(phone)) {
@@ -197,8 +202,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void updateUser(UserDTO userDto) {
-       User user = entityMapper.mapUserDtoToUser(userDto);
-       userDaoImpl.update(user);
+        User user = entityMapper.mapUserDtoToUser(userDto);
+        userDaoImpl.update(user);
     }
 
 }
