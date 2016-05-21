@@ -28,7 +28,7 @@ public class UserWS {
     }
 
     @POST
-    @Path("")
+    @Path("/register")
     @Produces(MediaType.APPLICATION_JSON)
     public Result register(@FormParam(Constants.EMAIL) String email, @FormParam(Constants.F_NAME) String fName, @FormParam(Constants.L_NAME) String lName, @FormParam(Constants.PHONE) String phone, @FormParam(Constants.PASSWORD) String password) {
 
