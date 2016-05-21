@@ -13,6 +13,8 @@ public class Constants {
     public static final String PASSWORD = "password";
 
     public static final String SERIAL_NUMBER = "serialNumber";
+     public static final String HOST_SERIAL_NUMBER = "hostSerialNumber";
+      public static final String GUEST_SERIAL_NUMBER = "guestSerialNumber";
 
     public static final String COINS_TYPE = "coinsType";
     public static final String COINS_COUNT = "coinsCount";

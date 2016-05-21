@@ -2,6 +2,7 @@ package com.haas.server.service.impl;
 
 import com.haas.server.dao.interfaces.DeviceCurrentlyConnectedDevicesDAO;
 import com.haas.server.dao.interfaces.DeviceDAO;
+import com.haas.server.dao.interfaces.DeviceOldSessionDevicesDAO;
 import com.haas.server.dao.interfaces.UserDao;
 import com.haas.server.dao.interfaces.UserUsesDevicesDAO;
 import com.haas.server.entity.Device;
@@ -33,6 +34,8 @@ public class DeviceServiceImpl implements DeviceService {
     EntityMapper mapper;
     @Autowired
     DeviceCurrentlyConnectedDevicesDAO deviceCurrentlyConnectedDevicesDAO;
+    @Autowired
+    DeviceOldSessionDevicesDAO deviceOldSessionDevicesDAO;
 
     public DeviceServiceImpl() {
 
@@ -97,7 +100,10 @@ public class DeviceServiceImpl implements DeviceService {
                 }
 
                 case "end": {
-                    deviceOldSessionDevices = new DeviceOldSessionDevices(new DeviceOldSessionDevicesPK(hostDevice.getDeviceId(), guestDevice.getDeviceId(), deviceCurrentlyConnectedDevices.getStartTimestamp()), timeStamp, consumedMB);
+                    deviceCurrentlyConnectedDevices = deviceCurrentlyConnectedDevicesDAO.findById(new DeviceCurrentlyConnectedDevicesPK(hostDevice.getDeviceId(), guestDevice.getDeviceId()));
+                    deviceOldSessionDevices = new DeviceOldSessionDevices(new DeviceOldSessionDevicesPK(hostDevice.getDeviceId(), guestDevice.getDeviceId(), deviceCurrentlyConnectedDevices.getStartTimestamp()), timeStamp, consumedMB); 
+                    deviceOldSessionDevicesDAO.makePersistent(deviceOldSessionDevices);
+                    deviceCurrentlyConnectedDevicesDAO.makeTransient(deviceCurrentlyConnectedDevices);
                     success = true;
                     break;
                 }

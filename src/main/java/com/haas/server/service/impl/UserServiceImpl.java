@@ -8,7 +8,6 @@ import com.haas.server.entity.UserTransferCoinsUser;
 import com.haas.server.entity.key.UserTransferCoinsUserPK;
 import java.util.ArrayList;
 import java.util.Date;
-import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.haas.server.service.interfaces.UserService;

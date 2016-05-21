@@ -182,8 +182,10 @@ public class UserWS {
             boolean success = (Boolean) resultArrayList.get(1);
             result.setMsg(message);
             result.setSuccess(success);
+            result.setCode("transfer");
+            result.setObj(null);
+            result.setObjectType(null);
         }
-
         return result;
     }
 
