@@ -14,6 +14,7 @@ import com.haas.server.service.interfaces.UserService;
 import com.haas.server.utils.EntityMapper;
 import java.security.SecureRandom;
 import java.util.Random;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -78,6 +79,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional 
     public ArrayList transferCoinsToUser(String coinsType, double coinsCount, String senderEmail, String receiverEmail) {
         ArrayList result = new ArrayList();
         User lenderUser = userDaoImpl.getUserByEmail(senderEmail);

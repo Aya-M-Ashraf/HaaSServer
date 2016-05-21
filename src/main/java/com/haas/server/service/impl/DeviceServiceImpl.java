@@ -17,11 +17,14 @@ import java.util.Date;
 import com.haas.server.service.interfaces.DeviceService;
 import com.haas.server.utils.EntityMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
  * @author Aya M. Ashraf
  */
+@Service
 public class DeviceServiceImpl implements DeviceService {
 
     @Autowired
@@ -38,7 +41,7 @@ public class DeviceServiceImpl implements DeviceService {
     DeviceOldSessionDevicesDAO deviceOldSessionDevicesDAO;
 
     public DeviceServiceImpl() {
-
+        System.out.println("-------- deviceServiceImpl is created");
     }
 
     @Override
@@ -73,6 +76,7 @@ public class DeviceServiceImpl implements DeviceService {
     }
 
     @Override
+    @Transactional
     public boolean toKeepAlive(String hostSerial, String geustSerial, double consumedMB, Date timeStamp, int updatedVersion, String keepAliveStatus) {
 
         DeviceCurrentlyConnectedDevices deviceCurrentlyConnectedDevices = null;
@@ -113,5 +117,4 @@ public class DeviceServiceImpl implements DeviceService {
         }
         return success;
     }
-
 }

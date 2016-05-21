@@ -13,8 +13,8 @@ public class Constants {
     public static final String PASSWORD = "password";
 
     public static final String SERIAL_NUMBER = "serialNumber";
-     public static final String HOST_SERIAL_NUMBER = "hostSerialNumber";
-      public static final String GUEST_SERIAL_NUMBER = "guestSerialNumber";
+    public static final String HOST_SERIAL_NUMBER = "hostSerialNumber";
+    public static final String GUEST_SERIAL_NUMBER = "guestSerialNumber";
 
     public static final String COINS_TYPE = "coinsType";
     public static final String COINS_COUNT = "coinsCount";
@@ -28,12 +28,10 @@ public class Constants {
     public static final String DATE_TIME_STAMP = "timeStamp";
     public static final String KEEP_ALIVE_STATUS = "keepAliveStatus";
     public static final String UPDATED_VERSION = "updatedVersion";
-    
+
     public static final String USER_DTO = "userDTO";
     public static final String DEVICE_DTO = "deviceDTO";
-    
-    
+
     public static final String OLD_PASSWORD = "oldPassword";
-    
 
 }

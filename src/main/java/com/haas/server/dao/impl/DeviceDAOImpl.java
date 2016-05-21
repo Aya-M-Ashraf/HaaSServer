@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Repository
 @Transactional
-public class DeviceDAOImpl extends GenericHibernateDAO<Device, String> implements DeviceDAO {
+public class DeviceDAOImpl extends GenericHibernateDAO<Device, Integer> implements DeviceDAO {
 
     @Override
     public Device getDeviceBySerialNumber(String serialNumber) {

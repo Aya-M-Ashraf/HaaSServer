@@ -9,18 +9,23 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.haas.server.service.interfaces.DeviceService;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author Shall
  */
 @Path("/device")
+@Component
 public class DeviceWS {
 
     @Autowired
     private DeviceService deviceServiceImpl;
-
 
     @GET
     @Path("/linkDevice")
@@ -41,27 +46,37 @@ public class DeviceWS {
         }
         return result;
     }
-    
+
     @GET
     @Path("/keepAlive")
     @Produces(MediaType.APPLICATION_JSON)
     public Result keepAlive(@QueryParam(Constants.HOST_SERIAL_NUMBER) String hostSerialNum, @QueryParam(Constants.GUEST_SERIAL_NUMBER) String guestSerialNum,
-            @QueryParam(Constants.CONSUMED_MB) double consumedMB, @QueryParam(Constants.DATE_TIME_STAMP) Date timeStamp,
-            @QueryParam(Constants.UPDATED_VERSION) int updatedVersion, @QueryParam(Constants.KEEP_ALIVE_STATUS) String keepAliveStatus) {
-        System.out.println("**** inside keep alive WS ");
+            @QueryParam(Constants.CONSUMED_MB) String consumedMB, @QueryParam(Constants.DATE_TIME_STAMP) String timeStamp,
+            @QueryParam(Constants.UPDATED_VERSION) String updatedVersion, @QueryParam(Constants.KEEP_ALIVE_STATUS) String keepAliveStatus) {
         Result result = new Result();
-        boolean operationSuccess;
-        operationSuccess = deviceServiceImpl.toKeepAlive(hostSerialNum, guestSerialNum, consumedMB, timeStamp, updatedVersion, keepAliveStatus);
-        if (operationSuccess) {
-            result.setSuccess(true);
-            result.setCode("keepAlive");
-            result.setMsg("The Keep Alive Messages Has Been Sent Successfuly");
-            result.setObj(null);
-        } else {
-            result.setSuccess(false);
-            result.setCode("keepAlive");
-            result.setMsg("The Keep Alive Messages Failed To Be Sent");
-            result.setObj(null);
+        try {
+            System.out.println("**** inside keep alive WS ");
+
+            boolean operationSuccess;
+//            SimpleDateFormat dateFormat = new SimpleDateFormat("dd-mm-yyyy hh:mm:ss");
+//            dateFormat.parse(timeStamp)
+
+            operationSuccess = deviceServiceImpl.toKeepAlive(hostSerialNum, guestSerialNum, Double.parseDouble(consumedMB), new Date(), Integer.parseInt(updatedVersion), keepAliveStatus);
+            if (operationSuccess) {
+                result.setSuccess(true);
+                result.setCode("keepAlive");
+                result.setMsg("The Keep Alive Messages Has Been Sent Successfuly");
+                result.setObj(null);
+            } else {
+                result.setSuccess(false);
+                result.setCode("keepAlive");
+                result.setMsg("The Keep Alive Messages Failed To Be Sent");
+                result.setObj(null);
+            }
+
+//        } catch (ParseException ex) {
+        } catch (Exception ex) {
+            Logger.getLogger(DeviceWS.class.getName()).log(Level.SEVERE, null, ex);
         }
         return result;
     }

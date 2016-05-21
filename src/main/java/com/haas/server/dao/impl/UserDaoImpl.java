@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 @Transactional
-public class UserDaoImpl extends GenericHibernateDAO<User, String> implements UserDao {
+public class UserDaoImpl extends GenericHibernateDAO<User, Integer> implements UserDao {
 
     public UserDaoImpl() {
     }

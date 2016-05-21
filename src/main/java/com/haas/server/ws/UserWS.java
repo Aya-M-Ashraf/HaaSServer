@@ -142,8 +142,9 @@ public class UserWS {
     @POST
     @Path("/login")
     @Produces(MediaType.APPLICATION_JSON)
-    public Result login(@FormParam(Constants.EMAIL) String email, @FormParam(Constants.PASSWORD) String password) {
+    public Result login(@FormParam(Constants.EMAIL) String email, @FormParam(Constants.PASSWORD) String password, @FormParam(Constants.SERIAL_NUMBER) String serialNumber) {
         Result result = new Result();
+        System.out.println(serialNumber);
         UserDTO user = userServiceImpl.getUserByEmail(email);
         if (user == null) {
             result.setSuccess(false);
