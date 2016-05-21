@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 import com.haas.server.service.interfaces.UserService;
 import com.haas.server.utils.PasswordSenderMail;
 import com.haas.server.utils.Validation;
+import commons.ws.ObjectType;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
 
@@ -80,11 +81,13 @@ public class UserWS {
             result.setSuccess(false);
             result.setMsg("This Email doesn't belong to anyone");
             result.setObj(null);
+            result.setObjectType(null);
             result.setCode("viewProfile");
         } else {
             result.setSuccess(true);
             result.setMsg(null);
             result.setObj(user);
+            result.setObjectType(ObjectType.USER_DTO);
             result.setCode("viewProfile");
         }
         return result;
@@ -100,16 +103,18 @@ public class UserWS {
             result.setSuccess(false);
             result.setMsg("This Email doesn't belong to anyone");
             result.setObj(null);
+            result.setObjectType(null);
             result.setCode("updateProfile");
         } else {
             user.setFirstName(firstName);
             user.setLastName(lastName);
             user.setPassword(password);
             userServiceImpl.updateUser(user);
-            
+
             result.setSuccess(true);
             result.setMsg(null);
             result.setObj(user);
+            result.setObjectType(ObjectType.USER_DTO);
             result.setCode("updateProfile");
         }
         return result;
@@ -125,18 +130,21 @@ public class UserWS {
             result.setSuccess(false);
             result.setMsg("This Email doesn't belong to anyone");
             result.setObj(null);
+            result.setObjectType(null);
             result.setCode("login");
             return result;
         } else if (!user.getPassword().equals(password)) {
             result.setSuccess(false);
             result.setMsg("This password is incorrect");
             result.setObj(null);
+            result.setObjectType(null);
             result.setCode("login");
             return result;
         } else {
             result.setSuccess(true);
             result.setMsg("login is done successfully");
             result.setObj(user);
+            result.setObjectType(ObjectType.USER_DTO);
             result.setCode("login");
             return result;
         }
@@ -168,12 +176,14 @@ public class UserWS {
             result.setSuccess(false);
             result.setMsg("The Entered Values are not Valid");
             result.setObj(null);
+            result.setObjectType(null);
             result.setCode("retrievePassword");
         } else {
             PasswordSenderMail.generateAndSendEmail(user.getPassword(), user.getEmail());
             result.setSuccess(true);
             result.setMsg("Your New Password Has Been Sent To Your Registered E-Mail Address !");
             result.setObj(null);
+            result.setObjectType(null);
             result.setCode("retrievePassword");
         }
         return result;

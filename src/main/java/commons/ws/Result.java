@@ -6,12 +6,21 @@ import commons.dto.BaseObject;
  *
  * @author Aya M. Ashraf
  */
-public class Result {
+public class Result extends BaseObject {
 
     private boolean success;
     private String code;
     private String msg;
-    private BaseObject obj;
+    private Object obj;
+    private ObjectType objectType;
+
+    public ObjectType getObjectType() {
+        return objectType;
+    }
+
+    public void setObjectType(ObjectType objectType) {
+        this.objectType = objectType;
+    }
 
     public boolean isSuccess() {
         return success;
@@ -37,11 +46,11 @@ public class Result {
         this.msg = msg;
     }
 
-    public BaseObject getObj() {
+    public Object getObj() {
         return obj;
     }
 
-    public void setObj(BaseObject obj) {
+    public void setObj(Object obj) {
         this.obj = obj;
     }
     
