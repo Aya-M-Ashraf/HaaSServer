@@ -87,7 +87,7 @@ public class UserWS {
             result.setCode("viewProfile");
         } else {
             result.setSuccess(true);
-            result.setMsg(null);
+            result.setMsg("Success Message");
             result.setObj(user);
             result.setObjectType(Constants.USER_DTO);
             result.setCode("viewProfile");
