@@ -25,6 +25,12 @@
             <scope>provided</scope>
         </dependency>
         
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>jstl</artifactId>
+            <version>1.2</version>
+        </dependency>
+        
         <!--        ********************Hibernate************************* -->
         <dependency>
             <groupId>org.hibernate</groupId>
@@ -52,7 +58,7 @@
             <type>jar</type>
         </dependency>
         
-         <dependency>
+        <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-beans</artifactId>
             <version>4.0.1.RELEASE</version>
@@ -96,6 +102,12 @@
         
         <dependency>
             <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>${org.springframework-version}</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.springframework</groupId>
             <artifactId>spring-aspects</artifactId>
             <version>${org.springframework-version}</version>
         </dependency>
@@ -109,10 +121,30 @@
        
 
         <!--        ********************MySQL************************ -->       
-        <dependency>    <!-- MySQL database driver -->
+<!--        <dependency>     MySQL database driver 
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>5.1.6</version>
+        </dependency>-->
+      
+         <!--        ********************PostgreSql************************ -->     
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+            <version>${hibernate.version}</version>
+        </dependency>
+ 
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>9.3-1102-jdbc41</version>
+        </dependency>
+ 
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>3.8.1</version>
+            <scope>test</scope>
         </dependency>
         
         
@@ -166,7 +198,7 @@
         </dependency>
         
         
-           <!--        ********************Aspect J************************ -->
+        <!--        ********************Aspect J************************ -->
         
         <dependency>
             <groupId>org.aspectj</groupId>
@@ -185,6 +217,26 @@
             <artifactId>mail</artifactId>
             <version>1.5.0-b01</version>
             <type>jar</type>
+        </dependency>
+        
+        <!--        ********************Apache Tiles************************ -->
+        
+        <dependency>
+            <groupId>org.apache.tiles</groupId>
+            <artifactId>tiles-extras</artifactId>
+            <version>2.2.2</version>
+        </dependency>
+  
+        <dependency>
+            <groupId>org.apache.tiles</groupId>
+            <artifactId>tiles-servlet</artifactId>
+            <version>2.2.2</version>
+        </dependency>
+  
+        <dependency>
+            <groupId>org.apache.tiles</groupId>
+            <artifactId>tiles-jsp</artifactId>
+            <version>2.2.2</version>
         </dependency>
 
         <!--        ********************Commons Collections************************ -->
@@ -206,7 +258,7 @@
             <version>1.4</version>
         </dependency>
     </dependencies>
-
+    <!--*****************************************************************************************-->
     <build>
         <plugins>
             <plugin>

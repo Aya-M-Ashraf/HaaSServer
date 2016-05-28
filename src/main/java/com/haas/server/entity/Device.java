@@ -23,7 +23,7 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author Aya M. Ashraf
  */
 @Entity
-@Table(name = "device")
+@Table(name = "device_info")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Device.findAll", query = "SELECT d FROM Device d"),

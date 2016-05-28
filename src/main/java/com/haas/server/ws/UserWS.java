@@ -33,44 +33,70 @@ public class UserWS {
     public Result register(@FormParam(Constants.EMAIL) String email, @FormParam(Constants.F_NAME) String fName, @FormParam(Constants.L_NAME) String lName, @FormParam(Constants.PHONE) String phone, @FormParam(Constants.PASSWORD) String password) {
 
         Result result = new Result();
-        if (!Validation.mobileValidation(phone) || userServiceImpl.getUserByPhone(phone) != null) {
-            System.out.println("mobile");
-            result.setSuccess(false);
-            result.setMsg("This phone is already registered");
+        UserDTO userDto = new UserDTO();
+        System.out.println("------- in the register method");
+        System.out.println("------- "+fName);
+        System.out.println("------- "+lName);
+        userDto.setEmail(email);
+        userDto.setFirstName(fName);
+        userDto.setLastName(lName);
+        userDto.setPhone(phone);
+        userDto.setPassword(password);
+        userDto.setGoldenCoins(100);
+        userDto.setSilverCoins(100);
+        ArrayList<Object> resultList = userServiceImpl.registerUser(userDto);
+        
+        if (resultList.get(0)!= null) {
+            result.setSuccess(true);
+            result.setObj(resultList.get(0));
+            result.setMsg(resultList.get(1).toString());
             result.setCode("register");
-            result.setObj(null);
-            return result;
-        } else if (!Validation.eMailValidation(email) || userServiceImpl.getUserByEmail(email) != null) {
-            System.out.println("email");
-            result.setSuccess(false);
-            result.setMsg("user's email is not valid");
-            result.setCode("register");
-            result.setObj(null);
-            return result;
         } else {
-            UserDTO userDto = new UserDTO();
-            userDto.setEmail(email);
-            userDto.setFirstName(fName);
-            userDto.setLastName(lName);
-            userDto.setPhone(phone);
-            userDto.setPassword(password);
-            userDto.setGoldenCoins(100);
-            userDto.setSilverCoins(100);
-            userDto = userServiceImpl.addUser(userDto);
-
-            if (userDto != null) {
-                result.setSuccess(true);
-                result.setObj(userDto);
-                result.setMsg("User added Successfully");
-                result.setCode("register");
-            } else {
-                result.setSuccess(false);
-                result.setObj(null);
-                result.setMsg("user can't be added");
-                result.setCode("register");
-            }
-            return result;
+            result.setSuccess(false);
+            result.setObj(resultList.get(0));
+            result.setMsg(resultList.get(1).toString());
+            result.setCode("register");
         }
+        return result;
+        
+//        if (!Validation.mobileValidation(phone) || userServiceImpl.getUserByPhone(phone) != null) {
+//            System.out.println("mobile");
+//            result.setSuccess(false);
+//            result.setMsg("This phone is already registered");
+//            result.setCode("register");
+//            result.setObj(null);
+//            return result;
+//        } else if (!Validation.eMailValidation(email) || userServiceImpl.getUserByEmail(email) != null) {
+//            System.out.println("email");
+//            result.setSuccess(false);
+//            result.setMsg("user's email is not valid");
+//            result.setCode("register");
+//            result.setObj(null);
+//            return result;
+//        } else {
+//            UserDTO userDto = new UserDTO();
+//            userDto.setEmail(email);
+//            userDto.setFirstName(fName);
+//            userDto.setLastName(lName);
+//            userDto.setPhone(phone);
+//            userDto.setPassword(password);
+//            userDto.setGoldenCoins(100);
+//            userDto.setSilverCoins(100);
+//            userDto = userServiceImpl.addUser(userDto);
+//
+//            if (userDto != null) {
+//                result.setSuccess(true);
+//                result.setObj(userDto);
+//                result.setMsg("User added Successfully");
+//                result.setCode("register");
+//            } else {
+//                result.setSuccess(false);
+//                result.setObj(null);
+//                result.setMsg("user can't be added");
+//                result.setCode("register");
+//            }
+//            return result;
+//        }
     }
 
     @GET
@@ -108,7 +134,7 @@ public class UserWS {
             result.setObj(null);
             result.setObjectType(null);
             result.setCode("updateProfile");
-            
+
         } else if (phoneUser != null && !phoneUser.getEmail().equals(email)) {
             result.setSuccess(false);
             result.setMsg("This phone is already registered");
@@ -153,7 +179,7 @@ public class UserWS {
             result.setObjectType(null);
             result.setCode("login");
             return result;
-            
+
         } else if (!user.getPassword().equals(password)) {
             result.setSuccess(false);
             result.setMsg("This password is incorrect");
@@ -161,7 +187,7 @@ public class UserWS {
             result.setObjectType(null);
             result.setCode("login");
             return result;
-            
+
         } else {
             result.setSuccess(true);
             result.setMsg("login is done successfully");

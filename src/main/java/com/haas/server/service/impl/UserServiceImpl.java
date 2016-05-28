@@ -79,7 +79,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional 
+    @Transactional
     public ArrayList transferCoinsToUser(String coinsType, double coinsCount, String senderEmail, String receiverEmail) {
         ArrayList result = new ArrayList();
         User lenderUser = userDaoImpl.getUserByEmail(senderEmail);
@@ -207,4 +207,29 @@ public class UserServiceImpl implements UserService {
         userDaoImpl.update(user);
     }
 
+    @Override
+    public ArrayList<Object> registerUser(UserDTO userDto) {
+        ArrayList resultList = new ArrayList();
+        if (checkAddingUserValidity(userDto.getEmail(), userDto.getPhone())) {
+            addUser(userDto);
+            resultList.add(0, userDto);
+            resultList.add(1, "User is added successfully");
+            return resultList;
+        } else {
+            resultList.add(0, null);
+            resultList.add(1, "email or phone is invalid");
+            return resultList;
+        }
+    }
+
+    private boolean checkAddingUserValidity(String email, String phone) {
+        UserDTO mailUser = getUserByEmail(email);
+        UserDTO phoneUser = getUserByPhone(phone);
+
+        if (mailUser == null && phoneUser == null) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
