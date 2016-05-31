@@ -28,6 +28,11 @@ public class Constants {
     public static final String DATE_TIME_STAMP = "timeStamp";
     public static final String KEEP_ALIVE_STATUS = "keepAliveStatus";
     public static final String UPDATED_VERSION = "updatedVersion";
+    public static final String INIT_STATUS = "init";
+    public static final String RUN_STATUS = "run";
+    public static final String END_STATUS = "end";
+    public static final String GOLDEN_COINS = "goldenCoins";
+    public static final String SILVER_COINS = "silverCoins";
 
     public static final String USER_DTO = "userDTO";
     public static final String DEVICE_DTO = "deviceDTO";

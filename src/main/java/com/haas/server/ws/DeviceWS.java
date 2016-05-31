@@ -9,9 +9,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.haas.server.service.interfaces.DeviceService;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import commons.dto.DeviceDTO;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.springframework.stereotype.Component;
@@ -52,32 +50,53 @@ public class DeviceWS {
     @Produces(MediaType.APPLICATION_JSON)
     public Result keepAlive(@QueryParam(Constants.HOST_SERIAL_NUMBER) String hostSerialNum, @QueryParam(Constants.GUEST_SERIAL_NUMBER) String guestSerialNum,
             @QueryParam(Constants.CONSUMED_MB) String consumedMB, @QueryParam(Constants.DATE_TIME_STAMP) String timeStamp,
-            @QueryParam(Constants.UPDATED_VERSION) String updatedVersion, @QueryParam(Constants.KEEP_ALIVE_STATUS) String keepAliveStatus) {
+            @QueryParam(Constants.UPDATED_VERSION) String updatedVersion, @QueryParam(Constants.KEEP_ALIVE_STATUS) String keepAliveStatus, 
+            @QueryParam(Constants.EMAIL) String guestEmail, @QueryParam(Constants.SILVER_COINS) String silverCoins, @QueryParam(Constants.GOLDEN_COINS) String goldenCoins) {
         Result result = new Result();
         try {
             System.out.println("**** inside keep alive WS ");
 
             boolean operationSuccess;
-//            SimpleDateFormat dateFormat = new SimpleDateFormat("dd-mm-yyyy hh:mm:ss");
-//            dateFormat.parse(timeStamp)
 
-            operationSuccess = deviceServiceImpl.toKeepAlive(hostSerialNum, guestSerialNum, Double.parseDouble(consumedMB), new Date(), Integer.parseInt(updatedVersion), keepAliveStatus);
+            operationSuccess = deviceServiceImpl.toKeepAlive(hostSerialNum, guestSerialNum, Double.parseDouble(consumedMB), Long.parseLong(timeStamp), Integer.parseInt(updatedVersion), keepAliveStatus, guestEmail, Double.parseDouble(silverCoins), Double.parseDouble(goldenCoins));
             if (operationSuccess) {
                 result.setSuccess(true);
                 result.setCode("keepAlive");
                 result.setMsg("The Keep Alive Messages Has Been Sent Successfuly");
-                result.setObj(null);
+                result.setObj(new DeviceDTO());
             } else {
                 result.setSuccess(false);
                 result.setCode("keepAlive");
                 result.setMsg("The Keep Alive Messages Failed To Be Sent");
-                result.setObj(null);
+                result.setObj(new DeviceDTO());
             }
 
-//        } catch (ParseException ex) {
         } catch (Exception ex) {
             Logger.getLogger(DeviceWS.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return result;
+    }
+    
+    @GET
+    @Path("/trackingCoins")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Result trackingCoins(@QueryParam(Constants.EMAIL) String hostEmail, @QueryParam(Constants.SILVER_COINS) String silverCoins, @QueryParam(Constants.GOLDEN_COINS) String goldenCoins){
+        Result result = new Result();
+        boolean operationSuccess;
+        
+        operationSuccess = deviceServiceImpl.trackingHostCoins(hostEmail, Double.parseDouble(silverCoins), Double.parseDouble(goldenCoins));
+        
+        if (operationSuccess) {
+                result.setSuccess(true);
+                result.setCode("keepAlive");
+                result.setMsg("Your Coins Have Been Successfuly Updated");
+                result.setObj(new DeviceDTO());
+            } else {
+                result.setSuccess(false);
+                result.setCode("keepAlive");
+                result.setMsg("The Coins Have Been Messages Failed To Be Sent");
+                result.setObj(new DeviceDTO());
+            }
         return result;
     }
 }

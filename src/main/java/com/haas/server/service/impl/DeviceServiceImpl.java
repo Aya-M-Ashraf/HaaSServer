@@ -16,6 +16,7 @@ import com.haas.server.entity.key.UserUsesDevicePK;
 import java.util.Date;
 import com.haas.server.service.interfaces.DeviceService;
 import com.haas.server.utils.EntityMapper;
+import commons.ws.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -77,44 +78,101 @@ public class DeviceServiceImpl implements DeviceService {
 
     @Override
     @Transactional
-    public boolean toKeepAlive(String hostSerial, String geustSerial, double consumedMB, Date timeStamp, int updatedVersion, String keepAliveStatus) {
+    public boolean toKeepAlive(String hostSerial, String geustSerial, double consumedMB, long timeStamp, int updatedVersion, String keepAliveStatus, String guestEmail, double silverCoins, double goldenCoins) {
 
         DeviceCurrentlyConnectedDevices deviceCurrentlyConnectedDevices = null;
         DeviceOldSessionDevices deviceOldSessionDevices;
         Device hostDevice = deviceDAO.getDeviceBySerialNumber(hostSerial);
         Device guestDevice = deviceDAO.getDeviceBySerialNumber(geustSerial);
+        User user = userDAO.getUserByEmail(guestEmail);;
         boolean success = false;
 
-        if (hostDevice != null && guestDevice != null) {
-            switch (keepAliveStatus) {
-                case "initiate": {
-                    deviceCurrentlyConnectedDevices = new DeviceCurrentlyConnectedDevices(new DeviceCurrentlyConnectedDevicesPK(hostDevice.getDeviceId(), guestDevice.getDeviceId()), timeStamp, updatedVersion, consumedMB);
-                    deviceCurrentlyConnectedDevicesDAO.makePersistent(deviceCurrentlyConnectedDevices);
-                    success = true;
-                    break;
-                }
+        if (hostDevice != null && guestDevice != null && user != null) {
 
-                case "run": {
+            switch (keepAliveStatus) {
+
+                case Constants.INIT_STATUS: {
+                    System.out.println("**** inside keep alive WS - INIT ");
+                    System.out.println("EMAILLLLLL          " + guestEmail);
+                    System.out.println("Date : " + new Date(timeStamp));
+                    deviceCurrentlyConnectedDevices = new DeviceCurrentlyConnectedDevices(new DeviceCurrentlyConnectedDevicesPK(hostDevice.getDeviceId(), guestDevice.getDeviceId()), new Date(timeStamp), updatedVersion, consumedMB);
+                    deviceCurrentlyConnectedDevicesDAO.makePersistent(deviceCurrentlyConnectedDevices);
+                    // new in oldSession to keep track with each request
+                    deviceOldSessionDevices = new DeviceOldSessionDevices(new DeviceOldSessionDevicesPK(hostDevice.getDeviceId(), guestDevice.getDeviceId(), deviceCurrentlyConnectedDevices.getStartTimestamp()), new Date(timeStamp), consumedMB);
+                    deviceOldSessionDevicesDAO.makePersistent(deviceOldSessionDevices);
+
+                    user.setSilverCoins(silverCoins);
+                    user.setGoldenCoins(goldenCoins);
+                    userDAO.update(user);
+
+                    success = true;
+                }
+                break;
+
+                case Constants.RUN_STATUS: {
                     deviceCurrentlyConnectedDevices = deviceCurrentlyConnectedDevicesDAO.findById(new DeviceCurrentlyConnectedDevicesPK(hostDevice.getDeviceId(), guestDevice.getDeviceId()));
                     deviceCurrentlyConnectedDevices.setConsumedMb(consumedMB);
                     deviceCurrentlyConnectedDevices.setUpdateVer(updatedVersion);
-                    deviceCurrentlyConnectedDevicesDAO.update(deviceCurrentlyConnectedDevices);
-                    success = true;
-                    break;
-                }
+                    deviceCurrentlyConnectedDevices = deviceCurrentlyConnectedDevicesDAO.update(deviceCurrentlyConnectedDevices);
+                    System.out.println("**** inside keep alive WS - RUN ");
+                    System.out.println("Date : " + new Date(timeStamp));
 
-                case "end": {
-                    deviceCurrentlyConnectedDevices = deviceCurrentlyConnectedDevicesDAO.findById(new DeviceCurrentlyConnectedDevicesPK(hostDevice.getDeviceId(), guestDevice.getDeviceId()));
-                    deviceOldSessionDevices = new DeviceOldSessionDevices(new DeviceOldSessionDevicesPK(hostDevice.getDeviceId(), guestDevice.getDeviceId(), deviceCurrentlyConnectedDevices.getStartTimestamp()), timeStamp, consumedMB); 
-                    deviceOldSessionDevicesDAO.makePersistent(deviceOldSessionDevices);
-                    deviceCurrentlyConnectedDevicesDAO.makeTransient(deviceCurrentlyConnectedDevices);
+                    // new in oldSession to keep track with each request
+                    deviceOldSessionDevices = deviceOldSessionDevicesDAO.findById(new DeviceOldSessionDevicesPK(hostDevice.getDeviceId(), guestDevice.getDeviceId(), deviceCurrentlyConnectedDevices.getStartTimestamp()));
+                    deviceOldSessionDevices.setConsumedMb(consumedMB);
+                    deviceOldSessionDevices.setEndTimestamp(new Date(timeStamp));
+                    deviceOldSessionDevices = deviceOldSessionDevicesDAO.update(deviceOldSessionDevices);
+
+                    user.setSilverCoins(silverCoins);
+                    user.setGoldenCoins(goldenCoins);
+                    userDAO.update(user);
+
                     success = true;
-                    break;
                 }
+                break;
+
+                case Constants.END_STATUS: {
+                    System.out.println("**** inside keep alive WS - END ");
+                    System.out.println("Date : " + new Date(timeStamp));
+                    deviceCurrentlyConnectedDevices = deviceCurrentlyConnectedDevicesDAO.findById(new DeviceCurrentlyConnectedDevicesPK(hostDevice.getDeviceId(), guestDevice.getDeviceId()));
+                    deviceOldSessionDevices = deviceOldSessionDevicesDAO.findById(new DeviceOldSessionDevicesPK(hostDevice.getDeviceId(), guestDevice.getDeviceId(), deviceCurrentlyConnectedDevices.getStartTimestamp()));
+                    deviceOldSessionDevices.setConsumedMb(consumedMB);
+                    deviceOldSessionDevices.setEndTimestamp(new Date(timeStamp));
+                    deviceOldSessionDevicesDAO.update(deviceOldSessionDevices);
+                    deviceCurrentlyConnectedDevicesDAO.makeTransient(deviceCurrentlyConnectedDevices);
+
+                    user.setSilverCoins(silverCoins);
+                    user.setGoldenCoins(goldenCoins);
+                    userDAO.update(user);
+
+                    success = true;
+                }
+                break;
+                
+                default:
+                    success=false;
             }
         } else {
             success = false;
         }
         return success;
     }
+
+    @Override
+    public boolean trackingHostCoins(String hostEmail, double silverCoins, double goldenCoins) {
+        boolean success = false;
+        User user;
+
+        user = userDAO.getUserByEmail(hostEmail);
+        if (user == null) {
+            success = false;
+        } else {
+            user.setSilverCoins(silverCoins);
+            user.setGoldenCoins(goldenCoins);
+            userDAO.update(user);
+            success = true;
+        }
+        return success;
+    }
+
 }

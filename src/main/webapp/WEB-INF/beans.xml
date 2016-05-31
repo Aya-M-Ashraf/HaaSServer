@@ -15,19 +15,19 @@ http://www.springframework.org/schema/tx/spring-tx-2.5.xsd"
     <context:annotation-config/>
     <context:component-scan base-package="com.haas.server,commons"/>
    
-<!--    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
         <property name="driverClassName" value="com.mysql.jdbc.Driver" />
         <property name="url" value="jdbc:mysql://localhost:3306/haas_db" />
         <property name="username" value="root" />
         <property name="password" value="root" />
-    </bean>-->
+    </bean>
     
-    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+<!--    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
         <property name="driverClassName" value="org.postgresql.Driver" />
         <property name="url" value="jdbc:postgresql://ec2-54-221-234-118.compute-1.amazonaws.com:5432/da1kchihl20rh7?sslmode=require" />
         <property name="username" value="dvrkxpypnbzoqi" />
         <property name="password" value="Euw3CnqKERXT5j6dLIJ5lljDSt" />
-    </bean>
+    </bean>-->
 
     <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
         <property name="dataSource" ref="dataSource" />
@@ -38,14 +38,14 @@ http://www.springframework.org/schema/tx/spring-tx-2.5.xsd"
                 <value>com.haas.server.entity.key</value>
             </list>
         </property>
-<!--       
+       
         <property name="hibernateProperties">
             <value>hibernate.dialect=org.hibernate.dialect.MySQLDialect</value>
-        </property>-->
-        
-          <property name="hibernateProperties">
-            <value>hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect</value>
         </property>
+        
+<!--          <property name="hibernateProperties">
+            <value>hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect</value>
+        </property>-->
 
         
     </bean> 
