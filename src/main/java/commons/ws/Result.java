@@ -10,16 +10,6 @@ public class Result {
     private String code;
     private String msg;
     private Object obj;
-    private String objectType;
-
-    public String getObjectType() {
-        return objectType;
-    }
-
-    public void setObjectType(String objectType) {
-        this.objectType = objectType;
-    }
-
 
     public boolean isSuccess() {
         return success;

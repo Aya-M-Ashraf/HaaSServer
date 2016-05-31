@@ -5,15 +5,15 @@ import java.util.List;
 
 public interface GenericDAO<T, ID extends Serializable> {
 
-    List<T> findAll();
+    List<T> findAll() throws Exception;
 
-    T findById(ID id);
+    T findById(ID id) throws Exception;
 
-    List<T> findByExample(T exampleInstance);
+    List<T> findByExample(T exampleInstance) throws Exception;
 
-    T makePersistent(T entity);
+    T makePersistent(T entity) throws Exception;
 
-    void makeTransient(T entity);
+    void makeTransient(T entity)throws Exception;
 
-    T update(T entity);
+    T update(T entity)throws Exception;
 }

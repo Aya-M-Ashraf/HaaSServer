@@ -16,6 +16,8 @@ import com.haas.server.entity.key.UserUsesDevicePK;
 import java.util.Date;
 import com.haas.server.service.interfaces.DeviceService;
 import com.haas.server.utils.EntityMapper;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,80 +43,47 @@ public class DeviceServiceImpl implements DeviceService {
     DeviceOldSessionDevicesDAO deviceOldSessionDevicesDAO;
 
     public DeviceServiceImpl() {
-        System.out.println("-------- deviceServiceImpl is created");
+
     }
 
     @Override
     public boolean linkDevice(String email, String serialNumber) {
-
-        Device device = deviceDAO.getDeviceBySerialNumber(serialNumber);
-        User user = userDAO.getUserByEmail(email);
-        if (user != null) {
-            if (device != null) { //this means that the device is registered and needs only to be linked
-                System.out.println("this means that the device is registered and needs only to be linked");
-                UserUsesDevice userUsesDevice = new UserUsesDevice(new UserUsesDevicePK(device.getDeviceId(), user.getUserId()), new Date());
-                userUsesDevicesDAO.makePersistent(userUsesDevice);
-
-                return true;
+        try {
+            Device device = deviceDAO.getDeviceBySerialNumber(serialNumber);
+            User user = userDAO.getUserByEmail(email);
+            if (user != null) {
+                if (device != null) {
+                    //this means that the device is registered and needs only to be linked
+                    System.out.println("this means that the device is registered and needs only to be linked");
+                    UserUsesDevice userUsesDevice = new UserUsesDevice(new UserUsesDevicePK(device.getDeviceId(), user.getUserId()), new Date());
+                    userUsesDevicesDAO.makePersistent(userUsesDevice);
+                    return true;
+                } else {
+                    //----------- No device is registered with this serial number
+                    System.out.println("No device is registered with this serial number");
+                    Device registerDevice = new Device(serialNumber);
+                    deviceDAO.makePersistent(registerDevice);
+                    Device addedDevice = deviceDAO.getDeviceBySerialNumber(serialNumber);
+                    UserUsesDevice userUsesDevice = new UserUsesDevice(new UserUsesDevicePK(addedDevice.getDeviceId(), user.getUserId()), new Date());
+                    userUsesDevicesDAO.makePersistent(userUsesDevice);
+                    return true;
+                }
             } else {
-
-                //----------- No device is registered with this serial number
-                System.out.println("No device is registered with this serial number");
-                Device registerDevice = new Device(serialNumber);
-                deviceDAO.makePersistent(registerDevice);
-                Device addedDevice = deviceDAO.getDeviceBySerialNumber(serialNumber);
-                UserUsesDevice userUsesDevice = new UserUsesDevice(new UserUsesDevicePK(addedDevice.getDeviceId(), user.getUserId()), new Date());
-                userUsesDevicesDAO.makePersistent(userUsesDevice);
-                return true;
+                //No such user in the system
+                System.out.println("No such user in the system");
+                return false;
             }
-        } else {
-            //No such user in the system
-            System.out.println("No such user in the system");
+        } catch (Exception ex) {
+            Logger.getLogger(DeviceServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
-
     }
 
     @Override
     @Transactional
     public boolean toKeepAlive(String hostSerial, String geustSerial, double consumedMB, Date timeStamp, int updatedVersion, String keepAliveStatus) {
 
-        DeviceCurrentlyConnectedDevices deviceCurrentlyConnectedDevices = null;
-        DeviceOldSessionDevices deviceOldSessionDevices;
-        Device hostDevice = deviceDAO.getDeviceBySerialNumber(hostSerial);
-        Device guestDevice = deviceDAO.getDeviceBySerialNumber(geustSerial);
-        boolean success = false;
-
-        if (hostDevice != null && guestDevice != null) {
-            switch (keepAliveStatus) {
-                case "initiate": {
-                    deviceCurrentlyConnectedDevices = new DeviceCurrentlyConnectedDevices(new DeviceCurrentlyConnectedDevicesPK(hostDevice.getDeviceId(), guestDevice.getDeviceId()), timeStamp, updatedVersion, consumedMB);
-                    deviceCurrentlyConnectedDevicesDAO.makePersistent(deviceCurrentlyConnectedDevices);
-                    success = true;
-                    break;
-                }
-
-                case "run": {
-                    deviceCurrentlyConnectedDevices = deviceCurrentlyConnectedDevicesDAO.findById(new DeviceCurrentlyConnectedDevicesPK(hostDevice.getDeviceId(), guestDevice.getDeviceId()));
-                    deviceCurrentlyConnectedDevices.setConsumedMb(consumedMB);
-                    deviceCurrentlyConnectedDevices.setUpdateVer(updatedVersion);
-                    deviceCurrentlyConnectedDevicesDAO.update(deviceCurrentlyConnectedDevices);
-                    success = true;
-                    break;
-                }
-
-                case "end": {
-                    deviceCurrentlyConnectedDevices = deviceCurrentlyConnectedDevicesDAO.findById(new DeviceCurrentlyConnectedDevicesPK(hostDevice.getDeviceId(), guestDevice.getDeviceId()));
-                    deviceOldSessionDevices = new DeviceOldSessionDevices(new DeviceOldSessionDevicesPK(hostDevice.getDeviceId(), guestDevice.getDeviceId(), deviceCurrentlyConnectedDevices.getStartTimestamp()), timeStamp, consumedMB); 
-                    deviceOldSessionDevicesDAO.makePersistent(deviceOldSessionDevices);
-                    deviceCurrentlyConnectedDevicesDAO.makeTransient(deviceCurrentlyConnectedDevices);
-                    success = true;
-                    break;
-                }
-            }
-        } else {
-            success = false;
-        }
-        return success;
+        return false;
+        
     }
 }

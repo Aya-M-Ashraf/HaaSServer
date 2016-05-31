@@ -14,6 +14,8 @@
                 <h1>
                     Hello Page
                     <small>Optional description</small>
+                    <br>
+                    ${message}
                 </h1>
    
             </section><!-- /.content header -->

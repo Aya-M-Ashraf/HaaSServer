@@ -9,7 +9,6 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Example;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,23 +34,19 @@ public abstract class GenericHibernateDAO<T, ID extends Serializable> implements
     }
 
     @Override
-    public T findById(ID id) {
+    public T findById(ID id) throws Exception {
         return (T) getSession().load(getPersistentClass(), id);
     }
 
     @Override
-    public List<T> findAll() {
-        try {
-            List<T> result = getSession().createCriteria(getPersistentClass()).list();
-            return result;
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            return null;
-        }
+    public List<T> findAll() throws Exception {
+
+        List<T> result = getSession().createCriteria(getPersistentClass()).list();
+        return result;
     }
 
     @Override
-    public List<T> findByExample(T exampleInstance) {
+    public List<T> findByExample(T exampleInstance) throws Exception {
         Criteria crit = getSession().createCriteria(getPersistentClass());
         Example example = Example.create(exampleInstance);
 
@@ -60,18 +55,18 @@ public abstract class GenericHibernateDAO<T, ID extends Serializable> implements
     }
 
     @Override
-    public T makePersistent(T entity) {
+    public T makePersistent(T entity) throws Exception {
         getSession().persist(entity);
         return entity;
     }
 
     @Override
-    public void makeTransient(T entity) {
+    public void makeTransient(T entity) throws Exception {
         getSession().delete(entity);
     }
 
     @Override
-    public T update(T entity){
+    public T update(T entity) throws Exception {
         getSession().update(entity);
         return entity;
     }

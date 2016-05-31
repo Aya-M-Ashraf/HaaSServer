@@ -24,7 +24,7 @@
     <body class="hold-transition register-page">
         <div class="register-box">
             <div class="register-logo">
-                <a href="../../index2.html"><b>Admin</b>LTE</a>
+                <a href=""><b>Admin</b>LTE</a>
             </div>
 
 
@@ -46,11 +46,11 @@
                         <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
                     </div>
                     <div class="form-group has-feedback">
-                        <form:input path="password" cssClass="form-control" alt="First Name"/>
+                        <form:input path="phone" cssClass="form-control" alt="First Name"/>
                         <span class="glyphicon glyphicon-phone form-control-feedback"></span>
                     </div>
                     <div class="form-group has-feedback">
-                        <form:input path="phone" cssClass="form-control" alt="First Name"/>
+                        <form:input path="password" cssClass="form-control" alt="First Name"/>
                         <span class="glyphicon glyphicon-lock form-control-feedback"></span>
                     </div>
 <!--                    <div class="form-group has-feedback">

@@ -1,5 +1,6 @@
 package com.haas.server.ws;
 
+import com.haas.server.service.interfaces.DeviceService;
 import commons.dto.UserDTO;
 import commons.ws.Constants;
 import commons.ws.Result;
@@ -24,6 +25,9 @@ public class UserWS {
     @Autowired
     private UserService userServiceImpl;
 
+    @Autowired
+    private DeviceService deviceServiceImpl;
+
     public UserWS() {
     }
 
@@ -34,9 +38,6 @@ public class UserWS {
 
         Result result = new Result();
         UserDTO userDto = new UserDTO();
-        System.out.println("------- in the register method");
-        System.out.println("------- "+fName);
-        System.out.println("------- "+lName);
         userDto.setEmail(email);
         userDto.setFirstName(fName);
         userDto.setLastName(lName);
@@ -45,8 +46,8 @@ public class UserWS {
         userDto.setGoldenCoins(100);
         userDto.setSilverCoins(100);
         ArrayList<Object> resultList = userServiceImpl.registerUser(userDto);
-        
-        if (resultList.get(0)!= null) {
+
+        if (resultList.get(0) != null) {
             result.setSuccess(true);
             result.setObj(resultList.get(0));
             result.setMsg(resultList.get(1).toString());
@@ -58,7 +59,7 @@ public class UserWS {
             result.setCode("register");
         }
         return result;
-        
+
 //        if (!Validation.mobileValidation(phone) || userServiceImpl.getUserByPhone(phone) != null) {
 //            System.out.println("mobile");
 //            result.setSuccess(false);
@@ -109,13 +110,11 @@ public class UserWS {
             result.setSuccess(false);
             result.setMsg("This Email doesn't belong to anyone");
             result.setObj(null);
-            result.setObjectType(null);
             result.setCode("viewProfile");
         } else {
             result.setSuccess(true);
             result.setMsg("Success Message");
             result.setObj(user);
-            result.setObjectType(Constants.USER_DTO);
             result.setCode("viewProfile");
         }
         return result;
@@ -132,21 +131,18 @@ public class UserWS {
             result.setSuccess(false);
             result.setMsg("This Email doesn't belong to anyone");
             result.setObj(null);
-            result.setObjectType(null);
             result.setCode("updateProfile");
 
         } else if (phoneUser != null && !phoneUser.getEmail().equals(email)) {
             result.setSuccess(false);
-            result.setMsg("This phone is already registered");
+            result.setMsg("This phone number is already registered");
             result.setObj(null);
-            result.setObjectType(null);
             result.setCode("updateProfile");
 
         } else if (!user.getPassword().equals(oldPassword)) {
             result.setSuccess(false);
             result.setMsg("Your old password is incorrect");
-            result.setObj(null);
-            result.setObjectType(null);
+            result.setObj(new UserDTO());
             result.setCode("updateProfile");
 
         } else {
@@ -159,7 +155,6 @@ public class UserWS {
             result.setSuccess(true);
             result.setMsg("Your profile has been updated successfully");
             result.setObj(user);
-            result.setObjectType(Constants.USER_DTO);
             result.setCode("updateProfile");
         }
         return result;
@@ -170,29 +165,34 @@ public class UserWS {
     @Produces(MediaType.APPLICATION_JSON)
     public Result login(@FormParam(Constants.EMAIL) String email, @FormParam(Constants.PASSWORD) String password, @FormParam(Constants.SERIAL_NUMBER) String serialNumber) {
         Result result = new Result();
-        System.out.println(serialNumber);
-        UserDTO user = userServiceImpl.getUserByEmail(email);
-        if (user == null) {
-            result.setSuccess(false);
-            result.setMsg("This Email doesn't belong to anyone");
-            result.setObj(null);
-            result.setObjectType(null);
-            result.setCode("login");
-            return result;
 
-        } else if (!user.getPassword().equals(password)) {
-            result.setSuccess(false);
-            result.setMsg("This password is incorrect");
-            result.setObj(null);
-            result.setObjectType(null);
-            result.setCode("login");
-            return result;
+        if (deviceServiceImpl.linkDevice(email, serialNumber)) {
+            UserDTO user = userServiceImpl.getUserByEmail(email);
+            if (user == null) {
+                result.setSuccess(false);
+                result.setMsg("This Email doesn't belong to anyone");
+                result.setObj(new UserDTO());
+                result.setCode("login");
+                return result;
 
+            } else if (!user.getPassword().equals(password)) {
+                result.setSuccess(false);
+                result.setMsg("Password is incorrect");
+                result.setObj(new UserDTO());
+                result.setCode("login");
+                return result;
+
+            } else {
+                result.setSuccess(true);
+                result.setMsg("login is done successfully");
+                result.setObj(user);
+                result.setCode("login");
+                return result;
+            }
         } else {
-            result.setSuccess(true);
-            result.setMsg("login is done successfully");
-            result.setObj(user);
-            result.setObjectType(Constants.USER_DTO);
+            result.setSuccess(false);
+            result.setMsg("Linking Device Error");
+            result.setObj(new UserDTO());
             result.setCode("login");
             return result;
         }
@@ -210,8 +210,7 @@ public class UserWS {
             result.setMsg(message);
             result.setSuccess(success);
             result.setCode("transfer");
-            result.setObj(null);
-            result.setObjectType(null);
+            result.setObj(new UserDTO());
         }
         return result;
     }
@@ -226,14 +225,12 @@ public class UserWS {
             result.setSuccess(false);
             result.setMsg("The Entered Values are not Valid");
             result.setObj(null);
-            result.setObjectType(null);
             result.setCode("retrievePassword");
         } else {
             PasswordSenderMail.generateAndSendEmail(user.getPassword(), user.getEmail());
             result.setSuccess(true);
             result.setMsg("Your New Password Has Been Sent To Your Registered E-Mail Address !");
             result.setObj(null);
-            result.setObjectType(null);
             result.setCode("retrievePassword");
         }
         return result;

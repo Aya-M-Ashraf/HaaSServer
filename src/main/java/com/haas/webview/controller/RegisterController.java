@@ -33,6 +33,6 @@ public class RegisterController {
         userDTO.setSilverCoins(100);
         userDTO.setGoldenCoins(100);
         userServiceImpl.addUser(userDTO);
-        return new ModelAndView("hello", "user", user);
+        return new ModelAndView("profile", "user", user);
     }
 }

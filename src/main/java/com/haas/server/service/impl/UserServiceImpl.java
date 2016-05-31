@@ -14,6 +14,8 @@ import com.haas.server.service.interfaces.UserService;
 import com.haas.server.utils.EntityMapper;
 import java.security.SecureRandom;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -34,14 +36,19 @@ public class UserServiceImpl implements UserService {
     private static final int PASSWORD_LENGTH = 8;
 
     public UserServiceImpl() {
-
+        
     }
 
     @Override
-    public UserDTO addUser(UserDTO userDto) {
-        User user = entityMapper.mapUserDtoToUser(userDto);
-        user = userDaoImpl.makePersistent(user);
-        return entityMapper.mapUserToUserDto(user);
+    public boolean addUser(UserDTO userDto) {
+        try {
+            User user = entityMapper.mapUserDtoToUser(userDto);
+            user = userDaoImpl.makePersistent(user);
+            return true;
+        } catch (Exception ex) {
+            Logger.getLogger(UserServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
     }
 
     @Override
@@ -70,9 +77,14 @@ public class UserServiceImpl implements UserService {
         if (user == null) {
             return null;
         } else if (user.getPhone().equals(phone)) {
-            user.setPassword(generateRandomPassword());
-            userDaoImpl.update(user);
-            return entityMapper.mapUserToUserDto(user);
+            try {
+                user.setPassword(generateRandomPassword());
+                userDaoImpl.update(user);
+                return entityMapper.mapUserToUserDto(user);
+            } catch (Exception ex) {
+                Logger.getLogger(UserServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                return null;
+            }
         } else {
             return null;
         }
@@ -133,30 +145,34 @@ public class UserServiceImpl implements UserService {
                 double senderCoinsAfterDeduction = lenderUser.getSilverCoins() - coinsCount;
                 //-------------- if the sender coins after transferring the coins are less than zero then its a fraud operation ------------------
                 if (senderCoinsAfterDeduction >= 0) {
-                    borrowerUser.setSilverCoins(borrowerUser.getSilverCoins() + coinsCount);
-                    lenderUser.setSilverCoins(lenderUser.getSilverCoins() - coinsCount);
-
-                    //---------- update both sender and receiver users-------------------------
-                    userDaoImpl.update(lenderUser);
-                    userDaoImpl.update(borrowerUser);
-
-                    //------------ Update table user_transfer_coins_user table -------------------------------
-                    UserTransferCoinsUserPK userTransferCoinsUserPK = new UserTransferCoinsUserPK();
-                    userTransferCoinsUserPK.setBorrowerUserId(borrowerUser.getUserId());
-                    userTransferCoinsUserPK.setLenderUserId(lenderUser.getUserId());
-                    userTransferCoinsUserPK.setTransactionTimestamp(new Date());
-
-                    UserTransferCoinsUser userTransferCoinsUser = new UserTransferCoinsUser();
-                    userTransferCoinsUser.setLenderUser(lenderUser);
-                    userTransferCoinsUser.setBorrowerUser(borrowerUser);
-                    userTransferCoinsUser.setUserTransferCoinsUserPK(userTransferCoinsUserPK);
-                    userTransferCoinsUser.setCoinsAmount(coinsCount);
-                    userTransferCoinsDAO.makePersistent(userTransferCoinsUser);
-
-                    System.out.println("Successful coins transferring");
-                    result.add("Successful coins transferring");
-                    result.add(true);
-                    return result;
+                    try {
+                        borrowerUser.setSilverCoins(borrowerUser.getSilverCoins() + coinsCount);
+                        lenderUser.setSilverCoins(lenderUser.getSilverCoins() - coinsCount);
+                        
+                        //---------- update both sender and receiver users-------------------------
+                        userDaoImpl.update(lenderUser);
+                        userDaoImpl.update(borrowerUser);
+                        
+                        //------------ Update table user_transfer_coins_user table -------------------------------
+                        UserTransferCoinsUserPK userTransferCoinsUserPK = new UserTransferCoinsUserPK();
+                        userTransferCoinsUserPK.setBorrowerUserId(borrowerUser.getUserId());
+                        userTransferCoinsUserPK.setLenderUserId(lenderUser.getUserId());
+                        userTransferCoinsUserPK.setTransactionTimestamp(new Date());
+                        
+                        UserTransferCoinsUser userTransferCoinsUser = new UserTransferCoinsUser();
+                        userTransferCoinsUser.setLenderUser(lenderUser);
+                        userTransferCoinsUser.setBorrowerUser(borrowerUser);
+                        userTransferCoinsUser.setUserTransferCoinsUserPK(userTransferCoinsUserPK);
+                        userTransferCoinsUser.setCoinsAmount(coinsCount);
+                        userTransferCoinsDAO.makePersistent(userTransferCoinsUser);
+                        
+                        System.out.println("Successful coins transferring");
+                        result.add("Successful coins transferring");
+                        result.add(true);
+                        return result;
+                    } catch (Exception ex) {
+                        Logger.getLogger(UserServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 } else {
                     System.out.println("Sender silver coins are too few to make this transaction");
                     result.add("Sender silver coins are too few to make this transaction");
@@ -202,9 +218,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updateUser(UserDTO userDto) {
-        User user = entityMapper.mapUserDtoToUser(userDto);
-        userDaoImpl.update(user);
+    public boolean updateUser(UserDTO userDto) {
+        try {
+            User user = entityMapper.mapUserDtoToUser(userDto);
+            userDaoImpl.update(user);
+            return true;
+        } catch (Exception ex) {
+            Logger.getLogger(UserServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
     }
 
     @Override

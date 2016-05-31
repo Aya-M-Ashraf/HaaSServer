@@ -9,7 +9,7 @@ import java.util.ArrayList;
  */
 public interface UserService {
 
-    public UserDTO addUser(UserDTO user);
+    public boolean addUser(UserDTO user);
 
     public UserDTO getUserByEmail(String email);
 
@@ -19,7 +19,7 @@ public interface UserService {
 
     public String generateRandomPassword();
 
-    public void updateUser(UserDTO user);
+    public boolean updateUser(UserDTO user);
 
     public UserDTO getUserByPhone(String phone);
 
