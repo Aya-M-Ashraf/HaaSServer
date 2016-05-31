@@ -118,16 +118,14 @@
             <version>${org.springframework-version}</version>
         </dependency>
 
-       
-
         <!--        ********************MySQL************************ -->       
-<!--        <dependency>     MySQL database driver 
+        <!--        <dependency>     MySQL database driver 
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>5.1.6</version>
         </dependency>-->
       
-         <!--        ********************PostgreSql************************ -->     
+        <!--        ********************PostgreSql************************ -->     
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-entitymanager</artifactId>
