@@ -162,7 +162,7 @@ public class DeviceServiceImpl implements DeviceService {
         }
         return success;
         }catch(Exception ex){
-            
+             Logger.getLogger(DeviceServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
     }

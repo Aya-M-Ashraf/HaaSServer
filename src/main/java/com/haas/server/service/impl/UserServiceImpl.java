@@ -43,7 +43,7 @@ public class UserServiceImpl implements UserService {
     public boolean addUser(UserDTO userDto) {
         try {
             User user = entityMapper.mapUserDtoToUser(userDto);
-            user = userDaoImpl.makePersistent(user);
+            userDaoImpl.makePersistent(user);
             return true;
         } catch (Exception ex) {
             Logger.getLogger(UserServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -136,7 +136,7 @@ public class UserServiceImpl implements UserService {
                 } else {
 
                     System.out.println("Sender golden coins are too few to make this transaction");
-                    result.add("Sender golden coins are too few to make this transaction");
+                    result.add("You don't have enough golden coins to make the transactoin");
                     result.add(false);
                     return result;
                 }
@@ -175,7 +175,7 @@ public class UserServiceImpl implements UserService {
                     }
                 } else {
                     System.out.println("Sender silver coins are too few to make this transaction");
-                    result.add("Sender silver coins are too few to make this transaction");
+                    result.add("You don't have enough silver coins to make the transactoin");
                     result.add(false);
                     return result;
                 }
@@ -187,7 +187,7 @@ public class UserServiceImpl implements UserService {
             return result;
         } else {
             System.out.println("Sender and receivers both must be an existing real users on the system");
-            result.add("Sender and receivers both must be an existing real users on the system");
+            result.add("Invalid email");
             result.add(false);
             return result;
         }
@@ -235,10 +235,10 @@ public class UserServiceImpl implements UserService {
         if (checkAddingUserValidity(userDto.getEmail(), userDto.getPhone())) {
             addUser(userDto);
             resultList.add(0, userDto);
-            resultList.add(1, "User is added successfully");
+            resultList.add(1, "Registeration is done successfully");
             return resultList;
         } else {
-            resultList.add(0, null);
+            resultList.add(0, new UserDTO());
             resultList.add(1, "email or phone is invalid");
             return resultList;
         }
