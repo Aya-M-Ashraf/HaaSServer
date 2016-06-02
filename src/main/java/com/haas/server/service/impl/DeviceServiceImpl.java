@@ -100,6 +100,7 @@ public class DeviceServiceImpl implements DeviceService {
                     System.out.println("**** inside keep alive WS - INIT ");
                     System.out.println("EMAILLLLLL          " + guestEmail);
                     System.out.println("Date : " + new Date(timeStamp));
+                    
                     deviceCurrentlyConnectedDevices = new DeviceCurrentlyConnectedDevices(new DeviceCurrentlyConnectedDevicesPK(hostDevice.getDeviceId(), guestDevice.getDeviceId()), new Date(timeStamp), updatedVersion, consumedMB);
                     deviceCurrentlyConnectedDevicesDAO.makePersistent(deviceCurrentlyConnectedDevices);
                     // new in oldSession to keep track with each request
@@ -169,6 +170,8 @@ public class DeviceServiceImpl implements DeviceService {
 
     @Override
     public boolean trackingHostCoins(String hostEmail, double silverCoins, double goldenCoins) {
+        
+        System.out.println("@@@@@@@ Inside coins of host @@@@@@");
         boolean success = false;
         User user;
 
@@ -188,5 +191,4 @@ public class DeviceServiceImpl implements DeviceService {
         }
         return success;
     }
-
 }

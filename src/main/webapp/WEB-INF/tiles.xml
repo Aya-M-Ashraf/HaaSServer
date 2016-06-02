@@ -28,8 +28,9 @@
     </definition>  
     
     <definition name="register" template="/WEB-INF/jsp/register.jsp">  
-<!--        <put-attribute name="title" value="Register" />  
-        <put-attribute name="body" value= />  -->
+    </definition>  
+    
+    <definition name="login" template="/WEB-INF/jsp/login.jsp">  
     </definition>  
   
 </tiles-definitions>  
