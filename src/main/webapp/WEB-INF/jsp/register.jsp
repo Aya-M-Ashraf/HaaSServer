@@ -63,7 +63,7 @@
                         </div><!-- /.col -->
                     </div>
               </form:form>
-                <a href="login.html" class="text-center">I already have a membership</a>
+                <a href="login.htm" class="text-center">I already have a membership</a>
             </div><!-- /.form-box -->
         </div><!-- /.register-box -->
 

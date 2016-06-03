@@ -19,7 +19,7 @@
         <a href="hello.htm">Hello Spring</a> |   
         <a href="profile.htm">View profile</a> |   
         <a href="adminHome.htm">Admin Home</a> |   
-        <a href="register.htm">Register</a>  
-        
+        <a href="register.htm">Register</a> | 
+        <a href="login.htm">Login</a>
     </body>
 </html>
