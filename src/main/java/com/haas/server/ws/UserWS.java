@@ -1,5 +1,7 @@
 package com.haas.server.ws;
 
+import com.haas.server.entity.DeviceOldSessionDevices;
+import com.haas.server.service.interfaces.ConnectionService;
 import com.haas.server.service.interfaces.DeviceService;
 import commons.dto.UserDTO;
 import commons.ws.Constants;
@@ -14,7 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import com.haas.server.service.interfaces.UserService;
 import com.haas.server.utils.PasswordSenderMail;
-import com.haas.server.utils.Validation;
+import java.util.List;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
 
@@ -27,6 +29,9 @@ public class UserWS {
 
     @Autowired
     private DeviceService deviceServiceImpl;
+    
+     @Autowired
+    private ConnectionService connectionServiceImpl;
 
     public UserWS() {
     }
@@ -100,26 +105,25 @@ public class UserWS {
 //        }
     }
 
-    @GET
-    @Path("/viewProfile")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Result viewProfile(@QueryParam(Constants.EMAIL) String email) {
-        Result result = new Result();
-        UserDTO user = userServiceImpl.getUserByEmail(email);
-        if (user == null) {
-            result.setSuccess(false);
-            result.setMsg("This Email doesn't belong to anyone");
-            result.setObj(null);
-            result.setCode("viewProfile");
-        } else {
-            result.setSuccess(true);
-            result.setMsg("Success Message");
-            result.setObj(user);
-            result.setCode("viewProfile");
-        }
-        return result;
-    }
-
+//    @GET
+//    @Path("/viewProfile")
+//    @Produces(MediaType.APPLICATION_JSON)
+//    public Result viewProfile(@QueryParam(Constants.EMAIL) String email) {
+//        Result result = new Result();
+//        UserDTO user = userServiceImpl.getUserByEmail(email);
+//        if (user == null) {
+//            result.setSuccess(false);
+//            result.setMsg("This Email doesn't belong to anyone");
+//            result.setObj(null);
+//            result.setCode("viewProfile");
+//        } else {
+//            result.setSuccess(true);
+//            result.setMsg("Success Message");
+//            result.setObj(user);
+//            result.setCode("viewProfile");
+//        }
+//        return result;
+//    }
     @POST
     @Path("/updateProfile")
     @Produces(MediaType.APPLICATION_JSON)
@@ -235,4 +239,22 @@ public class UserWS {
         }
         return result;
     }
+
+    @GET
+    @Path("/viewProfile")
+//    @Produces(MediaType.APPLICATION_JSON)
+    public String viewProfile(@QueryParam(Constants.EMAIL) String email) {
+        UserDTO user = new UserDTO();
+        user.setUserId(2);
+        String string = new String();
+        for (List<DeviceOldSessionDevices> deviceOldSessionDevices : connectionServiceImpl.getPastHostConnections(user)) {
+            for (DeviceOldSessionDevices deviceOldSessionDevice : deviceOldSessionDevices) {
+                string = string+(deviceOldSessionDevice.getDeviceOldSessionDevicesPK().getGuestDeviceId())+" ";
+                string = string+(deviceOldSessionDevice.getDeviceOldSessionDevicesPK().getHostDeviceId())+" ";
+                string = string+(deviceOldSessionDevice.getDeviceOldSessionDevicesPK().getStartTimestamp()+" /n");
+            }
+        }
+        return string;
+    }
+
 }

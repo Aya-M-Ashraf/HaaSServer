@@ -4,6 +4,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import com.haas.server.entity.UserUsesDevice;
 import com.haas.server.entity.key.UserUsesDevicePK;
+import java.util.List;
 
 /**
  *
@@ -12,5 +13,7 @@ import com.haas.server.entity.key.UserUsesDevicePK;
 @Repository
 @Transactional
 public interface UserUsesDevicesDAO extends GenericDAO<UserUsesDevice, UserUsesDevicePK> {
+
+    public List<UserUsesDevice> findAllWhereUserIs(Integer userId);
 
 }

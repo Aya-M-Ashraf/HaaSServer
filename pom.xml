@@ -117,6 +117,19 @@
             <artifactId>spring-aop</artifactId>
             <version>${org.springframework-version}</version>
         </dependency>
+        
+        <!-- Spring Security -->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-web</artifactId>
+            <version>${org.springframework-version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-config</artifactId>
+            <version>${org.springframework-version}</version>
+        </dependency>
 
         <!--        ********************MySQL************************ -->       
         <!--        <dependency>     MySQL database driver 
@@ -303,25 +316,7 @@
                         </configuration>
                     </execution>
                 </executions>
-            </plugin>
-            <!--added by trying to solve cant find ComponentScan class in spring context-->
-            <plugin>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <descriptorRefs>
-                        <descriptorRef>jar-with-dependencies</descriptorRef>
-                    </descriptorRefs>
-                </configuration>
-            </plugin>
-                       
+            </plugin>                 
         </plugins>
     </build>
 

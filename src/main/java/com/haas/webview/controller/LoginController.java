@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.haas.webview.controller;
 
 import com.haas.server.service.interfaces.UserService;
@@ -15,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  *
@@ -31,15 +27,17 @@ public class LoginController {
     public ModelAndView showPage() {
         return new ModelAndView("login", "user", new UserDTO());
     }
-    
-    @RequestMapping(value = "/getUserByEmail", method = RequestMethod.POST)    
-    ModelAndView onSubmit(@ModelAttribute("userDTO") UserDTO user, BindingResult result){
-        UserDTO userDTO ;
+
+    @RequestMapping(value = "/showProfile", method = RequestMethod.POST)
+    public ModelAndView onSubmit(@ModelAttribute("user") UserDTO user, BindingResult result, RedirectAttributes redirect) {
+
         user = userServiceImpl.getUserByEmail(user.getEmail());
-        if(user==null)
-            return new ModelAndView("login","user", new UserDTO());
-        else
-            return new ModelAndView("profile", "user", user);
+        if (user == null) {
+            return new ModelAndView("login", "user", new UserDTO());
+        } else {
+            redirect.addFlashAttribute("loggedUser", user);
+            return new ModelAndView("redirect:profile.htm");
+        }
     }
 
 }

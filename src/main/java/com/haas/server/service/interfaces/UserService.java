@@ -23,6 +23,6 @@ public interface UserService {
 
     public UserDTO getUserByPhone(String phone);
 
-    public  ArrayList<Object> registerUser(UserDTO userDto);
+    public ArrayList<Object> registerUser(UserDTO userDto);
     
 }
