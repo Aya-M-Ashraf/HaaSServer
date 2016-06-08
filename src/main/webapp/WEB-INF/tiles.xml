@@ -27,6 +27,11 @@
         <put-attribute name="body" value="/WEB-INF/jsp/adminHome.jsp" />  
     </definition>  
     
+    <definition name="transferCoins" extends="base.definition">  
+        <put-attribute name="title" value="Transfare Coins" />  
+        <put-attribute name="body" value="/WEB-INF/jsp/transferCoins.jsp" />  
+    </definition>  
+    
     <definition name="register" template="/WEB-INF/jsp/register.jsp">  
     </definition>  
     

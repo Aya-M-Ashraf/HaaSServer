@@ -15,7 +15,7 @@
                     Hello Page
                     <small>Optional description</small>
                     <br>
-                    ${message}
+                  
                 </h1>
    
             </section><!-- /.content header -->
@@ -23,7 +23,7 @@
             <!-- Main content -->
             <section class="content">
 
-                Hello Page Content
+                 ${message}
 
             </section><!-- /.content -->
         </div><!-- /.content-wrapper -->

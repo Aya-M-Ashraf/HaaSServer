@@ -28,7 +28,7 @@ public class RegisterController {
     }    
     
     @RequestMapping(value = "/addUser", method = RequestMethod.POST)    
-    protected ModelAndView onSubmit(@ModelAttribute("userDTO") UserDTO user, BindingResult result) throws Exception {
+    protected ModelAndView onSubmit(@ModelAttribute("user") UserDTO user, BindingResult result) throws Exception {
         UserDTO userDTO = (UserDTO) user;
         userDTO.setSilverCoins(100);
         userDTO.setGoldenCoins(100);

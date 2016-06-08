@@ -6,9 +6,9 @@ import com.haas.server.service.interfaces.ConnectionService;
 import com.haas.server.service.interfaces.DeviceService;
 import commons.dto.UserDTO;
 import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -25,16 +25,18 @@ public class ViewProfileController {
     private DeviceService deviceServiceImpl;
 
     @RequestMapping("/profile")
-    public ModelAndView showProfile(@ModelAttribute("loggedUser") UserDTO user) {
+    public ModelAndView showProfile(HttpServletRequest request) {
+
+        UserDTO user = (UserDTO) request.getSession().getAttribute("loggedUser");
+
         List<List<DeviceOldSessionDevices>> deviceOldHostSessionDevices = connectionServiceImpl.getPastHostConnections(user);
         List<List<DeviceOldSessionDevices>> deviceOldGuestSessionDevices = connectionServiceImpl.getPastGuestConnections(user);
         List<UserUsesDevice> userUsesDevices = deviceServiceImpl.getUserDevices(user);
-        
+
         ModelAndView model = new ModelAndView("profile");
         model.addObject("asHostList", deviceOldHostSessionDevices);
         model.addObject("asGuestList", deviceOldGuestSessionDevices);
         model.addObject("devicesList", userUsesDevices);
-        model.addObject("user", user);
         return model;
     }
 }

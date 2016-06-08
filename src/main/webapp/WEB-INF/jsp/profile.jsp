@@ -13,7 +13,7 @@
         <div class="content-wrapper">
             <!-- Content Header (Page header) -->
             <section class="content-header">
-                <h1>${user.firstName} ${user.lastName}'s Profile</h1>
+                <h1>${sessionScope.loggedUser.firstName} ${sessionScope.loggedUser.lastName}'s Profile</h1>
             </section>
 
             <!-- Main content -->
@@ -30,10 +30,10 @@
 
                                 <ul class="list-group list-group-unbordered">
                                     <li class="list-group-item">
-                                        <b>Golden Coins</b> <a class="pull-right">${user.goldenCoins} $</a>
+                                        <b>Golden Coins</b> <a class="pull-right">${sessionScope.loggedUser.goldenCoins} </a>
                                     </li>
                                     <li class="list-group-item">
-                                        <b>Silver Coins</b> <a class="pull-right">${user.silverCoins} $</a>
+                                        <b>Silver Coins</b> <a class="pull-right">${sessionScope.loggedUser.silverCoins} </a>
                                     </li>
                                 </ul>
                             </div><!-- /.box-body -->

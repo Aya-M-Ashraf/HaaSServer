@@ -1,6 +1,5 @@
 package com.haas.server.ws;
 
-import com.haas.server.entity.DeviceOldSessionDevices;
 import com.haas.server.service.interfaces.ConnectionService;
 import com.haas.server.service.interfaces.DeviceService;
 import commons.dto.UserDTO;
@@ -16,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import com.haas.server.service.interfaces.UserService;
 import com.haas.server.utils.PasswordSenderMail;
-import java.util.List;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
 
@@ -64,66 +62,28 @@ public class UserWS {
             result.setCode("register");
         }
         return result;
-
-//        if (!Validation.mobileValidation(phone) || userServiceImpl.getUserByPhone(phone) != null) {
-//            System.out.println("mobile");
-//            result.setSuccess(false);
-//            result.setMsg("This phone is already registered");
-//            result.setCode("register");
-//            result.setObj(null);
-//            return result;
-//        } else if (!Validation.eMailValidation(email) || userServiceImpl.getUserByEmail(email) != null) {
-//            System.out.println("email");
-//            result.setSuccess(false);
-//            result.setMsg("user's email is not valid");
-//            result.setCode("register");
-//            result.setObj(null);
-//            return result;
-//        } else {
-//            UserDTO userDto = new UserDTO();
-//            userDto.setEmail(email);
-//            userDto.setFirstName(fName);
-//            userDto.setLastName(lName);
-//            userDto.setPhone(phone);
-//            userDto.setPassword(password);
-//            userDto.setGoldenCoins(100);
-//            userDto.setSilverCoins(100);
-//            userDto = userServiceImpl.addUser(userDto);
-//
-//            if (userDto != null) {
-//                result.setSuccess(true);
-//                result.setObj(userDto);
-//                result.setMsg("User added Successfully");
-//                result.setCode("register");
-//            } else {
-//                result.setSuccess(false);
-//                result.setObj(null);
-//                result.setMsg("user can't be added");
-//                result.setCode("register");
-//            }
-//            return result;
-//        }
     }
 
-//    @GET
-//    @Path("/viewProfile")
-//    @Produces(MediaType.APPLICATION_JSON)
-//    public Result viewProfile(@QueryParam(Constants.EMAIL) String email) {
-//        Result result = new Result();
-//        UserDTO user = userServiceImpl.getUserByEmail(email);
-//        if (user == null) {
-//            result.setSuccess(false);
-//            result.setMsg("This Email doesn't belong to anyone");
-//            result.setObj(null);
-//            result.setCode("viewProfile");
-//        } else {
-//            result.setSuccess(true);
-//            result.setMsg("Success Message");
-//            result.setObj(user);
-//            result.setCode("viewProfile");
-//        }
-//        return result;
-//    }
+    @GET
+    @Path("/viewProfile")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Result viewProfile(@QueryParam(Constants.EMAIL) String email) {
+        Result result = new Result();
+        UserDTO user = userServiceImpl.getUserByEmail(email);
+        if (user == null) {
+            result.setSuccess(false);
+            result.setMsg("This Email doesn't belong to anyone");
+            result.setObj(null);
+            result.setCode("viewProfile");
+        } else {
+            result.setSuccess(true);
+            result.setMsg("Success Message");
+            result.setObj(user);
+            result.setCode("viewProfile");
+        }
+        return result;
+    }   
+    
     @POST
     @Path("/updateProfile")
     @Produces(MediaType.APPLICATION_JSON)
@@ -239,22 +199,4 @@ public class UserWS {
         }
         return result;
     }
-
-    @GET
-    @Path("/viewProfile")
-//    @Produces(MediaType.APPLICATION_JSON)
-    public String viewProfile(@QueryParam(Constants.EMAIL) String email) {
-        UserDTO user = new UserDTO();
-        user.setUserId(2);
-        String string = new String();
-        for (List<DeviceOldSessionDevices> deviceOldSessionDevices : connectionServiceImpl.getPastHostConnections(user)) {
-            for (DeviceOldSessionDevices deviceOldSessionDevice : deviceOldSessionDevices) {
-                string = string+(deviceOldSessionDevice.getDeviceOldSessionDevicesPK().getGuestDeviceId())+" ";
-                string = string+(deviceOldSessionDevice.getDeviceOldSessionDevicesPK().getHostDeviceId())+" ";
-                string = string+(deviceOldSessionDevice.getDeviceOldSessionDevicesPK().getStartTimestamp()+" /n");
-            }
-        }
-        return string;
-    }
-
 }
