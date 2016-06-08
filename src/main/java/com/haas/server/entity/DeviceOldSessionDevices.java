@@ -134,7 +134,7 @@ public class DeviceOldSessionDevices implements Serializable {
 
     @Override
     public String toString() {
-        return "entitiy.DeviceOldSessionDevices[ deviceOldSessionDevicesPK=" + deviceOldSessionDevicesPK + " ]";
+        return "com.haas.server.entity.DeviceOldSessionDevices[ deviceOldSessionDevicesPK=" + deviceOldSessionDevicesPK + " ]";
     }
     
 }

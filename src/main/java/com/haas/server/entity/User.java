@@ -17,6 +17,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
  *
@@ -35,7 +36,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "User.findByPhone", query = "SELECT u FROM User u WHERE u.phone = :phone"),
     @NamedQuery(name = "User.findByPassword", query = "SELECT u FROM User u WHERE u.password = :password"),
     @NamedQuery(name = "User.findByGoldenCoins", query = "SELECT u FROM User u WHERE u.goldenCoins = :goldenCoins"),
-    @NamedQuery(name = "User.findBySilverCoins", query = "SELECT u FROM User u WHERE u.silverCoins = :silverCoins")})
+    @NamedQuery(name = "User.findBySilverCoins", query = "SELECT u FROM User u WHERE u.silverCoins = :silverCoins"),
+    @NamedQuery(name = "User.findByGender", query = "SELECT u FROM User u WHERE u.gender = :gender"),
+    @NamedQuery(name = "User.findByCountry", query = "SELECT u FROM User u WHERE u.country = :country")})
 public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -48,7 +51,7 @@ public class User implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 100)
-    @Column(name = "email",unique = true)
+    @Column(name = "email", unique = true)
     private String email;
     @Basic(optional = false)
     @NotNull
@@ -79,6 +82,15 @@ public class User implements Serializable {
     @NotNull
     @Column(name = "silver_coins")
     private double silverCoins;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "gender")
+    private int gender;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 45)
+    @Column(name = "country")
+    private String country;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private Collection<UserUsesDevice> userUsesDeviceCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "lenderUser")
@@ -93,17 +105,7 @@ public class User implements Serializable {
         this.userId = userId;
     }
 
-    public User(String email, String firstName, String lastName, String phone, String password, double goldenCoins, double silverCoins) {
-        this.email = email;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.phone = phone;
-        this.password = password;
-        this.goldenCoins = goldenCoins;
-        this.silverCoins = silverCoins;
-    }
-
-    public User(Integer userId, String email, String firstName, String lastName, String phone, String password, double goldenCoins, double silverCoins) {
+    public User(Integer userId, String email, String firstName, String lastName, String phone, String password, double goldenCoins, double silverCoins, int gender, String country) {
         this.userId = userId;
         this.email = email;
         this.firstName = firstName;
@@ -112,6 +114,8 @@ public class User implements Serializable {
         this.password = password;
         this.goldenCoins = goldenCoins;
         this.silverCoins = silverCoins;
+        this.gender = gender;
+        this.country = country;
     }
 
     public Integer getUserId() {
@@ -178,7 +182,24 @@ public class User implements Serializable {
         this.silverCoins = silverCoins;
     }
 
+    public int getGender() {
+        return gender;
+    }
+
+    public void setGender(int gender) {
+        this.gender = gender;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
     @XmlTransient
+    @JsonIgnore
     public Collection<UserUsesDevice> getUserUsesDeviceCollection() {
         return userUsesDeviceCollection;
     }
@@ -188,6 +209,7 @@ public class User implements Serializable {
     }
 
     @XmlTransient
+    @JsonIgnore
     public Collection<UserTransferCoinsUser> getUserTransferCoinsUserCollection() {
         return userTransferCoinsUserCollection;
     }
@@ -197,6 +219,7 @@ public class User implements Serializable {
     }
 
     @XmlTransient
+    @JsonIgnore
     public Collection<UserTransferCoinsUser> getUserTransferCoinsUserCollection1() {
         return userTransferCoinsUserCollection1;
     }
@@ -227,7 +250,7 @@ public class User implements Serializable {
 
     @Override
     public String toString() {
-        return "entitiy.User[ userId=" + userId + " ]";
+        return "com.haas.server.entity.User[ userId=" + userId + " ]";
     }
 
 }

@@ -16,7 +16,7 @@ import javax.validation.constraints.NotNull;
 
 /**
  *
- * @author Aya M. Ashraf
+ * @author Shall
  */
 @Embeddable
 public class UserTransferCoinsUserPK implements Serializable {
@@ -98,7 +98,7 @@ public class UserTransferCoinsUserPK implements Serializable {
 
     @Override
     public String toString() {
-        return "entitiy.UserTransferCoinsUserPK[ borrowerUserId=" + borrowerUserId + ", lenderUserId=" + lenderUserId + ", transactionTimestamp=" + transactionTimestamp + " ]";
+        return "com.haas.server.entity.UserTransferCoinsUserPK[ borrowerUserId=" + borrowerUserId + ", lenderUserId=" + lenderUserId + ", transactionTimestamp=" + transactionTimestamp + " ]";
     }
     
 }

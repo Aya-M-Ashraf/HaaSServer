@@ -25,4 +25,6 @@ public interface UserService {
 
     public ArrayList<Object> registerUser(UserDTO userDto);
     
+    public int getUsersNumber();
+    
 }
