@@ -13,7 +13,7 @@ import javax.validation.constraints.NotNull;
 
 /**
  *
- * @author Aya M. Ashraf
+ * @author Shall
  */
 @Embeddable
 public class UserUsesDevicePK implements Serializable {
@@ -77,7 +77,7 @@ public class UserUsesDevicePK implements Serializable {
 
     @Override
     public String toString() {
-        return "entitiy.UserUsesDevicePK[ deviceId=" + deviceId + ", userId=" + userId + " ]";
+        return "com.haas.server.entity.UserUsesDevicePK[ deviceId=" + deviceId + ", userId=" + userId + " ]";
     }
     
 }

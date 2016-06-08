@@ -1,3 +1,8 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package com.haas.server.entity.key;
 
 import java.io.Serializable;
@@ -11,7 +16,7 @@ import javax.validation.constraints.NotNull;
 
 /**
  *
- * @author Aya M. Ashraf
+ * @author Shall
  */
 @Embeddable
 public class DeviceOldSessionDevicesPK implements Serializable {
@@ -93,7 +98,7 @@ public class DeviceOldSessionDevicesPK implements Serializable {
 
     @Override
     public String toString() {
-        return "entitiy.DeviceOldSessionDevicesPK[ hostDeviceId=" + hostDeviceId + ", guestDeviceId=" + guestDeviceId + ", startTimestamp=" + startTimestamp + " ]";
+        return "com.haas.server.entity.DeviceOldSessionDevicesPK[ hostDeviceId=" + hostDeviceId + ", guestDeviceId=" + guestDeviceId + ", startTimestamp=" + startTimestamp + " ]";
     }
     
 }

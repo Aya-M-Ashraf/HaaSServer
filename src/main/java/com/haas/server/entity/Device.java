@@ -17,14 +17,14 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
  *
- * @author Aya M. Ashraf
+ * @author Shall
  */
 @Entity
-//@Table(name = "device_info")
-@Table(name = "device")
+@Table(name = "device_info")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Device.findAll", query = "SELECT d FROM Device d"),
@@ -83,6 +83,7 @@ public class Device implements Serializable {
     }
 
     @XmlTransient
+    @JsonIgnore
     public Collection<UserUsesDevice> getUserUsesDeviceCollection() {
         return userUsesDeviceCollection;
     }
@@ -92,6 +93,7 @@ public class Device implements Serializable {
     }
 
     @XmlTransient
+    @JsonIgnore
     public Collection<DeviceOldSessionDevices> getDeviceOldSessionDevicesCollection() {
         return deviceOldSessionDevicesCollection;
     }
@@ -101,6 +103,7 @@ public class Device implements Serializable {
     }
 
     @XmlTransient
+    @JsonIgnore
     public Collection<DeviceOldSessionDevices> getDeviceOldSessionDevicesCollection1() {
         return deviceOldSessionDevicesCollection1;
     }
@@ -131,7 +134,7 @@ public class Device implements Serializable {
 
     @Override
     public String toString() {
-        return "entitiy.Device[ deviceId=" + deviceId + " ]";
+        return "com.haas.server.entity.Device[ deviceId=" + deviceId + " ]";
     }
     
 }

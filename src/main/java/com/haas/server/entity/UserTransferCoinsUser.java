@@ -116,5 +116,5 @@ public class UserTransferCoinsUser implements Serializable {
     public String toString() {
         return "entitiy.UserTransferCoinsUser[ userTransferCoinsUserPK=" + userTransferCoinsUserPK + " ]";
     }
-
+    
 }

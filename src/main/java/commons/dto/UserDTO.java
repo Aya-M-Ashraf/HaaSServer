@@ -14,11 +14,13 @@ public class UserDTO implements java.io.Serializable {
     private String password;
     private double goldenCoins;
     private double silverCoins;
+    private int gender;
+    private String country;
 
     public UserDTO() {
     }
 
-    public UserDTO(String email, String firstName, String lastName, String phone, String password, double goldenCoins, double silverCoins) {
+    public UserDTO(Integer userId, String email, String firstName, String lastName, String phone, String password, double goldenCoins, double silverCoins, int gender, String country) {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -26,17 +28,9 @@ public class UserDTO implements java.io.Serializable {
         this.password = password;
         this.goldenCoins = goldenCoins;
         this.silverCoins = silverCoins;
-    }
-
-    public UserDTO(Integer userId, String email, String firstName, String lastName, String phone, String password, double goldenCoins, double silverCoins) {
+        this.gender = gender;
+        this.country = country;
         this.userId = userId;
-        this.email = email;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.phone = phone;
-        this.password = password;
-        this.goldenCoins = goldenCoins;
-        this.silverCoins = silverCoins;
     }
 
     public Integer getUserId() {
@@ -101,6 +95,22 @@ public class UserDTO implements java.io.Serializable {
 
     public void setSilverCoins(double silverCoins) {
         this.silverCoins = silverCoins;
+    }
+
+    public int getGender() {
+        return gender;
+    }
+
+    public void setGender(int gender) {
+        this.gender = gender;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
     }
 
 }
