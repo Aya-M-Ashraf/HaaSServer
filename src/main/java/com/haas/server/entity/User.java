@@ -24,8 +24,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
  * @author Aya M. Ashraf
  */
 @Entity
-//@Table(name = "user_info")
-@Table(name = "user")
+@Table(name = "user_info")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u"),

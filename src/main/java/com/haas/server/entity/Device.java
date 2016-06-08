@@ -24,8 +24,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
  * @author Shall
  */
 @Entity
-//@Table(name = "device_info")
-@Table(name = "device")
+@Table(name = "device_info")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Device.findAll", query = "SELECT d FROM Device d"),
