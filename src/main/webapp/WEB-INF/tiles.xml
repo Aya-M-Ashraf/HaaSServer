@@ -35,7 +35,10 @@
     <definition name="register" template="/WEB-INF/jsp/register.jsp">  
     </definition>  
     
-    <definition name="login" template="/WEB-INF/jsp/login.jsp">  
+    <definition name="login" template="/WEB-INF/jsp/login.jsp" extends="base.definition">  
+    </definition>  
+    
+    <definition name="editProfile" template="/WEB-INF/jsp/editProfile.jsp">  
     </definition>  
   
 </tiles-definitions>  

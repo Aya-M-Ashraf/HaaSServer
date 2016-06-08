@@ -27,7 +27,7 @@
         <!-- iCheck -->
         <link rel="stylesheet" href="resources/plugins/iCheck/square/blue.css">
 
-       
+
     </head>
 
     <body class="hold-transition login-page">
@@ -36,28 +36,31 @@
                 <span class="logo-lg"><b>HaaS </b>App.</span>
             </div><!-- /.login-logo -->
             <div class="login-box-body">
-                <p class="login-box-msg">Sign in to start your journey</p>
+                <b><p class="login-box-msg">Sign in to start your journey</p></b>
+                <br>
 
                 <form:form method="POST" action="showProfile.htm" modelAttribute="user">
 
                     <div class="form-group has-feedback">
-                        <form:input path="email" cssClass="form-control" alt="email"/>
+                        <form:input path="email" cssClass="form-control" alt="email"  placeholder= "Enter Your Email" />
                         <span class="glyphicon glyphicon-user form-control-feedback"></span>
                     </div>
 
                     <div class="form-group has-feedback">
-                        <form:input path="password" cssClass="form-control"  alt="password"/>
+                        <form:password path="password" cssClass="form-control"  alt="password" placeholder= "Enter Your Password" />
                         <span class="glyphicon glyphicon-lock form-control-feedback"></span>
                     </div>
 
+
+                    <br>
                     <div class="row">
                         <div class="col-xs-4">
                             <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
                         </div><!-- /.col -->
                     </div>
                 </form:form>
-
-                <a href="register.htm" class="text-center">Register a new membership</a>
+                <br>
+                <b><a href="register.htm" class="text-center">Register a new membership</a></b>
 
             </div><!-- /.login-box-body -->
         </div><!-- /.login-box -->

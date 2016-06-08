@@ -43,13 +43,13 @@
                     </a>
                     <ul class="treeview-menu">
                         <li><a href="profile.htm"><i class="fa fa-circle-o"></i> View Profile</a></li>
-                        <li><a href="resources/pages/forms/advanced.html"><i class="fa fa-circle-o"></i> Edit Profile</a></li>
+                        <li><a href="editProfile.htm"><i class="fa fa-circle-o"></i> Edit Profile</a></li>
                     </ul>
                 </li>
 
-                <li>
-                    <a href="resources/pages/calendar.html">
-                        <i class="fa fa-calendar"></i> <span>Calendar</span>
+                <li class="treeview">
+                    <a href="transferCoins.htm">
+                        <i class="fa fa-dollar"></i> <span>Transfer Coins </span>
                     </a>
                 </li>
 

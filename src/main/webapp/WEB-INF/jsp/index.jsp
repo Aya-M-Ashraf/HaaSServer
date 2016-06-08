@@ -21,6 +21,7 @@
         <a href="adminHome.htm">Admin Home</a> |   
         <a href="register.htm">Register</a> | 
         <a href="transferCoins.htm">Transfer Coins</a> | 
-        <a href="login.htm">Login</a>
+        <a href="login.htm">Login</a> |
+        <a href="editProfile.htm">Edit Profile</a> |
     </body>
 </html>

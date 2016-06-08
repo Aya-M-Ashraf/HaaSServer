@@ -32,12 +32,14 @@ public class LoginController {
     @RequestMapping(value = "/showProfile", method = RequestMethod.POST)
     public ModelAndView onSubmit(@ModelAttribute("user") UserDTO user, BindingResult result, RedirectAttributes redirect, HttpServletRequest request) {
 
-        user = userServiceImpl.getUserByEmail(user.getEmail());
+        UserDTO userDTO = userServiceImpl.getUserByEmail(user.getEmail());
         if (user == null) {
             return new ModelAndView("login", "user", new UserDTO());
-        } else {
-            request.getSession().setAttribute("loggedUser",user);
+        } else if (userDTO.getPassword().equals(user.getPassword())) {
+            request.getSession().setAttribute("loggedUser", userDTO);
             return new ModelAndView("redirect:profile.htm");
+        } else {
+            return new ModelAndView("login", "user", new UserDTO());
         }
     }
 
