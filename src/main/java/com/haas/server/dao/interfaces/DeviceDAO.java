@@ -1,12 +1,12 @@
 package com.haas.server.dao.interfaces;
 
-import com.haas.server.entity.Device;
+import com.haas.server.entity.DeviceInfo;
 
 /**
  *
  * @author Shall
  */
-public interface DeviceDAO extends GenericDAO<Device, Integer> {
+public interface DeviceDAO extends GenericDAO<DeviceInfo, Integer> {
 
-    public Device getDeviceBySerialNumber(String serialNumber);
+    public DeviceInfo getDeviceBySerialNumber(String serialNumber);
 }

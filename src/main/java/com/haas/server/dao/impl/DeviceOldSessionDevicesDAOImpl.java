@@ -2,7 +2,7 @@ package com.haas.server.dao.impl;
 
 import com.haas.server.dao.GenericHibernateDAO;
 import com.haas.server.dao.interfaces.DeviceOldSessionDevicesDAO;
-import com.haas.server.entity.Device;
+import com.haas.server.entity.DeviceInfo;
 import com.haas.server.entity.DeviceOldSessionDevices;
 import com.haas.server.entity.key.DeviceOldSessionDevicesPK;
 import java.util.List;
@@ -19,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class DeviceOldSessionDevicesDAOImpl extends GenericHibernateDAO<DeviceOldSessionDevices, DeviceOldSessionDevicesPK> implements DeviceOldSessionDevicesDAO {
 
     @Override
-    public List<DeviceOldSessionDevices> findAllWhereHostDeviceIs(Device device) {
+    public List<DeviceOldSessionDevices> findAllWhereHostDeviceIs(DeviceInfo device) {
         Query query = getSession().createQuery("from DeviceOldSessionDevices where device1= :device");
         query.setParameter("device", device);
         return query.list();
@@ -27,7 +27,7 @@ public class DeviceOldSessionDevicesDAOImpl extends GenericHibernateDAO<DeviceOl
     }
 
     @Override
-    public List<DeviceOldSessionDevices> findAllWhereGuestDeviceIs(Device device) {
+    public List<DeviceOldSessionDevices> findAllWhereGuestDeviceIs(DeviceInfo device) {
         Query query = getSession().createQuery("from DeviceOldSessionDevices where device= :device");
         query.setParameter("device", device);
         return query.list();

@@ -39,10 +39,10 @@ public class UserTransferCoinsUser implements Serializable {
     private double coinsAmount;
     @JoinColumn(name = "borrower_user_id", referencedColumnName = "user_id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
-    private User borrowerUser;
+    private UserInfo borrowerUser;
     @JoinColumn(name = "lender_user_id", referencedColumnName = "user_id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
-    private User lenderUser;
+    private UserInfo lenderUser;
 
     public UserTransferCoinsUser() {
     }
@@ -76,19 +76,19 @@ public class UserTransferCoinsUser implements Serializable {
         this.coinsAmount = coinsAmount;
     }
 
-    public User getBorrowerUser() {
+    public UserInfo getBorrowerUser() {
         return borrowerUser;
     }
 
-    public void setBorrowerUser(User user) {
+    public void setBorrowerUser(UserInfo user) {
         this.borrowerUser = user;
     }
 
-    public User getLenderUser() {
+    public UserInfo getLenderUser() {
         return lenderUser;
     }
 
-    public void setLenderUser(User lenderUser) {
+    public void setLenderUser(UserInfo lenderUser) {
         this.lenderUser = lenderUser;
     }
 
@@ -114,7 +114,7 @@ public class UserTransferCoinsUser implements Serializable {
 
     @Override
     public String toString() {
-        return "entitiy.UserTransferCoinsUser[ userTransferCoinsUserPK=" + userTransferCoinsUserPK + " ]";
+        return "com.haas.server.entity.UserTransferCoinsUser[ userTransferCoinsUserPK=" + userTransferCoinsUserPK + " ]";
     }
     
 }

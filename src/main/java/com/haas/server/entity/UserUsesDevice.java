@@ -3,7 +3,6 @@ package com.haas.server.entity;
 import com.haas.server.entity.key.UserUsesDevicePK;
 import java.io.Serializable;
 import java.util.Date;
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -14,7 +13,6 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -28,27 +26,22 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "UserUsesDevice.findAll", query = "SELECT u FROM UserUsesDevice u"),
     @NamedQuery(name = "UserUsesDevice.findByDeviceId", query = "SELECT u FROM UserUsesDevice u WHERE u.userUsesDevicePK.deviceId = :deviceId"),
     @NamedQuery(name = "UserUsesDevice.findByUserId", query = "SELECT u FROM UserUsesDevice u WHERE u.userUsesDevicePK.userId = :userId"),
-    @NamedQuery(name = "UserUsesDevice.findByStartUsingTimestamp", query = "SELECT u FROM UserUsesDevice u WHERE u.startUsingTimestamp = :startUsingTimestamp"),
+    @NamedQuery(name = "UserUsesDevice.findByStartUsingTimestamp", query = "SELECT u FROM UserUsesDevice u WHERE u.userUsesDevicePK.startUsingTimestamp = :startUsingTimestamp"),
     @NamedQuery(name = "UserUsesDevice.findByEndUsingTimestamp", query = "SELECT u FROM UserUsesDevice u WHERE u.endUsingTimestamp = :endUsingTimestamp")})
 public class UserUsesDevice implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected UserUsesDevicePK userUsesDevicePK;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "start_using_timestamp")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date startUsingTimestamp;
     @Column(name = "end_using_timestamp")
     @Temporal(TemporalType.TIMESTAMP)
     private Date endUsingTimestamp;
     @JoinColumn(name = "device_id", referencedColumnName = "device_id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
-    private Device device;
+    private DeviceInfo device;
     @JoinColumn(name = "user_id", referencedColumnName = "user_id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
-    private User user;
+    private UserInfo user;
 
     public UserUsesDevice() {
     }
@@ -57,13 +50,8 @@ public class UserUsesDevice implements Serializable {
         this.userUsesDevicePK = userUsesDevicePK;
     }
 
-    public UserUsesDevice(UserUsesDevicePK userUsesDevicePK, Date startUsingTimestamp) {
-        this.userUsesDevicePK = userUsesDevicePK;
-        this.startUsingTimestamp = startUsingTimestamp;
-    }
-
-    public UserUsesDevice(int deviceId, int userId) {
-        this.userUsesDevicePK = new UserUsesDevicePK(deviceId, userId);
+    public UserUsesDevice(int deviceId, int userId, Date startUsingTimestamp) {
+        this.userUsesDevicePK = new UserUsesDevicePK(deviceId, userId, startUsingTimestamp);
     }
 
     public UserUsesDevicePK getUserUsesDevicePK() {
@@ -74,14 +62,6 @@ public class UserUsesDevice implements Serializable {
         this.userUsesDevicePK = userUsesDevicePK;
     }
 
-    public Date getStartUsingTimestamp() {
-        return startUsingTimestamp;
-    }
-
-    public void setStartUsingTimestamp(Date startUsingTimestamp) {
-        this.startUsingTimestamp = startUsingTimestamp;
-    }
-
     public Date getEndUsingTimestamp() {
         return endUsingTimestamp;
     }
@@ -90,19 +70,19 @@ public class UserUsesDevice implements Serializable {
         this.endUsingTimestamp = endUsingTimestamp;
     }
 
-    public Device getDevice() {
+    public DeviceInfo getDevice() {
         return device;
     }
 
-    public void setDevice(Device device) {
+    public void setDevice(DeviceInfo device) {
         this.device = device;
     }
 
-    public User getUser() {
+    public UserInfo getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(UserInfo user) {
         this.user = user;
     }
 
@@ -128,7 +108,7 @@ public class UserUsesDevice implements Serializable {
 
     @Override
     public String toString() {
-        return "entitiy.UserUsesDevice[ userUsesDevicePK=" + userUsesDevicePK + " ]";
+        return "com.haas.server.entity.UserUsesDevice[ userUsesDevicePK=" + userUsesDevicePK + " ]";
     }
     
 }

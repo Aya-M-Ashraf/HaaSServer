@@ -1,11 +1,11 @@
 package com.haas.server.dao.interfaces;
 
 
-import com.haas.server.entity.User;
+import com.haas.server.entity.UserInfo;
 
 
-public interface UserDao extends GenericDAO<User, Integer> {
-    public User getUserByEmail(String email);
+public interface UserDao extends GenericDAO<UserInfo, Integer> {
+    public UserInfo getUserByEmail(String email);
 
-    public User getUserByPhone(String phone);
+    public UserInfo getUserByPhone(String phone);
 }

@@ -27,8 +27,8 @@ public class UserWS {
 
     @Autowired
     private DeviceService deviceServiceImpl;
-    
-     @Autowired
+
+    @Autowired
     private ConnectionService connectionServiceImpl;
 
     public UserWS() {
@@ -82,8 +82,8 @@ public class UserWS {
             result.setCode("viewProfile");
         }
         return result;
-    }   
-    
+    }
+
     @POST
     @Path("/updateProfile")
     @Produces(MediaType.APPLICATION_JSON)
@@ -167,6 +167,7 @@ public class UserWS {
     @Produces(MediaType.APPLICATION_JSON)
     public Result transferCoins(@QueryParam(Constants.COINS_TYPE) String coinsType, @QueryParam(Constants.COINS_COUNT) double coinsCount, @QueryParam(Constants.SENDER_EMAIL) String senderEmail, @QueryParam(Constants.RECEIVER_EMAIL) String receiverEmail) {
         Result result = new Result();
+        UserDTO receiverUser = userServiceImpl.getUserByEmail(receiverEmail);
         ArrayList resultArrayList = userServiceImpl.transferCoinsToUser(coinsType, coinsCount, senderEmail, receiverEmail);
         if (resultArrayList.size() > 0) {
             String message = (String) resultArrayList.get(0);
@@ -174,7 +175,11 @@ public class UserWS {
             result.setMsg(message);
             result.setSuccess(success);
             result.setCode("transfer");
-            result.setObj(new UserDTO());
+            if (success) {
+                result.setObj(receiverUser);
+            } else {
+                result.setObj(new UserDTO());
+            }
         }
         return result;
     }

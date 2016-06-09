@@ -86,7 +86,7 @@
                                                 <tr>
                                                     <td>${obj.device.deviceId}</td>
                                                     <td>${obj.device.serialNumber}</td>
-                                                    <td>${obj.startUsingTimestamp}</td>
+                                                    <td>${obj.userUsesDevicePK.startUsingTimestamp}</td>
                                                     <td>${obj.endUsingTimestamp}</td>
                                                     <td><span class="label label-success">Working</span></td>
                                                 </tr>

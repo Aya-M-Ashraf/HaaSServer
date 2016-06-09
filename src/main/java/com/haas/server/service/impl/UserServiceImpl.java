@@ -3,7 +3,7 @@ package com.haas.server.service.impl;
 import commons.dto.UserDTO;
 import com.haas.server.dao.interfaces.UserDao;
 import com.haas.server.dao.interfaces.UserTransferCoinsDAO;
-import com.haas.server.entity.User;
+import com.haas.server.entity.UserInfo;
 import com.haas.server.entity.UserTransferCoinsUser;
 import com.haas.server.entity.key.UserTransferCoinsUserPK;
 import java.util.ArrayList;
@@ -36,13 +36,13 @@ public class UserServiceImpl implements UserService {
     private static final int PASSWORD_LENGTH = 8;
 
     public UserServiceImpl() {
-
+        
     }
 
     @Override
     public boolean addUser(UserDTO userDto) {
         try {
-            User user = entityMapper.mapUserDtoToUser(userDto);
+            UserInfo user = entityMapper.mapUserDtoToUser(userDto);
             userDaoImpl.makePersistent(user);
             return true;
         } catch (Exception ex) {
@@ -53,7 +53,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO getUserByEmail(String email) {
-        User user = userDaoImpl.getUserByEmail(email);
+        UserInfo user = userDaoImpl.getUserByEmail(email);
         if (user == null) {
             return null;
         } else {
@@ -63,7 +63,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO getUserByPhone(String phone) {
-        User user = userDaoImpl.getUserByPhone(phone);
+        UserInfo user = userDaoImpl.getUserByPhone(phone);
         if (user == null) {
             return null;
         } else {
@@ -73,9 +73,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO updateUserPassword(String email, String phone) {
-        User user = userDaoImpl.getUserByEmail(email);
+        UserInfo user = userDaoImpl.getUserByEmail(email);
         if (user == null) {
-            System.out.println("No such user with this email "+email);
             return null;
         } else if (user.getPhone().equals(phone)) {
             try {
@@ -87,7 +86,6 @@ public class UserServiceImpl implements UserService {
                 return null;
             }
         } else {
-            System.out.println("Not Equal : Original Phone -> " + user.getPhone() + " Sent Phone -> " + phone);
             return null;
         }
     }
@@ -96,8 +94,8 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public ArrayList transferCoinsToUser(String coinsType, double coinsCount, String senderEmail, String receiverEmail) {
         ArrayList result = new ArrayList();
-        User lenderUser = userDaoImpl.getUserByEmail(senderEmail);
-        User borrowerUser = userDaoImpl.getUserByEmail(receiverEmail);
+        UserInfo lenderUser = userDaoImpl.getUserByEmail(senderEmail);
+        UserInfo borrowerUser = userDaoImpl.getUserByEmail(receiverEmail);
 
         //----------- if any of the users is null then the transaction can't be done--------------
         if (lenderUser != null && borrowerUser != null) {
@@ -150,24 +148,24 @@ public class UserServiceImpl implements UserService {
                     try {
                         borrowerUser.setSilverCoins(borrowerUser.getSilverCoins() + coinsCount);
                         lenderUser.setSilverCoins(lenderUser.getSilverCoins() - coinsCount);
-
+                        
                         //---------- update both sender and receiver users-------------------------
                         userDaoImpl.update(lenderUser);
                         userDaoImpl.update(borrowerUser);
-
+                        
                         //------------ Update table user_transfer_coins_user table -------------------------------
                         UserTransferCoinsUserPK userTransferCoinsUserPK = new UserTransferCoinsUserPK();
                         userTransferCoinsUserPK.setBorrowerUserId(borrowerUser.getUserId());
                         userTransferCoinsUserPK.setLenderUserId(lenderUser.getUserId());
                         userTransferCoinsUserPK.setTransactionTimestamp(new Date());
-
+                        
                         UserTransferCoinsUser userTransferCoinsUser = new UserTransferCoinsUser();
                         userTransferCoinsUser.setLenderUser(lenderUser);
                         userTransferCoinsUser.setBorrowerUser(borrowerUser);
                         userTransferCoinsUser.setUserTransferCoinsUserPK(userTransferCoinsUserPK);
                         userTransferCoinsUser.setCoinsAmount(coinsCount);
                         userTransferCoinsDAO.makePersistent(userTransferCoinsUser);
-
+                        
                         System.out.println("Successful coins transferring");
                         result.add("Successful coins transferring");
                         result.add(true);
@@ -222,7 +220,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean updateUser(UserDTO userDto) {
         try {
-            User user = entityMapper.mapUserDtoToUser(userDto);
+            UserInfo user = entityMapper.mapUserDtoToUser(userDto);
             userDaoImpl.update(user);
             return true;
         } catch (Exception ex) {
@@ -259,7 +257,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public int getUsersNumber() {
-
-        return 0;
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
