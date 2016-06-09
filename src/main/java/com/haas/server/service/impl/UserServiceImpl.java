@@ -3,7 +3,7 @@ package com.haas.server.service.impl;
 import commons.dto.UserDTO;
 import com.haas.server.dao.interfaces.UserDao;
 import com.haas.server.dao.interfaces.UserTransferCoinsDAO;
-import com.haas.server.entity.User;
+import com.haas.server.entity.UserInfo;
 import com.haas.server.entity.UserTransferCoinsUser;
 import com.haas.server.entity.key.UserTransferCoinsUserPK;
 import java.util.ArrayList;
@@ -42,7 +42,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean addUser(UserDTO userDto) {
         try {
-            User user = entityMapper.mapUserDtoToUser(userDto);
+            UserInfo user = entityMapper.mapUserDtoToUser(userDto);
             userDaoImpl.makePersistent(user);
             return true;
         } catch (Exception ex) {
@@ -53,7 +53,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO getUserByEmail(String email) {
-        User user = userDaoImpl.getUserByEmail(email);
+        UserInfo user = userDaoImpl.getUserByEmail(email);
         if (user == null) {
             return null;
         } else {
@@ -63,7 +63,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO getUserByPhone(String phone) {
-        User user = userDaoImpl.getUserByPhone(phone);
+        UserInfo user = userDaoImpl.getUserByPhone(phone);
         if (user == null) {
             return null;
         } else {
@@ -73,7 +73,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO updateUserPassword(String email, String phone) {
-        User user = userDaoImpl.getUserByEmail(email);
+        UserInfo user = userDaoImpl.getUserByEmail(email);
         if (user == null) {
             return null;
         } else if (user.getPhone().equals(phone)) {
@@ -94,8 +94,8 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public ArrayList transferCoinsToUser(String coinsType, double coinsCount, String senderEmail, String receiverEmail) {
         ArrayList result = new ArrayList();
-        User lenderUser = userDaoImpl.getUserByEmail(senderEmail);
-        User borrowerUser = userDaoImpl.getUserByEmail(receiverEmail);
+        UserInfo lenderUser = userDaoImpl.getUserByEmail(senderEmail);
+        UserInfo borrowerUser = userDaoImpl.getUserByEmail(receiverEmail);
 
         //----------- if any of the users is null then the transaction can't be done--------------
         if (lenderUser != null && borrowerUser != null) {
@@ -220,7 +220,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean updateUser(UserDTO userDto) {
         try {
-            User user = entityMapper.mapUserDtoToUser(userDto);
+            UserInfo user = entityMapper.mapUserDtoToUser(userDto);
             userDaoImpl.update(user);
             return true;
         } catch (Exception ex) {

@@ -17,26 +17,28 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
  *
  * @author Aya M. Ashraf
  */
 @Entity
-//@Table(name = "user_info")
-@Table(name = "user")
+@Table(name = "user_info")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u"),
-    @NamedQuery(name = "User.findByUserId", query = "SELECT u FROM User u WHERE u.userId = :userId"),
-    @NamedQuery(name = "User.findByEmail", query = "SELECT u FROM User u WHERE u.email = :email"),
-    @NamedQuery(name = "User.findByFirstName", query = "SELECT u FROM User u WHERE u.firstName = :firstName"),
-    @NamedQuery(name = "User.findByLastName", query = "SELECT u FROM User u WHERE u.lastName = :lastName"),
-    @NamedQuery(name = "User.findByPhone", query = "SELECT u FROM User u WHERE u.phone = :phone"),
-    @NamedQuery(name = "User.findByPassword", query = "SELECT u FROM User u WHERE u.password = :password"),
-    @NamedQuery(name = "User.findByGoldenCoins", query = "SELECT u FROM User u WHERE u.goldenCoins = :goldenCoins"),
-    @NamedQuery(name = "User.findBySilverCoins", query = "SELECT u FROM User u WHERE u.silverCoins = :silverCoins")})
-public class User implements Serializable {
+    @NamedQuery(name = "UserInfo.findAll", query = "SELECT u FROM UserInfo u"),
+    @NamedQuery(name = "UserInfo.findByUserId", query = "SELECT u FROM UserInfo u WHERE u.userId = :userId"),
+    @NamedQuery(name = "UserInfo.findByEmail", query = "SELECT u FROM UserInfo u WHERE u.email = :email"),
+    @NamedQuery(name = "UserInfo.findByFirstName", query = "SELECT u FROM UserInfo u WHERE u.firstName = :firstName"),
+    @NamedQuery(name = "UserInfo.findByLastName", query = "SELECT u FROM UserInfo u WHERE u.lastName = :lastName"),
+    @NamedQuery(name = "UserInfo.findByPhone", query = "SELECT u FROM UserInfo u WHERE u.phone = :phone"),
+    @NamedQuery(name = "UserInfo.findByPassword", query = "SELECT u FROM UserInfo u WHERE u.password = :password"),
+    @NamedQuery(name = "UserInfo.findByGoldenCoins", query = "SELECT u FROM UserInfo u WHERE u.goldenCoins = :goldenCoins"),
+    @NamedQuery(name = "UserInfo.findBySilverCoins", query = "SELECT u FROM UserInfo u WHERE u.silverCoins = :silverCoins"),
+    @NamedQuery(name = "UserInfo.findByGender", query = "SELECT u FROM UserInfo u WHERE u.gender = :gender"),
+    @NamedQuery(name = "UserInfo.findByCountry", query = "SELECT u FROM UserInfo u WHERE u.country = :country")})
+public class UserInfo implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -79,31 +81,30 @@ public class User implements Serializable {
     @NotNull
     @Column(name = "silver_coins")
     private double silverCoins;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "gender")
+    private int gender;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 45)
+    @Column(name = "country")
+    private String country;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userInfo")
     private Collection<UserUsesDevice> userUsesDeviceCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "lenderUser")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userInfo")
     private Collection<UserTransferCoinsUser> userTransferCoinsUserCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "borrowerUser")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userInfo1")
     private Collection<UserTransferCoinsUser> userTransferCoinsUserCollection1;
 
-    public User() {
+    public UserInfo() {
     }
 
-    public User(Integer userId) {
+    public UserInfo(Integer userId) {
         this.userId = userId;
     }
 
-    public User(String email, String firstName, String lastName, String phone, String password, double goldenCoins, double silverCoins) {
-        this.email = email;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.phone = phone;
-        this.password = password;
-        this.goldenCoins = goldenCoins;
-        this.silverCoins = silverCoins;
-    }
-
-    public User(Integer userId, String email, String firstName, String lastName, String phone, String password, double goldenCoins, double silverCoins) {
+    public UserInfo(Integer userId, String email, String firstName, String lastName, String phone, String password, double goldenCoins, double silverCoins, int gender, String country) {
         this.userId = userId;
         this.email = email;
         this.firstName = firstName;
@@ -112,6 +113,8 @@ public class User implements Serializable {
         this.password = password;
         this.goldenCoins = goldenCoins;
         this.silverCoins = silverCoins;
+        this.gender = gender;
+        this.country = country;
     }
 
     public Integer getUserId() {
@@ -178,7 +181,24 @@ public class User implements Serializable {
         this.silverCoins = silverCoins;
     }
 
+    public int getGender() {
+        return gender;
+    }
+
+    public void setGender(int gender) {
+        this.gender = gender;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
     @XmlTransient
+    @JsonIgnore
     public Collection<UserUsesDevice> getUserUsesDeviceCollection() {
         return userUsesDeviceCollection;
     }
@@ -188,6 +208,7 @@ public class User implements Serializable {
     }
 
     @XmlTransient
+    @JsonIgnore
     public Collection<UserTransferCoinsUser> getUserTransferCoinsUserCollection() {
         return userTransferCoinsUserCollection;
     }
@@ -197,6 +218,7 @@ public class User implements Serializable {
     }
 
     @XmlTransient
+    @JsonIgnore
     public Collection<UserTransferCoinsUser> getUserTransferCoinsUserCollection1() {
         return userTransferCoinsUserCollection1;
     }
@@ -215,10 +237,10 @@ public class User implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof User)) {
+        if (!(object instanceof UserInfo)) {
             return false;
         }
-        User other = (User) object;
+        UserInfo other = (UserInfo) object;
         if ((this.userId == null && other.userId != null) || (this.userId != null && !this.userId.equals(other.userId))) {
             return false;
         }
@@ -227,7 +249,7 @@ public class User implements Serializable {
 
     @Override
     public String toString() {
-        return "entitiy.User[ userId=" + userId + " ]";
+        return "com.haas.server.entity.UserInfo[ userId=" + userId + " ]";
     }
-
+    
 }

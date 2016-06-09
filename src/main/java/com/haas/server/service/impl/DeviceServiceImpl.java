@@ -5,10 +5,10 @@ import com.haas.server.dao.interfaces.DeviceDAO;
 import com.haas.server.dao.interfaces.DeviceOldSessionDevicesDAO;
 import com.haas.server.dao.interfaces.UserDao;
 import com.haas.server.dao.interfaces.UserUsesDevicesDAO;
-import com.haas.server.entity.Device;
+import com.haas.server.entity.DeviceInfo;
 import com.haas.server.entity.DeviceCurrentlyConnectedDevices;
 import com.haas.server.entity.DeviceOldSessionDevices;
-import com.haas.server.entity.User;
+import com.haas.server.entity.UserInfo;
 import com.haas.server.entity.UserUsesDevice;
 import com.haas.server.entity.key.DeviceCurrentlyConnectedDevicesPK;
 import com.haas.server.entity.key.DeviceOldSessionDevicesPK;
@@ -49,22 +49,22 @@ public class DeviceServiceImpl implements DeviceService {
     @Override
     public boolean linkDevice(String email, String serialNumber) {
         try {
-            Device device = deviceDAO.getDeviceBySerialNumber(serialNumber);
-            User user = userDAO.getUserByEmail(email);
+            DeviceInfo device = deviceDAO.getDeviceBySerialNumber(serialNumber);
+            UserInfo user = userDAO.getUserByEmail(email);
             if (user != null) {
                 if (device != null) {
                     //this means that the device is registered and needs only to be linked
                     System.out.println("this means that the device is registered and needs only to be linked");
-                    UserUsesDevice userUsesDevice = new UserUsesDevice(new UserUsesDevicePK(device.getDeviceId(), user.getUserId()), new Date());
+                    UserUsesDevice userUsesDevice = new UserUsesDevice(new UserUsesDevicePK(device.getDeviceId(), user.getUserId(), new Date()));
                     userUsesDevicesDAO.makePersistent(userUsesDevice);
                     return true;
                 } else {
                     //----------- No device is registered with this serial number
                     System.out.println("No device is registered with this serial number");
-                    Device registerDevice = new Device(serialNumber);
+                    DeviceInfo registerDevice = new DeviceInfo(serialNumber);
                     deviceDAO.makePersistent(registerDevice);
-                    Device addedDevice = deviceDAO.getDeviceBySerialNumber(serialNumber);
-                    UserUsesDevice userUsesDevice = new UserUsesDevice(new UserUsesDevicePK(addedDevice.getDeviceId(), user.getUserId()), new Date());
+                    DeviceInfo addedDevice = deviceDAO.getDeviceBySerialNumber(serialNumber);
+                    UserUsesDevice userUsesDevice = new UserUsesDevice(new UserUsesDevicePK(addedDevice.getDeviceId(), user.getUserId(), new Date()));
                     userUsesDevicesDAO.makePersistent(userUsesDevice);
                     return true;
                 }
@@ -86,9 +86,9 @@ public class DeviceServiceImpl implements DeviceService {
         try {
             DeviceCurrentlyConnectedDevices deviceCurrentlyConnectedDevices = null;
             DeviceOldSessionDevices deviceOldSessionDevices;
-            Device hostDevice = deviceDAO.getDeviceBySerialNumber(hostSerial);
-            Device guestDevice = deviceDAO.getDeviceBySerialNumber(geustSerial);
-            User user = userDAO.getUserByEmail(guestEmail);;
+            DeviceInfo hostDevice = deviceDAO.getDeviceBySerialNumber(hostSerial);
+            DeviceInfo guestDevice = deviceDAO.getDeviceBySerialNumber(geustSerial);
+            UserInfo user = userDAO.getUserByEmail(guestEmail);;
             boolean success = false;
 
             if (hostDevice != null && guestDevice != null && user != null) {
@@ -172,7 +172,7 @@ public class DeviceServiceImpl implements DeviceService {
 
         System.out.println("@@@@@@@ Inside coins of host @@@@@@");
         boolean success = false;
-        User user;
+        UserInfo user;
 
         user = userDAO.getUserByEmail(hostEmail);
         if (user == null) {

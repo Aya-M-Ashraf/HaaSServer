@@ -45,10 +45,10 @@ public class DeviceOldSessionDevices implements Serializable {
     private double consumedMb;
     @JoinColumn(name = "guest_device_id", referencedColumnName = "device_id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
-    private Device device;
+    private DeviceInfo device;
     @JoinColumn(name = "host_device_id", referencedColumnName = "device_id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
-    private Device device1;
+    private DeviceInfo device1;
 
     public DeviceOldSessionDevices() {
     }
@@ -96,19 +96,19 @@ public class DeviceOldSessionDevices implements Serializable {
         this.consumedMb = consumedMb;
     }
 
-    public Device getDevice() {
+    public DeviceInfo getDevice() {
         return device;
     }
 
-    public void setDevice(Device device) {
+    public void setDevice(DeviceInfo device) {
         this.device = device;
     }
 
-    public Device getDevice1() {
+    public DeviceInfo getDevice1() {
         return device1;
     }
 
-    public void setDevice1(Device device1) {
+    public void setDevice1(DeviceInfo device1) {
         this.device1 = device1;
     }
 
@@ -134,7 +134,7 @@ public class DeviceOldSessionDevices implements Serializable {
 
     @Override
     public String toString() {
-        return "entitiy.DeviceOldSessionDevices[ deviceOldSessionDevicesPK=" + deviceOldSessionDevicesPK + " ]";
+        return "com.haas.server.entity.DeviceOldSessionDevices[ deviceOldSessionDevicesPK=" + deviceOldSessionDevicesPK + " ]";
     }
     
 }

@@ -17,20 +17,20 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
  *
  * @author Aya M. Ashraf
  */
 @Entity
-//@Table(name = "device_info")
-@Table(name = "device")
+@Table(name = "device_info")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Device.findAll", query = "SELECT d FROM Device d"),
-    @NamedQuery(name = "Device.findByDeviceId", query = "SELECT d FROM Device d WHERE d.deviceId = :deviceId"),
-    @NamedQuery(name = "Device.findBySerialNumber", query = "SELECT d FROM Device d WHERE d.serialNumber = :serialNumber")})
-public class Device implements Serializable {
+    @NamedQuery(name = "DeviceInfo.findAll", query = "SELECT d FROM DeviceInfo d"),
+    @NamedQuery(name = "DeviceInfo.findByDeviceId", query = "SELECT d FROM DeviceInfo d WHERE d.deviceId = :deviceId"),
+    @NamedQuery(name = "DeviceInfo.findBySerialNumber", query = "SELECT d FROM DeviceInfo d WHERE d.serialNumber = :serialNumber")})
+public class DeviceInfo implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -50,18 +50,18 @@ public class Device implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "device1")
     private Collection<DeviceOldSessionDevices> deviceOldSessionDevicesCollection1;
 
-    public Device() {
+    public DeviceInfo() {
     }
 
-    public Device(Integer deviceId) {
+    public DeviceInfo(Integer deviceId) {
         this.deviceId = deviceId;
     }
 
-    public Device(String serialNumber) {
+    public DeviceInfo(String serialNumber) {
         this.serialNumber = serialNumber;
     }
     
-    public Device(Integer deviceId, String serialNumber) {
+    public DeviceInfo(Integer deviceId, String serialNumber) {
         this.deviceId = deviceId;
         this.serialNumber = serialNumber;
     }
@@ -83,6 +83,7 @@ public class Device implements Serializable {
     }
 
     @XmlTransient
+    @JsonIgnore
     public Collection<UserUsesDevice> getUserUsesDeviceCollection() {
         return userUsesDeviceCollection;
     }
@@ -92,6 +93,7 @@ public class Device implements Serializable {
     }
 
     @XmlTransient
+    @JsonIgnore
     public Collection<DeviceOldSessionDevices> getDeviceOldSessionDevicesCollection() {
         return deviceOldSessionDevicesCollection;
     }
@@ -101,6 +103,7 @@ public class Device implements Serializable {
     }
 
     @XmlTransient
+    @JsonIgnore
     public Collection<DeviceOldSessionDevices> getDeviceOldSessionDevicesCollection1() {
         return deviceOldSessionDevicesCollection1;
     }
@@ -119,10 +122,10 @@ public class Device implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Device)) {
+        if (!(object instanceof DeviceInfo)) {
             return false;
         }
-        Device other = (Device) object;
+        DeviceInfo other = (DeviceInfo) object;
         if ((this.deviceId == null && other.deviceId != null) || (this.deviceId != null && !this.deviceId.equals(other.deviceId))) {
             return false;
         }
@@ -131,7 +134,7 @@ public class Device implements Serializable {
 
     @Override
     public String toString() {
-        return "entitiy.Device[ deviceId=" + deviceId + " ]";
+        return "com.haas.server.entity.DeviceInfo[ deviceId=" + deviceId + " ]";
     }
     
 }

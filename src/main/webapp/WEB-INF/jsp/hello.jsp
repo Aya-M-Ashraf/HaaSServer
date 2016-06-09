@@ -11,15 +11,8 @@
         <div class="content-wrapper">
             <!-- Content Header (Page header) -->
             <section class="content-header">
-                <h1>
-                    Hello Page
-                    <small>Optional description</small>
-                    <br>
-                  
-                </h1>
-   
-            </section><!-- /.content header -->
-
+                <h1>Hello Page<small>Optional description</small><br></h1>
+              </section><!-- /.content header -->
             <!-- Main content -->
             <section class="content">
 

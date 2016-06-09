@@ -120,7 +120,7 @@ public class DeviceCurrentlyConnectedDevices implements Serializable {
 
     @Override
     public String toString() {
-        return "entitiy.DeviceCurrentlyConnectedDevices[ deviceCurrentlyConnectedDevicesPK=" + deviceCurrentlyConnectedDevicesPK + " ]";
+        return "com.haas.server.entity.DeviceCurrentlyConnectedDevices[ deviceCurrentlyConnectedDevicesPK=" + deviceCurrentlyConnectedDevicesPK + " ]";
     }
     
 }

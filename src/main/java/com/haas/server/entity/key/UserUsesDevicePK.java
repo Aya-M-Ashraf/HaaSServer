@@ -1,14 +1,12 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.haas.server.entity.key;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -26,13 +24,19 @@ public class UserUsesDevicePK implements Serializable {
     @NotNull
     @Column(name = "user_id")
     private int userId;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "start_using_timestamp")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date startUsingTimestamp;
 
     public UserUsesDevicePK() {
     }
 
-    public UserUsesDevicePK(int deviceId, int userId) {
+    public UserUsesDevicePK(int deviceId, int userId, Date startUsingTimestamp) {
         this.deviceId = deviceId;
         this.userId = userId;
+        this.startUsingTimestamp = startUsingTimestamp;
     }
 
     public int getDeviceId() {
@@ -51,11 +55,20 @@ public class UserUsesDevicePK implements Serializable {
         this.userId = userId;
     }
 
+    public Date getStartUsingTimestamp() {
+        return startUsingTimestamp;
+    }
+
+    public void setStartUsingTimestamp(Date startUsingTimestamp) {
+        this.startUsingTimestamp = startUsingTimestamp;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
         hash += (int) deviceId;
         hash += (int) userId;
+        hash += (startUsingTimestamp != null ? startUsingTimestamp.hashCode() : 0);
         return hash;
     }
 
@@ -72,12 +85,15 @@ public class UserUsesDevicePK implements Serializable {
         if (this.userId != other.userId) {
             return false;
         }
+        if ((this.startUsingTimestamp == null && other.startUsingTimestamp != null) || (this.startUsingTimestamp != null && !this.startUsingTimestamp.equals(other.startUsingTimestamp))) {
+            return false;
+        }
         return true;
     }
 
     @Override
     public String toString() {
-        return "entitiy.UserUsesDevicePK[ deviceId=" + deviceId + ", userId=" + userId + " ]";
+        return "com.haas.server.entity.UserUsesDevicePK[ deviceId=" + deviceId + ", userId=" + userId + ", startUsingTimestamp=" + startUsingTimestamp + " ]";
     }
     
 }

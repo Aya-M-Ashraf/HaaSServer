@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.haas.server.entity.key;
 
 import java.io.Serializable;
@@ -98,7 +93,7 @@ public class UserTransferCoinsUserPK implements Serializable {
 
     @Override
     public String toString() {
-        return "entitiy.UserTransferCoinsUserPK[ borrowerUserId=" + borrowerUserId + ", lenderUserId=" + lenderUserId + ", transactionTimestamp=" + transactionTimestamp + " ]";
+        return "com.haas.server.entity.UserTransferCoinsUserPK[ borrowerUserId=" + borrowerUserId + ", lenderUserId=" + lenderUserId + ", transactionTimestamp=" + transactionTimestamp + " ]";
     }
     
 }

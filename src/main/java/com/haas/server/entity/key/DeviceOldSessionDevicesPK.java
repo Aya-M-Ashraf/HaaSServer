@@ -93,7 +93,7 @@ public class DeviceOldSessionDevicesPK implements Serializable {
 
     @Override
     public String toString() {
-        return "entitiy.DeviceOldSessionDevicesPK[ hostDeviceId=" + hostDeviceId + ", guestDeviceId=" + guestDeviceId + ", startTimestamp=" + startTimestamp + " ]";
+        return "com.haas.server.entity.DeviceOldSessionDevicesPK[ hostDeviceId=" + hostDeviceId + ", guestDeviceId=" + guestDeviceId + ", startTimestamp=" + startTimestamp + " ]";
     }
     
 }
