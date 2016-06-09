@@ -254,4 +254,9 @@ public class UserServiceImpl implements UserService {
             return false;
         }
     }
+
+    @Override
+    public int getUsersNumber() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

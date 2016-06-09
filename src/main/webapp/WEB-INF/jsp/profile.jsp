@@ -55,7 +55,7 @@
                                 <hr>
 
                                 <strong><i class="fa fa-phone margin-r-5"></i>Phone</strong>
-                                <p class="text-muted"> ${user.phone}</p>
+                                <p class="text-muted"> ${sessionScope.loggedUser.phone}</p>
 
                                 <hr>
 

@@ -90,11 +90,11 @@ public class UserInfo implements Serializable {
     @Size(min = 1, max = 45)
     @Column(name = "country")
     private String country;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userInfo")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private Collection<UserUsesDevice> userUsesDeviceCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userInfo")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "borrowerUser")
     private Collection<UserTransferCoinsUser> userTransferCoinsUserCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userInfo1")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "lenderUser")
     private Collection<UserTransferCoinsUser> userTransferCoinsUserCollection1;
 
     public UserInfo() {
