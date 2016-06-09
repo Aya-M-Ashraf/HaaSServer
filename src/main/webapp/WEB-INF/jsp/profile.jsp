@@ -50,7 +50,7 @@
                             <div class="box-body">
 
                                 <strong><i class="fa fa-map-marker margin-r-5"></i> Location</strong>
-                                <p class="text-muted">Malibu, California</p>
+                                <p class="text-muted">${sessionScope.loggedUser.country}</p>
 
                                 <hr>
 

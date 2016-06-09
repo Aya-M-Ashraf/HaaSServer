@@ -39,6 +39,8 @@ public class EditProfileController {
         UserDTO userModefied = (UserDTO) user;
         userModefied.setUserId(userOrigin.getUserId());
         userModefied.setEmail(userOrigin.getEmail());
+        userModefied.setGender(userOrigin.getGender());
+        userModefied.setCountry(userOrigin.getCountry());
         userModefied.setSilverCoins(userOrigin.getSilverCoins());
         userModefied.setGoldenCoins(userOrigin.getGoldenCoins());
         userServiceImpl.updateUser(userModefied);
