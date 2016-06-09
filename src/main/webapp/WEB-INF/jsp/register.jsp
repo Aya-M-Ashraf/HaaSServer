@@ -53,16 +53,24 @@
                         <form:input path="password" cssClass="form-control" alt="First Name"/>
                         <span class="glyphicon glyphicon-lock form-control-feedback"></span>
                     </div>
-<!--                    <div class="form-group has-feedback">
-                        <input type="password" class="form-control" placeholder="Retype password">
+                    <div class="form-group has-feedback">
+                        <form:select path="gender" cssClass="form-control" >
+                            <form:option value="0" label="Male"/>
+                            <form:option value="1" label="Female"/>
+                        </form:select>
                         <span class="glyphicon glyphicon-lock form-control-feedback"></span>
-                    </div>-->
+                    </div>
+                    <div class="form-group has-feedback">
+                        <form:input path="country" cssClass="form-control" />
+                        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                    </div>
+
                     <div class="row">
                         <div class="col-xs-4">
                             <button type="submit" class="btn btn-primary btn-block btn-flat">Register</button>
                         </div><!-- /.col -->
                     </div>
-              </form:form>
+                </form:form>
                 <a href="login.htm" class="text-center">I already have a membership</a>
             </div><!-- /.form-box -->
         </div><!-- /.register-box -->

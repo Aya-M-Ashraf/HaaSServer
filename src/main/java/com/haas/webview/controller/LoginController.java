@@ -30,7 +30,7 @@ public class LoginController {
     }
 
     @RequestMapping(value = "/showProfile", method = RequestMethod.POST)
-    public ModelAndView onSubmit(@ModelAttribute("user") UserDTO user, BindingResult result, RedirectAttributes redirect, HttpServletRequest request) {
+    public ModelAndView onSubmit(@ModelAttribute("user") UserDTO user, BindingResult result,HttpServletRequest request) {
 
         UserDTO userDTO = userServiceImpl.getUserByEmail(user.getEmail());
         if (user == null) {

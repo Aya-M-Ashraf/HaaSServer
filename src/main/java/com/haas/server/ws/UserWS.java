@@ -37,7 +37,7 @@ public class UserWS {
     @POST
     @Path("/register")
     @Produces(MediaType.APPLICATION_JSON)
-    public Result register(@FormParam(Constants.EMAIL) String email, @FormParam(Constants.F_NAME) String fName, @FormParam(Constants.L_NAME) String lName, @FormParam(Constants.PHONE) String phone, @FormParam(Constants.PASSWORD) String password) {
+    public Result register(@FormParam(Constants.EMAIL) String email, @FormParam(Constants.F_NAME) String fName, @FormParam(Constants.L_NAME) String lName, @FormParam(Constants.PHONE) String phone, @FormParam(Constants.PASSWORD) String password, @FormParam(Constants.GENDER)int gender, @FormParam(Constants.COUNTRY) String country) {
 
         Result result = new Result();
         UserDTO userDto = new UserDTO();
@@ -46,6 +46,8 @@ public class UserWS {
         userDto.setLastName(lName);
         userDto.setPhone(phone);
         userDto.setPassword(password);
+        userDto.setCountry(country);
+        userDto.setGender(gender);
         userDto.setGoldenCoins(100);
         userDto.setSilverCoins(100);
         ArrayList<Object> resultList = userServiceImpl.registerUser(userDto);

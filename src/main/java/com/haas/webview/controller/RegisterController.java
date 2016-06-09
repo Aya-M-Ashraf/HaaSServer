@@ -2,6 +2,7 @@ package com.haas.webview.controller;
 
 import com.haas.server.service.interfaces.UserService;
 import commons.dto.UserDTO;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -28,11 +29,12 @@ public class RegisterController {
     }    
     
     @RequestMapping(value = "/addUser", method = RequestMethod.POST)    
-    protected ModelAndView onSubmit(@ModelAttribute("user") UserDTO user, BindingResult result) throws Exception {
+    protected ModelAndView onSubmit(@ModelAttribute("user") UserDTO user,HttpServletRequest request , BindingResult result) throws Exception {
         UserDTO userDTO = (UserDTO) user;
         userDTO.setSilverCoins(100);
         userDTO.setGoldenCoins(100);
         userServiceImpl.addUser(userDTO);
+         request.getSession().setAttribute("loggedUser", userDTO);
         return new ModelAndView("profile", "user", user);
     }
 }

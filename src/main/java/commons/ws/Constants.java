@@ -38,5 +38,8 @@ public class Constants {
     public static final String DEVICE_DTO = "deviceDTO";
 
     public static final String OLD_PASSWORD = "oldPassword";
+    
+    public static final String COUNTRY ="country";
+    public static final String GENDER ="gender";
 
 }
