@@ -17,7 +17,7 @@ public class DeviceDAOImpl extends GenericHibernateDAO<DeviceInfo, Integer> impl
 
     @Override
     public DeviceInfo getDeviceBySerialNumber(String serialNumber) {
-        Query query = getSession().createQuery("from Device where serial_number= :serialNumber");
+        Query query = getSession().createQuery("from DeviceInfo where serial_number= :serialNumber");
         query.setParameter("serialNumber", serialNumber);
         DeviceInfo device = (DeviceInfo) query.uniqueResult();
         return device;
