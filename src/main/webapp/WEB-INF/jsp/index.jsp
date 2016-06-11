@@ -23,5 +23,6 @@
         <a href="transferCoins.htm">Transfer Coins</a> | 
         <a href="login.htm">Login</a> |
         <a href="editProfile.htm">Edit Profile</a> |
+        <a href="forgotPassword.htm">Forgot Password</a> 
     </body>
 </html>
