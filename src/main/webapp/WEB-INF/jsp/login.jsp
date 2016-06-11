@@ -42,12 +42,12 @@
                 <form:form method="POST" action="showProfile.htm" modelAttribute="user">
 
                     <div class="form-group has-feedback">
-                        <form:input path="email" cssClass="form-control" alt="email"  placeholder= "Enter Your Email" />
+                        <form:input path="email" cssClass="form-control"   placeholder= "Enter Your Email" />
                         <span class="glyphicon glyphicon-user form-control-feedback"></span>
                     </div>
 
                     <div class="form-group has-feedback">
-                        <form:password path="password" cssClass="form-control"  alt="password" placeholder= "Enter Your Password" />
+                        <form:password path="password" cssClass="form-control"   placeholder= "Enter Your Password" />
                         <span class="glyphicon glyphicon-lock form-control-feedback"></span>
                     </div>
 

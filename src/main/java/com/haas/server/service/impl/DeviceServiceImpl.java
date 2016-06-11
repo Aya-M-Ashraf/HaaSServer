@@ -116,8 +116,7 @@ public class DeviceServiceImpl implements DeviceService {
                             deviceCurrentlyConnectedDevices.setConsumedMb(consumedMB);
                             deviceCurrentlyConnectedDevices.setUpdateVer(updatedVersion);
                             deviceCurrentlyConnectedDevices.setStartTimestamp(new Date(timeStamp));
-                            DeviceCurrentlyConnectedDevices newOne = deviceCurrentlyConnectedDevicesDAO.update(deviceCurrentlyConnectedDevices);
-
+                         
                             deviceOldSessionDevices = new DeviceOldSessionDevices(new DeviceOldSessionDevicesPK(hostDevice.getDeviceId(), guestDevice.getDeviceId(), deviceCurrentlyConnectedDevices.getStartTimestamp()), new Date(timeStamp), consumedMB);
                             deviceOldSessionDevicesDAO.makePersistent(deviceOldSessionDevices);
 
@@ -141,7 +140,7 @@ public class DeviceServiceImpl implements DeviceService {
                         deviceOldSessionDevices.setConsumedMb(consumedMB);
                         deviceOldSessionDevices.setEndTimestamp(new Date(timeStamp));
                         deviceOldSessionDevices = deviceOldSessionDevicesDAO.update(deviceOldSessionDevices);
-
+                        
                         user.setSilverCoins(silverCoins);
                         user.setGoldenCoins(goldenCoins);
                         userDAO.update(user);
@@ -160,7 +159,7 @@ public class DeviceServiceImpl implements DeviceService {
                         deviceOldSessionDevices.setEndTimestamp(new Date(timeStamp));
                         deviceOldSessionDevicesDAO.update(deviceOldSessionDevices);
                         deviceCurrentlyConnectedDevicesDAO.makeTransient(deviceCurrentlyConnectedDevices);
-
+                        
                         user.setSilverCoins(silverCoins);
                         user.setGoldenCoins(goldenCoins);
                         userDAO.update(user);

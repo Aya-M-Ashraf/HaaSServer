@@ -29,28 +29,31 @@
 
 
             <div class="register-box-body">
-                <p class="login-box-msg">Register a new membership</p>
+                <b><p class="login-box-msg">Register a new membership</p></b>
                 <form:form method="POST" action="addUser.htm" modelAttribute="user">
 
                     <div class="form-group has-feedback">
-                        <form:input path="firstName" cssClass="form-control" alt="First Name"/>
+                        <form:input path="firstName" cssClass="form-control" placeholder= "Enter Your First Name" />
                         <span class="glyphicon glyphicon-user form-control-feedback"></span>
                     </div>
 
                     <div class="form-group has-feedback">
-                        <form:input path="lastName" cssClass="form-control" alt="First Name"/>
+                        <form:input path="lastName" cssClass="form-control" placeholder= "Enter Your Last Name" />
                         <span class="glyphicon glyphicon-user form-control-feedback"></span>
                     </div>
+
                     <div class="form-group has-feedback">
-                        <form:input path="email" cssClass="form-control" alt="First Name"/>
+                        <form:input path="email" cssClass="form-control" placeholder= "Enter Your E-mail Address" />
                         <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
                     </div>
+
                     <div class="form-group has-feedback">
-                        <form:input path="phone" cssClass="form-control" alt="First Name"/>
+                        <form:input path="phone" cssClass="form-control"  placeholder= "Enter Your Phone Number" />
                         <span class="glyphicon glyphicon-phone form-control-feedback"></span>
                     </div>
+
                     <div class="form-group has-feedback">
-                        <form:input path="password" cssClass="form-control" alt="First Name"/>
+                        <form:password path="password" cssClass="form-control" placeholder= "Enter Your Password" />
                         <span class="glyphicon glyphicon-lock form-control-feedback"></span>
                     </div>
                     <div class="form-group has-feedback">
@@ -58,20 +61,21 @@
                             <form:option value="0" label="Male"/>
                             <form:option value="1" label="Female"/>
                         </form:select>
-                        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
                     </div>
                     <div class="form-group has-feedback">
-                        <form:input path="country" cssClass="form-control" />
-                        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                        <form:input path="country" cssClass="form-control" placeholder="Enter Your Country"/>
+                        <span class="glyphicon glyphicon-map-marker form-control-feedback"></span>
                     </div>
 
                     <div class="row">
                         <div class="col-xs-4">
                             <button type="submit" class="btn btn-primary btn-block btn-flat">Register</button>
                         </div><!-- /.col -->
+
                     </div>
                 </form:form>
-                <a href="login.htm" class="text-center">I already have a membership</a>
+                <br>
+                <b><a href="login.htm" class="text-center">I already have a membership</a></b>
             </div><!-- /.form-box -->
         </div><!-- /.register-box -->
 
