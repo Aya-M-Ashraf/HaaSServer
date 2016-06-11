@@ -87,8 +87,11 @@ public class DeviceServiceImpl implements DeviceService {
             DeviceCurrentlyConnectedDevices deviceCurrentlyConnectedDevices = null;
             DeviceOldSessionDevices deviceOldSessionDevices;
             DeviceInfo hostDevice = deviceDAO.getDeviceBySerialNumber(hostSerial);
+            System.out.println("++++++ host device is retrieved ");
             DeviceInfo guestDevice = deviceDAO.getDeviceBySerialNumber(geustSerial);
-            UserInfo user = userDAO.getUserByEmail(guestEmail);;
+             System.out.println("++++++ guest device is retrieved ");
+            UserInfo user = userDAO.getUserByEmail(guestEmail);
+             System.out.println("++++++ user is retrieved ");
             boolean success = false;
 
             if (hostDevice != null && guestDevice != null && user != null) {
@@ -96,21 +99,33 @@ public class DeviceServiceImpl implements DeviceService {
                 switch (keepAliveStatus) {
 
                     case Constants.INIT_STATUS: {
-                        System.out.println("**** inside keep alive WS - INIT ");
-                        System.out.println("EMAILLLLLL          " + guestEmail);
-                        System.out.println("Date : " + new Date(timeStamp));
+                         System.out.println("**** inside keep alive WS - INIT      /     EMAILLLLLL          " + guestEmail + "      Date :  " + new Date(timeStamp));
+                        if (deviceCurrentlyConnectedDevicesDAO.findById(new DeviceCurrentlyConnectedDevicesPK(hostDevice.getDeviceId(), guestDevice.getDeviceId())) == null) {
+                            deviceCurrentlyConnectedDevices = new DeviceCurrentlyConnectedDevices(new DeviceCurrentlyConnectedDevicesPK(hostDevice.getDeviceId(), guestDevice.getDeviceId()), new Date(timeStamp), updatedVersion, consumedMB);
+                            deviceCurrentlyConnectedDevicesDAO.makePersistent(deviceCurrentlyConnectedDevices);
 
-                        deviceCurrentlyConnectedDevices = new DeviceCurrentlyConnectedDevices(new DeviceCurrentlyConnectedDevicesPK(hostDevice.getDeviceId(), guestDevice.getDeviceId()), new Date(timeStamp), updatedVersion, consumedMB);
-                        deviceCurrentlyConnectedDevicesDAO.makePersistent(deviceCurrentlyConnectedDevices);
-                        // new in oldSession to keep track with each request
-                        deviceOldSessionDevices = new DeviceOldSessionDevices(new DeviceOldSessionDevicesPK(hostDevice.getDeviceId(), guestDevice.getDeviceId(), deviceCurrentlyConnectedDevices.getStartTimestamp()), new Date(timeStamp), consumedMB);
-                        deviceOldSessionDevicesDAO.makePersistent(deviceOldSessionDevices);
+                            deviceOldSessionDevices = new DeviceOldSessionDevices(new DeviceOldSessionDevicesPK(hostDevice.getDeviceId(), guestDevice.getDeviceId(), deviceCurrentlyConnectedDevices.getStartTimestamp()), new Date(timeStamp), consumedMB);
+                            deviceOldSessionDevicesDAO.makePersistent(deviceOldSessionDevices);
 
-                        user.setSilverCoins(silverCoins);
-                        user.setGoldenCoins(goldenCoins);
-                        userDAO.update(user);
+                            user.setSilverCoins(silverCoins);
+                            user.setGoldenCoins(goldenCoins);
+                            userDAO.update(user);
+                            success = true;
+                        } else {
+                            deviceCurrentlyConnectedDevices = deviceCurrentlyConnectedDevicesDAO.findById(new DeviceCurrentlyConnectedDevicesPK(hostDevice.getDeviceId(), guestDevice.getDeviceId()));
+                            deviceCurrentlyConnectedDevices.setConsumedMb(consumedMB);
+                            deviceCurrentlyConnectedDevices.setUpdateVer(updatedVersion);
+                            deviceCurrentlyConnectedDevices.setStartTimestamp(new Date(timeStamp));
+                            DeviceCurrentlyConnectedDevices newOne = deviceCurrentlyConnectedDevicesDAO.update(deviceCurrentlyConnectedDevices);
 
-                        success = true;
+                            deviceOldSessionDevices = new DeviceOldSessionDevices(new DeviceOldSessionDevicesPK(hostDevice.getDeviceId(), guestDevice.getDeviceId(), deviceCurrentlyConnectedDevices.getStartTimestamp()), new Date(timeStamp), consumedMB);
+                            deviceOldSessionDevicesDAO.makePersistent(deviceOldSessionDevices);
+
+                            user.setSilverCoins(silverCoins);
+                            user.setGoldenCoins(goldenCoins);
+                            userDAO.update(user);
+                            success = true;
+                        }
                     }
                     break;
 
@@ -122,7 +137,6 @@ public class DeviceServiceImpl implements DeviceService {
                         System.out.println("**** inside keep alive WS - RUN ");
                         System.out.println("Date : " + new Date(timeStamp));
 
-                        // new in oldSession to keep track with each request
                         deviceOldSessionDevices = deviceOldSessionDevicesDAO.findById(new DeviceOldSessionDevicesPK(hostDevice.getDeviceId(), guestDevice.getDeviceId(), deviceCurrentlyConnectedDevices.getStartTimestamp()));
                         deviceOldSessionDevices.setConsumedMb(consumedMB);
                         deviceOldSessionDevices.setEndTimestamp(new Date(timeStamp));
@@ -140,6 +154,7 @@ public class DeviceServiceImpl implements DeviceService {
                         System.out.println("**** inside keep alive WS - END ");
                         System.out.println("Date : " + new Date(timeStamp));
                         deviceCurrentlyConnectedDevices = deviceCurrentlyConnectedDevicesDAO.findById(new DeviceCurrentlyConnectedDevicesPK(hostDevice.getDeviceId(), guestDevice.getDeviceId()));
+
                         deviceOldSessionDevices = deviceOldSessionDevicesDAO.findById(new DeviceOldSessionDevicesPK(hostDevice.getDeviceId(), guestDevice.getDeviceId(), deviceCurrentlyConnectedDevices.getStartTimestamp()));
                         deviceOldSessionDevices.setConsumedMb(consumedMB);
                         deviceOldSessionDevices.setEndTimestamp(new Date(timeStamp));
@@ -149,11 +164,9 @@ public class DeviceServiceImpl implements DeviceService {
                         user.setSilverCoins(silverCoins);
                         user.setGoldenCoins(goldenCoins);
                         userDAO.update(user);
-
                         success = true;
                     }
                     break;
-
                     default:
                         success = false;
                 }

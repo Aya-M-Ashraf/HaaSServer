@@ -38,7 +38,7 @@ public class TransferCoinsController {
         if (resultArrayList.size() > 0) {
             message = (String) resultArrayList.get(0);
         }
-        return new ModelAndView("hello", "message", message);
+        return new ModelAndView("transferCoins", "message", message);
     }
 
 }

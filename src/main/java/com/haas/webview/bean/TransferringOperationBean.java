@@ -4,6 +4,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Email;
 
+
 /**
  *
  * @author Aya M. Ashraf
@@ -13,6 +14,7 @@ public class TransferringOperationBean {
     private String coinsType;
     @Min(value = 1, message = "This value can't be 0")
     private double coinsCount;
+    @Email
     private String senderMail;
     @NotNull(message = "This field can't be null")
     @Email

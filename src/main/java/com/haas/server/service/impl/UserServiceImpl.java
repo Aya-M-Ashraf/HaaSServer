@@ -36,18 +36,17 @@ public class UserServiceImpl implements UserService {
     private static final int PASSWORD_LENGTH = 8;
 
     public UserServiceImpl() {
-        
+
     }
 
-    @Override
-    public boolean addUser(UserDTO userDto) {
+    public UserDTO addUser(UserDTO userDto) {
         try {
             UserInfo user = entityMapper.mapUserDtoToUser(userDto);
-            userDaoImpl.makePersistent(user);
-            return true;
+            user = userDaoImpl.makePersistent(user);
+            return entityMapper.mapUserToUserDto(user);
         } catch (Exception ex) {
             Logger.getLogger(UserServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-            return false;
+            return null;
         }
     }
 
@@ -148,24 +147,24 @@ public class UserServiceImpl implements UserService {
                     try {
                         borrowerUser.setSilverCoins(borrowerUser.getSilverCoins() + coinsCount);
                         lenderUser.setSilverCoins(lenderUser.getSilverCoins() - coinsCount);
-                        
+
                         //---------- update both sender and receiver users-------------------------
                         userDaoImpl.update(lenderUser);
                         userDaoImpl.update(borrowerUser);
-                        
+
                         //------------ Update table user_transfer_coins_user table -------------------------------
                         UserTransferCoinsUserPK userTransferCoinsUserPK = new UserTransferCoinsUserPK();
                         userTransferCoinsUserPK.setBorrowerUserId(borrowerUser.getUserId());
                         userTransferCoinsUserPK.setLenderUserId(lenderUser.getUserId());
                         userTransferCoinsUserPK.setTransactionTimestamp(new Date());
-                        
+
                         UserTransferCoinsUser userTransferCoinsUser = new UserTransferCoinsUser();
                         userTransferCoinsUser.setLenderUser(lenderUser);
                         userTransferCoinsUser.setBorrowerUser(borrowerUser);
                         userTransferCoinsUser.setUserTransferCoinsUserPK(userTransferCoinsUserPK);
                         userTransferCoinsUser.setCoinsAmount(coinsCount);
                         userTransferCoinsDAO.makePersistent(userTransferCoinsUser);
-                        
+
                         System.out.println("Successful coins transferring");
                         result.add("Successful coins transferring");
                         result.add(true);
@@ -233,13 +232,15 @@ public class UserServiceImpl implements UserService {
     public ArrayList<Object> registerUser(UserDTO userDto) {
         ArrayList resultList = new ArrayList();
         if (checkAddingUserValidity(userDto.getEmail(), userDto.getPhone())) {
-            addUser(userDto);
+            userDto = addUser(userDto);
             resultList.add(0, userDto);
             resultList.add(1, "Registeration is done successfully");
+            resultList.add(2, true);
             return resultList;
         } else {
             resultList.add(0, new UserDTO());
             resultList.add(1, "email or phone is invalid");
+            resultList.add(2, false);
             return resultList;
         }
     }

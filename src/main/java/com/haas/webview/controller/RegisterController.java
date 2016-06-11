@@ -2,6 +2,7 @@ package com.haas.webview.controller;
 
 import com.haas.server.service.interfaces.UserService;
 import commons.dto.UserDTO;
+import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -33,8 +34,8 @@ public class RegisterController {
         UserDTO userDTO = (UserDTO) user;
         userDTO.setSilverCoins(100);
         userDTO.setGoldenCoins(100);
-        userServiceImpl.addUser(userDTO);
-         request.getSession().setAttribute("loggedUser", userDTO);
-        return new ModelAndView("profile", "user", user);
+        ArrayList<Object> resultList = userServiceImpl.registerUser(userDTO);
+         request.getSession().setAttribute("loggedUser", resultList.get(0));
+        return new ModelAndView("profile");
     }
 }

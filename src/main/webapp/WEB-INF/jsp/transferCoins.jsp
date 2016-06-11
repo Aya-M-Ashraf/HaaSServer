@@ -26,6 +26,7 @@
                     <form:form method="POST" action="submitTransfer.htm" modelAttribute="transferringOperation" >
                         <div class="box-body">
                             <div class="form-group">
+                                ${message}<br>
                                 <label>Coins Type</label>
                                 <div class="input-group">
                                     <div class="input-group-addon"><i class="fa fa-money"></i></div>
@@ -43,7 +44,7 @@
                                 </div><!-- /.input group -->
 
                                 <div class="input-group">
-                                    <form:input type="hidden" path="senderMail" cssClass="form-control" value="Aya@yahoo.com"/>
+                                    <form:input type="hidden" path="senderMail" cssClass="form-control" value="${sessionScope.loggedUser.email}"/>
                                     <form:errors  path="senderMail"  />
                                 </div><!-- /.input group -->
 

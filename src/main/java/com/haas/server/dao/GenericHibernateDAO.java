@@ -35,7 +35,7 @@ public abstract class GenericHibernateDAO<T, ID extends Serializable> implements
 
     @Override
     public T findById(ID id) throws Exception {
-        return (T) getSession().load(getPersistentClass(), id);
+        return (T) getSession().get(getPersistentClass(), id);
     }
 
     @Override

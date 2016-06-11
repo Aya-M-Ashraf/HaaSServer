@@ -20,15 +20,6 @@ public class UserDTO implements java.io.Serializable {
     public UserDTO() {
     }
 
-    public UserDTO(String email, String firstName, String lastName, String phone, String password, double goldenCoins, double silverCoins) {
-        this.email = email;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.phone = phone;
-        this.password = password;
-        this.goldenCoins = goldenCoins;
-        this.silverCoins = silverCoins;
-    }
 
     public UserDTO(Integer userId, String email, String firstName, String lastName, String phone, String password, double goldenCoins, double silverCoins, Integer gender, String country) {
         this.userId = userId;
