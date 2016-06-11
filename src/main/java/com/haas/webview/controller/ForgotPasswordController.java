@@ -36,7 +36,7 @@ public class ForgotPasswordController {
         if (user == null) {//No such user
             return new ModelAndView("forgotPassword", "user", new UserDTO());
         } else {//success retrieving password
-            PasswordSenderMail.generateAndSendEmail(user.getPassword(), user.getEmail());
+            PasswordSenderMail.generateAndSendEmail(userDTO.getPassword(), userDTO.getEmail());
             return new ModelAndView("redirect:login.htm");
 
         }
