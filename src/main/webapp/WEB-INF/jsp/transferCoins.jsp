@@ -26,7 +26,13 @@
                     <form:form method="POST" action="submitTransfer.htm" modelAttribute="transferringOperation" >
                         <div class="box-body" >
                             <div class="form-group">
-                                ${message}<br>
+                                <c:if test="${success}">
+                                    <center><b style="color:green">${message}</b></center>
+                                </c:if>
+                                <c:if test="${!success}">
+                                    <center><b style="color:red">${message}</b></center>
+                                </c:if>
+                                <br>
                                 <label>Coins Type</label>
                                 <div class="input-group">
                                     <div class="input-group-addon"><i class="fa fa-money"></i></div>

@@ -33,11 +33,17 @@ public class TransferCoinsController {
         }
 
         String message = "null";
+        boolean success = false;
         ArrayList resultArrayList = userServiceImpl.transferCoinsToUser(operation.getCoinsType(), operation.getCoinsCount(), operation.getSenderMail(), operation.getReceiverMail());
         if (resultArrayList.size() > 0) {
             message = (String) resultArrayList.get(0);
+            success = (boolean) resultArrayList.get(1);
         }
-        return new ModelAndView("transferCoins", "message", message);
+
+        ModelAndView model = new ModelAndView("transferCoins", "message", message);
+        model.addObject("success", success);
+        model.addObject("transferringOperation", new TransferringOperationBean());
+        return model;
     }
 
 }

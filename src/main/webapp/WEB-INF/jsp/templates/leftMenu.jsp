@@ -39,6 +39,12 @@
                         <i class="fa fa-dollar"></i> <span>Transfer Coins </span>
                     </a>
                 </li>
+                
+                <li class="treeview">
+                    <a href="logout.htm">
+                        <i class="fa fa-arrow-left"></i> <span>Logout</span>
+                    </a>
+                </li>
 
             </ul>
         </section>

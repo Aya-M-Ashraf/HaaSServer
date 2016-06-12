@@ -4,6 +4,7 @@ import com.haas.server.service.interfaces.UserService;
 import com.haas.webview.bean.LoginBean;
 import commons.dto.UserDTO;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,8 +25,12 @@ public class LoginController {
     private UserService userServiceImpl;
 
     @RequestMapping("/login")
-    public ModelAndView showPage() {
-        return new ModelAndView("login", "user", new LoginBean());
+    public ModelAndView showPage(HttpServletRequest request) {
+        if (request.getSession().getAttribute("loggedUser") != null) {
+            return new ModelAndView("redirect:profile.htm");
+        } else {
+            return new ModelAndView("login", "user", new LoginBean());
+        }
     }
 
     @RequestMapping(value = "/showProfile", method = RequestMethod.POST)
@@ -44,6 +49,15 @@ public class LoginController {
         } else {
             return new ModelAndView("login", "user", new LoginBean());
         }
+    }
+
+    @RequestMapping("/logout")
+    public ModelAndView logout(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate();
+        }
+        return new ModelAndView("login", "user", new LoginBean());
     }
 
 }

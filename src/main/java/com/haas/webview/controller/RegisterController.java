@@ -7,7 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,7 +32,6 @@ public class RegisterController {
     public ModelAndView onSubmit(@ModelAttribute("user") @Valid UserDTO user,Errors result ,HttpServletRequest request ) {
        
         if (result.hasErrors()) {
-            System.out.println("---- registeration form has errors ");
             return new ModelAndView("register");
         }
 
@@ -43,10 +41,8 @@ public class RegisterController {
         ArrayList<Object> resultList = userServiceImpl.registerUser(user);
         if((boolean)resultList.get(2)){
              request.getSession().setAttribute("loggedUser", (UserDTO)resultList.get(0));
-        }else{
-            System.out.println((String)resultList.get(1)); 
-            return new ModelAndView("register", "message", (String)resultList.get(1));
-             
+        }else{ 
+            return new ModelAndView("register", "message", (String)resultList.get(1)); 
         }
        
         return new ModelAndView("redirect:profile.htm");
