@@ -3,6 +3,7 @@ package commons.dto;
 
 import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  * Author Shall
@@ -10,22 +11,22 @@ import org.hibernate.validator.constraints.Email;
 public class UserDTO implements java.io.Serializable {
 
     private Integer userId;
-    @NotNull(message = "This field can't be null")
+    @NotEmpty(message = "This field can't be null")
     @Email
     private String email;
-    @NotNull(message = "This field can't be null")
+    @NotEmpty(message = "This field can't be null")
     private String firstName;
-    @NotNull(message = "This field can't be null")
+    @NotEmpty(message = "This field can't be null")
     private String lastName;
-    @NotNull(message = "This field can't be null")
+    @NotEmpty(message = "This field can't be null")
     private String phone;
-    @NotNull(message = "This field can't be null")
+    @NotEmpty(message = "This field can't be null")
     private String password;
     private double goldenCoins;
     private double silverCoins;
     @NotNull(message = "This field can't be null")
     private Integer gender;
-    @NotNull(message = "This field can't be null")
+    @NotEmpty(message = "This field can't be null")
     private String country;
 
     public UserDTO() {

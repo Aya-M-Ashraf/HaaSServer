@@ -8,10 +8,10 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -19,7 +19,6 @@ import org.springframework.web.servlet.ModelAndView;
  * @author Aya M. Ashraf
  */
 @Controller
-@SessionAttributes
 public class RegisterController {
 
     @Autowired
@@ -31,16 +30,25 @@ public class RegisterController {
     }
 
     @RequestMapping(value = "/addUser", method = RequestMethod.POST)
-    protected ModelAndView onSubmit(@ModelAttribute("user") @Valid UserDTO user, HttpServletRequest request, BindingResult result) throws Exception {
+    public ModelAndView onSubmit(@ModelAttribute("user") @Valid UserDTO user,Errors result ,HttpServletRequest request ) {
+       
         if (result.hasErrors()) {
+            System.out.println("---- registeration form has errors ");
             return new ModelAndView("register");
         }
 
-        UserDTO userDTO = (UserDTO) user;
-        userDTO.setSilverCoins(100);
-        userDTO.setGoldenCoins(100);
-        ArrayList<Object> resultList = userServiceImpl.registerUser(userDTO);
-        request.getSession().setAttribute("loggedUser", resultList.get(0));
-        return new ModelAndView("profile");
+        user.setSilverCoins(100);
+        user.setGoldenCoins(100);
+        
+        ArrayList<Object> resultList = userServiceImpl.registerUser(user);
+        if((boolean)resultList.get(2)){
+             request.getSession().setAttribute("loggedUser", (UserDTO)resultList.get(0));
+        }else{
+            System.out.println((String)resultList.get(1)); 
+            return new ModelAndView("register", "message", (String)resultList.get(1));
+             
+        }
+       
+        return new ModelAndView("redirect:profile.htm");
     }
 }

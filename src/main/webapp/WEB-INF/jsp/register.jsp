@@ -23,21 +23,21 @@
 
     <body class="hold-transition register-page">
         <div class="register-box">
-             <div class="login-logo">
+            <div class="login-logo">
                 <span class="logo-lg"><b>HaaS </b>App.</span>
                 <div class=" image">
                     <img src="resources/dist/img/HaaS.jpg" class="img-circle" alt="User Image">
                 </div>
             </div><!-- /.login-logo -->
-
-
             <div class="register-box-body">
                 <b><p class="login-box-msg">Register a new membership</p></b>
-                <form:form method="POST" action="addUser.htm" modelAttribute="user">
 
+                <center> <div style="color:red">${message}</div> </center>
+
+                <form:form method="POST" action="addUser.htm" modelAttribute="user">
                     <div class="form-group has-feedback">
                         <form:input path="firstName" cssClass="form-control" placeholder= "Enter Your First Name" />
-                         <form:errors  path="firstName" cssStyle="color:red" />
+                        <form:errors  path="firstName" cssStyle="color:red" />
                         <span class="glyphicon glyphicon-user form-control-feedback"></span>
                     </div>
 
@@ -49,19 +49,19 @@
 
                     <div class="form-group has-feedback">
                         <form:input path="email" cssClass="form-control" placeholder= "Enter Your E-mail Address" />
-                         <form:errors  path="email" cssStyle="color:red" />
+                        <form:errors  path="email" cssStyle="color:red" />
                         <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
                     </div>
 
                     <div class="form-group has-feedback">
                         <form:input path="phone" cssClass="form-control"  placeholder= "Enter Your Phone Number" />
-                         <form:errors  path="phone" cssStyle="color:red" />
+                        <form:errors  path="phone" cssStyle="color:red" />
                         <span class="glyphicon glyphicon-phone form-control-feedback"></span>
                     </div>
 
                     <div class="form-group has-feedback">
                         <form:password path="password" cssClass="form-control" placeholder= "Enter Your Password" />
-                         <form:errors  path="lastName" cssStyle="color:red" />
+                        <form:errors  path="password" cssStyle="color:red" />
                         <span class="glyphicon glyphicon-lock form-control-feedback"></span>
                     </div>
                     <div class="form-group has-feedback">
@@ -72,15 +72,16 @@
                     </div>
                     <div class="form-group has-feedback">
                         <form:input path="country" cssClass="form-control" placeholder="Enter Your Country"/>
-                         <form:errors  path="country" cssStyle="color:red" />
+                        <form:errors  path="country" cssStyle="color:red" />
                         <span class="glyphicon glyphicon-map-marker form-control-feedback"></span>
                     </div>
+                    <br>
+                    <br>
 
                     <div class="row">
                         <div class="col-xs-4">
                             <button type="submit" class="btn btn-primary btn-block btn-flat">Register</button>
                         </div><!-- /.col -->
-
                     </div>
                 </form:form>
                 <br>

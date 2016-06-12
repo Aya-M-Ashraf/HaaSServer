@@ -3,6 +3,7 @@ package com.haas.webview.bean;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
 
 
 /**
@@ -13,10 +14,11 @@ public class TransferringOperationBean {
 
     private String coinsType;
     @Min(value = 1, message = "This value can't be 0")
+    @NotNull
     private double coinsCount;
     @Email
     private String senderMail;
-    @NotNull(message = "This field can't be null")
+    @NotEmpty(message = "This field can't be null")
     @Email
     private String receiverMail;
 
