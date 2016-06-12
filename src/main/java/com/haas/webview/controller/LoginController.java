@@ -1,6 +1,7 @@
 package com.haas.webview.controller;
 
 import com.haas.server.service.interfaces.UserService;
+import com.haas.webview.bean.LoginBean;
 import commons.dto.UserDTO;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -24,11 +25,11 @@ public class LoginController {
 
     @RequestMapping("/login")
     public ModelAndView showPage() {
-        return new ModelAndView("login", "user", new UserDTO());
+        return new ModelAndView("login", "user", new LoginBean());
     }
 
     @RequestMapping(value = "/showProfile", method = RequestMethod.POST)
-    public ModelAndView onSubmit(@ModelAttribute("user") @Valid UserDTO user, BindingResult result, HttpServletRequest request) {
+    public ModelAndView onSubmit(@ModelAttribute("user") @Valid LoginBean user, BindingResult result, HttpServletRequest request) {
 
         if (result.hasErrors()) {
             return new ModelAndView("login");
@@ -41,7 +42,7 @@ public class LoginController {
             request.getSession().setAttribute("loggedUser", userDTO);
             return new ModelAndView("redirect:profile.htm");
         } else {
-            return new ModelAndView("login", "user", new UserDTO());
+            return new ModelAndView("login", "user", new LoginBean());
         }
     }
 
