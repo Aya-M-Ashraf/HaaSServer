@@ -23,9 +23,12 @@
 
     <body class="hold-transition register-page">
         <div class="register-box">
-            <div class="register-logo">
-                <a href=""><b>Admin</b>LTE</a>
-            </div>
+             <div class="login-logo">
+                <span class="logo-lg"><b>HaaS </b>App.</span>
+                <div class=" image">
+                    <img src="resources/dist/img/HaaS.jpg" class="img-circle" alt="User Image">
+                </div>
+            </div><!-- /.login-logo -->
 
 
             <div class="register-box-body">
@@ -34,26 +37,31 @@
 
                     <div class="form-group has-feedback">
                         <form:input path="firstName" cssClass="form-control" placeholder= "Enter Your First Name" />
+                         <form:errors  path="firstName" cssStyle="color:red" />
                         <span class="glyphicon glyphicon-user form-control-feedback"></span>
                     </div>
 
                     <div class="form-group has-feedback">
                         <form:input path="lastName" cssClass="form-control" placeholder= "Enter Your Last Name" />
+                        <form:errors  path="lastName" cssStyle="color:red" />
                         <span class="glyphicon glyphicon-user form-control-feedback"></span>
                     </div>
 
                     <div class="form-group has-feedback">
                         <form:input path="email" cssClass="form-control" placeholder= "Enter Your E-mail Address" />
+                         <form:errors  path="email" cssStyle="color:red" />
                         <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
                     </div>
 
                     <div class="form-group has-feedback">
                         <form:input path="phone" cssClass="form-control"  placeholder= "Enter Your Phone Number" />
+                         <form:errors  path="phone" cssStyle="color:red" />
                         <span class="glyphicon glyphicon-phone form-control-feedback"></span>
                     </div>
 
                     <div class="form-group has-feedback">
                         <form:password path="password" cssClass="form-control" placeholder= "Enter Your Password" />
+                         <form:errors  path="lastName" cssStyle="color:red" />
                         <span class="glyphicon glyphicon-lock form-control-feedback"></span>
                     </div>
                     <div class="form-group has-feedback">
@@ -64,6 +72,7 @@
                     </div>
                     <div class="form-group has-feedback">
                         <form:input path="country" cssClass="form-control" placeholder="Enter Your Country"/>
+                         <form:errors  path="country" cssStyle="color:red" />
                         <span class="glyphicon glyphicon-map-marker form-control-feedback"></span>
                     </div>
 

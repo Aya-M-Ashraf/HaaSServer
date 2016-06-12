@@ -1,25 +1,35 @@
 package commons.dto;
 // Generated May 9, 2016 10:35:03 PM by Hibernate Tools 4.3.1
 
+import javax.validation.constraints.NotNull;
+import org.hibernate.validator.constraints.Email;
+
 /**
  * Author Shall
  */
 public class UserDTO implements java.io.Serializable {
 
     private Integer userId;
+    @NotNull(message = "This field can't be null")
+    @Email
     private String email;
+    @NotNull(message = "This field can't be null")
     private String firstName;
+    @NotNull(message = "This field can't be null")
     private String lastName;
+    @NotNull(message = "This field can't be null")
     private String phone;
+    @NotNull(message = "This field can't be null")
     private String password;
     private double goldenCoins;
     private double silverCoins;
+    @NotNull(message = "This field can't be null")
     private Integer gender;
+    @NotNull(message = "This field can't be null")
     private String country;
 
     public UserDTO() {
     }
-
 
     public UserDTO(Integer userId, String email, String firstName, String lastName, String phone, String password, double goldenCoins, double silverCoins, Integer gender, String country) {
         this.userId = userId;
@@ -113,7 +123,5 @@ public class UserDTO implements java.io.Serializable {
     public void setCountry(String country) {
         this.country = country;
     }
-    
-    
 
 }

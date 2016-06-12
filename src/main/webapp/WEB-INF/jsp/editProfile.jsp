@@ -10,24 +10,15 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <!DOCTYPE html>
 <html>
-    <!--    <head>
-            <meta charset="utf-8">
-            <meta http-equiv="X-UA-Compatible" content="IE=edge">
-            <title>Edit Profile Page</title>
-            <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-            <link rel="stylesheet" href="resources/bootstrap/css/bootstrap.min.css">
-            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-            <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-            <link rel="stylesheet" href="resources/dist/css/AdminLTE.min.css">
-            <link rel="stylesheet" href="resources/plugins/iCheck/square/blue.css">
-        </head>-->
-
     <body >
         <div class="content-wrapper">
             <div class="register-box">
 
                 <div class="login-logo">
                     <span class="logo-lg"><b>HaaS </b>App.</span>
+                    <div class=" image">
+                        <img src="resources/dist/img/HaaS.jpg" class="img-circle" alt="User Image">
+                    </div>
                 </div><!-- /.login-logo -->
 
                 <div class="register-box-body">
@@ -64,9 +55,6 @@
                 </div><!-- /.form-box -->
             </div><!-- /.register-box -->
 
-            <!--        <script src="resources/plugins/jQuery/jQuery-2.1.4.min.js"></script>
-                    <script src="resources/bootstrap/js/bootstrap.min.js"></script>
-                    <script src="resources/plugins/iCheck/icheck.min.js"></script>-->
         </div>
     </body>
 </html>

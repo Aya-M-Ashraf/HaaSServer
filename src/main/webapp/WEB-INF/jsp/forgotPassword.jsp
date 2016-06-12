@@ -34,6 +34,9 @@
         <div class="login-box">
             <div class="login-logo">
                 <span class="logo-lg"><b>HaaS </b>App.</span>
+                <div class=" image">
+                    <img src="resources/dist/img/HaaS.jpg" class="img-circle" alt="User Image">
+                </div>
             </div><!-- /.login-logo -->
             <div class="login-box-body">
                 <b><p class="login-box-msg">Forgot your password ? No problem.</p></b>

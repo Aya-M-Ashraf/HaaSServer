@@ -24,7 +24,7 @@
                         <h3 class="box-title">Transfer Coins Operation</h3>
                     </div>
                     <form:form method="POST" action="submitTransfer.htm" modelAttribute="transferringOperation" >
-                        <div class="box-body">
+                        <div class="box-body" >
                             <div class="form-group">
                                 ${message}<br>
                                 <label>Coins Type</label>
@@ -40,8 +40,7 @@
                                 <div class="input-group">
                                     <div class="input-group-addon"><i class="fa fa-money"></i></div>
                                         <form:input  path="coinsCount" cssClass="form-control" />
-                                    <b><form:errors path="coinsCount" /></b>
-                                </div><!-- /.input group -->
+                                        <form:errors path="coinsCount" cssStyle="color:red" />                                </div><!-- /.input group -->
 
                                 <div class="input-group">
                                     <form:input type="hidden" path="senderMail" cssClass="form-control" value="${sessionScope.loggedUser.email}"/>
@@ -52,7 +51,7 @@
                                 <div class="input-group">
                                     <div class="input-group-addon"><i class="fa fa-envelope"></i></div>
                                         <form:input  path="receiverMail" cssClass="form-control" />
-                                        <form:errors  path="receiverMail"  />
+                                        <form:errors  path="receiverMail" cssStyle="color:red" />
                                 </div><!-- /.input group -->
 
                                 <button type="submit" class="btn btn-primary btn-block btn-default">Transfer</button>

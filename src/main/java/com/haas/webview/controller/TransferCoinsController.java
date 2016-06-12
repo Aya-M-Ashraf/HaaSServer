@@ -29,7 +29,6 @@ public class TransferCoinsController {
     @RequestMapping("/submitTransfer")
     public ModelAndView transferCoins(@ModelAttribute("transferringOperation") @Valid TransferringOperationBean operation, BindingResult result) {
         if (result.hasErrors()) {
-            System.out.println("--------- there is an error");
            return new ModelAndView("transferCoins");
         }
 

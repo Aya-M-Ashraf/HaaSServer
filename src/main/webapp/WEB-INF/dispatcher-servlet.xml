@@ -31,5 +31,16 @@
             </list>  
         </property>  
     </bean> 
+    
+    <bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+        <property name="exceptionMappings">
+            <props>
+                <prop key="java.lang.Exception">
+                    errorPage
+                </prop>
+            </props>
+        </property>
+        <property name="defaultErrorView" value="error"/>
+    </bean>
 
 </beans>
