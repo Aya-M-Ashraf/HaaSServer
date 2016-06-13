@@ -89,9 +89,9 @@ public class DeviceServiceImpl implements DeviceService {
             DeviceInfo hostDevice = deviceDAO.getDeviceBySerialNumber(hostSerial);
             System.out.println("++++++ host device is retrieved ");
             DeviceInfo guestDevice = deviceDAO.getDeviceBySerialNumber(geustSerial);
-             System.out.println("++++++ guest device is retrieved ");
+            System.out.println("++++++ guest device is retrieved ");
             UserInfo user = userDAO.getUserByEmail(guestEmail);
-             System.out.println("++++++ user is retrieved ");
+            System.out.println("++++++ user is retrieved ");
             boolean success = false;
 
             if (hostDevice != null && guestDevice != null && user != null) {
@@ -99,7 +99,7 @@ public class DeviceServiceImpl implements DeviceService {
                 switch (keepAliveStatus) {
 
                     case Constants.INIT_STATUS: {
-                         System.out.println("**** inside keep alive WS - INIT      /     EMAILLLLLL          " + guestEmail + "      Date :  " + new Date(timeStamp));
+                        System.out.println("**** inside keep alive WS - INIT      /     EMAILLLLLL          " + guestEmail + "      Date :  " + new Date(timeStamp));
                         if (deviceCurrentlyConnectedDevicesDAO.findById(new DeviceCurrentlyConnectedDevicesPK(hostDevice.getDeviceId(), guestDevice.getDeviceId())) == null) {
                             deviceCurrentlyConnectedDevices = new DeviceCurrentlyConnectedDevices(new DeviceCurrentlyConnectedDevicesPK(hostDevice.getDeviceId(), guestDevice.getDeviceId()), new Date(timeStamp), updatedVersion, consumedMB);
                             deviceCurrentlyConnectedDevicesDAO.makePersistent(deviceCurrentlyConnectedDevices);
@@ -116,7 +116,7 @@ public class DeviceServiceImpl implements DeviceService {
                             deviceCurrentlyConnectedDevices.setConsumedMb(consumedMB);
                             deviceCurrentlyConnectedDevices.setUpdateVer(updatedVersion);
                             deviceCurrentlyConnectedDevices.setStartTimestamp(new Date(timeStamp));
-                         
+
                             deviceOldSessionDevices = new DeviceOldSessionDevices(new DeviceOldSessionDevicesPK(hostDevice.getDeviceId(), guestDevice.getDeviceId(), deviceCurrentlyConnectedDevices.getStartTimestamp()), new Date(timeStamp), consumedMB);
                             deviceOldSessionDevicesDAO.makePersistent(deviceOldSessionDevices);
 
@@ -140,7 +140,7 @@ public class DeviceServiceImpl implements DeviceService {
                         deviceOldSessionDevices.setConsumedMb(consumedMB);
                         deviceOldSessionDevices.setEndTimestamp(new Date(timeStamp));
                         deviceOldSessionDevices = deviceOldSessionDevicesDAO.update(deviceOldSessionDevices);
-                        
+
                         user.setSilverCoins(silverCoins);
                         user.setGoldenCoins(goldenCoins);
                         userDAO.update(user);
@@ -159,7 +159,7 @@ public class DeviceServiceImpl implements DeviceService {
                         deviceOldSessionDevices.setEndTimestamp(new Date(timeStamp));
                         deviceOldSessionDevicesDAO.update(deviceOldSessionDevices);
                         deviceCurrentlyConnectedDevicesDAO.makeTransient(deviceCurrentlyConnectedDevices);
-                        
+
                         user.setSilverCoins(silverCoins);
                         user.setGoldenCoins(goldenCoins);
                         userDAO.update(user);
@@ -206,5 +206,11 @@ public class DeviceServiceImpl implements DeviceService {
     @Override
     public List<UserUsesDevice> getUserDevices(UserDTO user) {
         return userUsesDevicesDAO.findAllWhereUserIs(user.getUserId());
+    }
+
+    @Override
+    public long getTotalNumberOfSharedDevices() {
+        long devicesNumber = deviceDAO.getTotalNumberOfDevices();
+        return devicesNumber;
     }
 }

@@ -257,7 +257,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public int getUsersNumber() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public long getTotalNumberOfUsers() {
+        long allUsers = userDaoImpl.getTotalNumberOfFemaleUsers();
+        return allUsers;
+    }
+
+    @Override
+    public long getTotalNumberOfMaleUsers() {
+        long maleUsers = userDaoImpl.getTotalNumberOfMaleUsers();
+        return maleUsers;
+    }
+
+    @Override
+    public long getTotalNumberOfFemaleUsers() {
+        long femaleUsers = userDaoImpl.getTotalNumberOfFemaleUsers();
+        return femaleUsers;
     }
 }

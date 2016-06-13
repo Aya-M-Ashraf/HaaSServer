@@ -23,6 +23,8 @@ public interface UserService {
 
     public ArrayList<Object> registerUser(UserDTO userDto);
     
-    public int getUsersNumber();
+    public long getTotalNumberOfUsers();
+    public long getTotalNumberOfMaleUsers();
+    public long getTotalNumberOfFemaleUsers();
     
 }

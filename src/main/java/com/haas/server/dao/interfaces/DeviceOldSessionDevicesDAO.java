@@ -18,4 +18,6 @@ public interface DeviceOldSessionDevicesDAO extends GenericDAO<DeviceOldSessionD
     public List<DeviceOldSessionDevices> findAllWhereHostDeviceIs(DeviceInfo device);
     
     public List<DeviceOldSessionDevices> findAllWhereGuestDeviceIs(DeviceInfo device);
+    public long getTotalNumberOfConnections();
+    public double getTotalNumberOfMegabytes();
 }

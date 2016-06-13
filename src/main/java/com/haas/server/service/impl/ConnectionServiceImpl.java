@@ -27,7 +27,6 @@ public class ConnectionServiceImpl implements ConnectionService {
     @Autowired
     UserUsesDevicesDAO userUsesDevicesDAOImpl;
 
-
     @Override
     public List<List<DeviceOldSessionDevices>> getPastHostConnections(UserDTO user) {
 
@@ -50,6 +49,18 @@ public class ConnectionServiceImpl implements ConnectionService {
             guestConnections.add(deviceOldSessionDevicesDAO.findAllWhereGuestDeviceIs(userUsesDevice.getDevice()));
         }
         return guestConnections;
+    }
+
+    @Override
+    public long getTotalNumberOfConnections() {
+        long connectionsNumber = deviceOldSessionDevicesDAO.getTotalNumberOfConnections();
+        return connectionsNumber;
+    }
+
+    @Override
+    public double getTotalNumberOfMegabytes() {
+        double totalMegabytes = deviceOldSessionDevicesDAO.getTotalNumberOfMegabytes();
+        return totalMegabytes;
     }
 
 }
