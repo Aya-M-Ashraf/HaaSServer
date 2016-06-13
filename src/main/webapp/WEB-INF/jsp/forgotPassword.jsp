@@ -41,6 +41,7 @@
             <div class="login-box-body">
                 <b><p class="login-box-msg">Forgot your password ? No problem.</p></b>
                 <br>
+                <span style="color:red" >${message}</span>
 
                 <form:form method="POST" action="retrievingPassword.htm" modelAttribute="user">
 

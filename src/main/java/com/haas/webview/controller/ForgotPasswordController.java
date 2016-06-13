@@ -37,8 +37,10 @@ public class ForgotPasswordController {
         }
         
         UserDTO userDTO = userServiceImpl.updateUserPassword(user.getEmail(), user.getPhone());
-        if (user == null) {//No such user
-            return new ModelAndView("forgotPassword", "user", new ForgotPasswordBean());
+        if (userDTO == null) {//No such user
+            ModelAndView model = new ModelAndView("forgotPassword");
+            model.addObject("message","This email doesn't belong to any user");
+            return model;
         } else {//success retrieving password
             PasswordSenderMail.generateAndSendEmail(userDTO.getPassword(), userDTO.getEmail());
             return new ModelAndView("redirect:login.htm");
