@@ -46,11 +46,13 @@
 
                     <div class="form-group has-feedback">
                         <form:input path="email" cssClass="form-control"   placeholder= "Enter Your Email" />
+                        <div style="color:red"><form:errors path="email" /></div>
                         <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
                     </div>
 
                     <div class="form-group has-feedback">
-                        <form:password path="phone" cssClass="form-control"   placeholder= "Enter Your Mobile Number" />
+                        <form:input path="phone" cssClass="form-control"   placeholder= "Enter Your Mobile Number" />
+                         <span style="color:red"><form:errors path="phone" /></span>
                         <span class="glyphicon glyphicon-phone form-control-feedback"></span>
                     </div>
 
@@ -62,6 +64,10 @@
                         </div><!-- /.col -->
                     </div>
                 </form:form>
+                   <br>
+                <b><a href="register.htm" class="text-center">Register a new membership</a></b>
+                <br>
+                <b><a href="login.htm" class="text-center">or Login</a></b> 
 
 
             </div><!-- /.login-box-body -->

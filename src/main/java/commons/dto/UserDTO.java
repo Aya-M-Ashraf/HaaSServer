@@ -2,6 +2,8 @@ package commons.dto;
 // Generated May 9, 2016 10:35:03 PM by Hibernate Tools 4.3.1
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -18,7 +20,9 @@ public class UserDTO implements java.io.Serializable {
     private String firstName;
     @NotEmpty(message = "This field can't be null")
     private String lastName;
-    @NotEmpty(message = "This field can't be null")
+    @NotEmpty
+    @Pattern(regexp = "(^$|[0-9]{11})", message = "This is not a valid phone number")
+    @Size(min = 11, max = 11)
     private String phone;
     @NotEmpty(message = "This field can't be null")
     private String password;
