@@ -2,7 +2,6 @@ package com.haas.server.service.impl;
 
 import com.haas.server.dao.interfaces.DeviceCurrentlyConnectedDevicesDAO;
 import com.haas.server.dao.interfaces.DeviceOldSessionDevicesDAO;
-import com.haas.server.dao.interfaces.UserDao;
 import com.haas.server.dao.interfaces.UserUsesDevicesDAO;
 import com.haas.server.entity.DeviceOldSessionDevices;
 import com.haas.server.entity.UserUsesDevice;

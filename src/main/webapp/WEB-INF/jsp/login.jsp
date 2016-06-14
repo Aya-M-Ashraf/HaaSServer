@@ -32,6 +32,8 @@
             <div class="login-box-body">
                 <b><p class="login-box-msg">Sign in to start your journey</p></b>
                 <br>
+                <center><span style="color:red">${message}</span></center>
+                <br>
                 <form:form method="POST" action="showProfile.htm" modelAttribute="user">
                     <div class="form-group has-feedback">
                         <form:input path="email" cssClass="form-control" placeholder="Enter Your Email"/>

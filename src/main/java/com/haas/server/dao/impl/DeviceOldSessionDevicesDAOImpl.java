@@ -49,7 +49,7 @@ public class DeviceOldSessionDevicesDAOImpl extends GenericHibernateDAO<DeviceOl
     @Override
     public double getTotalNumberOfMegabytes() {
         double totalMegabytes = 0;
-        totalMegabytes = (Double) getSession().createQuery("SELECT count(consumedMb) FROM DeviceOldSessionDevices").uniqueResult();
+        totalMegabytes = (Double) getSession().createQuery("SELECT sum(consumedMb) FROM DeviceOldSessionDevices").uniqueResult();
         return totalMegabytes;
     }
 

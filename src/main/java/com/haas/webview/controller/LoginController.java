@@ -26,7 +26,7 @@ public class LoginController {
 
     @RequestMapping("/login")
     public ModelAndView showPage(HttpServletRequest request) {
-        if (request.getSession().getAttribute("loggedUser") != null) {
+        if (request.getSession(false) != null && request.getSession(false).getAttribute("loggedUser") != null) {
             return new ModelAndView("redirect:profile.htm");
         } else {
             return new ModelAndView("login", "user", new LoginBean());
@@ -41,8 +41,10 @@ public class LoginController {
         }
 
         UserDTO userDTO = userServiceImpl.getUserByEmail(user.getEmail());
-        if (user == null) {
-            return new ModelAndView("login", "user", new UserDTO());
+        if (userDTO == null) {
+            ModelAndView model = new ModelAndView("login", "user", new LoginBean());
+            model.addObject("message", "This mail doesn't belong to anyone");
+            return model;
         } else if (userDTO.getPassword().equals(user.getPassword())) {
             request.getSession().setAttribute("loggedUser", userDTO);
             return new ModelAndView("redirect:profile.htm");

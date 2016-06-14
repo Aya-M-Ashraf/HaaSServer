@@ -258,7 +258,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public long getTotalNumberOfUsers() {
-        long allUsers = userDaoImpl.getTotalNumberOfFemaleUsers();
+        long allUsers = userDaoImpl.getTotalNumberOfUsers();
         return allUsers;
     }
 

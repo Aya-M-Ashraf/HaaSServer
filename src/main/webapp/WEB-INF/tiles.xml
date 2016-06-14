@@ -11,7 +11,7 @@
         <put-attribute name="body" value="" />  
         <put-attribute name="footer" value="/WEB-INF/jsp/templates/footer.jsp" />  
     </definition>  
-  
+   
     <definition name="profile" extends="base.definition">  
         <put-attribute name="title" value="User Profile" />  
         <put-attribute name="body" value="/WEB-INF/jsp/profile.jsp" />  

@@ -46,14 +46,14 @@ public class UserDaoImpl extends GenericHibernateDAO<UserInfo, Integer> implemen
     @Override
     public long getTotalNumberOfMaleUsers() {
         //Assuming that 0 value of the gender means male
-        long maleUsers = (long) getSession().createQuery("From UserInfo user Where user.gender = 1").uniqueResult();
+        long maleUsers = (long) getSession().createQuery("From UserInfo user Where user.gender = 0").list().size();
         return maleUsers;
     }
 
     @Override
     public long getTotalNumberOfFemaleUsers() {
         //Assuming that 1 value of the gender means female
-        long femaleUsers = (long) getSession().createQuery("From UserInfo user Where user.gender = 1").uniqueResult();
+        long femaleUsers = (long) getSession().createQuery("From UserInfo user Where user.gender = 1").list().size();
         return femaleUsers;
     }
 
