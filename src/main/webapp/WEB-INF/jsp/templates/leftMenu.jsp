@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
     <!-- Left side column. contains the logo and sidebar -->
@@ -17,7 +18,7 @@
                     <img src="resources/dist/img/HaaS.jpg" class="img-circle" alt="User Image">
                 </div>
             </div>
-          
+
             <!-- sidebar menu: : style can be found in sidebar.less -->
             <ul class="sidebar-menu">
                 <li class="header">MAIN NAVIGATION</li>
@@ -39,12 +40,20 @@
                         <i class="fa fa-dollar"></i> <span>Transfer Coins </span>
                     </a>
                 </li>
-                
+
                 <li class="treeview">
                     <a href="logout.htm">
                         <i class="fa fa-arrow-left"></i> <span>Logout</span>
                     </a>
                 </li>
+                <c:if test="${sessionScope.loggedUser.email=='admin@admin.com'}">
+                    <li class="treeview">
+                        <a href="adminHome.htm">
+                            <i class="fa fa-sticky-note"></i> <span>Reports</span>
+                        </a>
+                    </li>
+                </c:if>
+
 
             </ul>
         </section>

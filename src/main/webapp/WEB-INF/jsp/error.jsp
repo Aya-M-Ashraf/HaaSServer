@@ -48,7 +48,7 @@
             <div class="error-content">
               <h3><i class="fa fa-warning text-red"></i> Oops! Something went wrong.</h3>
               <p>
-                We will work on fixing that right away.
+               Sorry for this , ${message}
               </p>
              
             </div>
