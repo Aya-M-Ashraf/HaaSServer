@@ -44,7 +44,7 @@
         <property name="defaultErrorView" value="error"/>
     </bean>
     
-      configuration for handling browser back button  
+  
     <mvc:interceptors>
         <mvc:interceptor>
             <mvc:mapping path="/**/*"/>
