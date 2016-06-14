@@ -2,6 +2,7 @@ package com.haas.server.service.interfaces;
 
 import commons.dto.UserDTO;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  *
@@ -22,9 +23,13 @@ public interface UserService {
     public UserDTO getUserByPhone(String phone);
 
     public ArrayList<Object> registerUser(UserDTO userDto);
-    
+
     public long getTotalNumberOfUsers();
+
     public long getTotalNumberOfMaleUsers();
+
     public long getTotalNumberOfFemaleUsers();
+
+    public HashMap<String, Integer> getCityDistribution();
     
 }

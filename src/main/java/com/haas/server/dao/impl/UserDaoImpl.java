@@ -3,6 +3,7 @@ package com.haas.server.dao.impl;
 import com.haas.server.dao.GenericHibernateDAO;
 import com.haas.server.dao.interfaces.UserDao;
 import com.haas.server.entity.UserInfo;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.hibernate.Query;
@@ -55,6 +56,13 @@ public class UserDaoImpl extends GenericHibernateDAO<UserInfo, Integer> implemen
         //Assuming that 1 value of the gender means female
         long femaleUsers = (long) getSession().createQuery("From UserInfo user Where user.gender = 1").list().size();
         return femaleUsers;
+    }
+
+    @Override
+    public List<UserInfo> getUsersByCountry(String city) {
+         Query query = getSession().createQuery("from UserInfo where country= :city");
+        query.setParameter("city", city);
+        return query.list();
     }
 
 }

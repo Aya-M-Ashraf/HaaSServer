@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import com.haas.server.service.interfaces.UserService;
 import com.haas.server.utils.EntityMapper;
 import java.security.SecureRandom;
+import java.util.HashMap;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -272,5 +273,16 @@ public class UserServiceImpl implements UserService {
     public long getTotalNumberOfFemaleUsers() {
         long femaleUsers = userDaoImpl.getTotalNumberOfFemaleUsers();
         return femaleUsers;
+    }
+    
+    @Override
+    public HashMap<String,Integer> getCityDistribution(){
+       HashMap<String,Integer> result = new HashMap<>();
+       result.put("Giza",userDaoImpl.getUsersByCountry("Giza").size());
+       result.put("Cairo",userDaoImpl.getUsersByCountry("Cairo").size());
+       result.put("Mansoura",userDaoImpl.getUsersByCountry("Mansoura").size());
+       result.put("Suez",userDaoImpl.getUsersByCountry("Suez").size());
+       result.put("Alex",userDaoImpl.getUsersByCountry("Alex").size());
+       return result;
     }
 }

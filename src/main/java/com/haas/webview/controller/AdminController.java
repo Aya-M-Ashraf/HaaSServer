@@ -6,6 +6,7 @@ import com.haas.server.service.interfaces.UserService;
 import com.haas.webview.bean.AdminReportBean;
 import com.haas.webview.bean.LoginBean;
 import commons.dto.UserDTO;
+import java.util.HashMap;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -39,6 +40,15 @@ public class AdminController {
                 reportBean.setMaleUsersCount(userServiceImpl.getTotalNumberOfMaleUsers());
                 reportBean.setConnectionsCount(connectionServiceImpl.getTotalNumberOfConnections());
                 reportBean.setTotalMegaBytes(connectionServiceImpl.getTotalNumberOfMegabytes());
+                
+                HashMap<String,Integer> result = userServiceImpl.getCityDistribution();
+                
+                reportBean.setAlexDist(result.get("Alex"));
+                reportBean.setCairoDist(result.get("Cairo"));
+                reportBean.setGizaDist(result.get("Giza"));
+                reportBean.setMansouraDist(result.get("Mansoura"));
+                reportBean.setSuezDist(result.get("Suez"));
+                
                 return new ModelAndView("adminHome", "reportBean", reportBean);
             } else {
                 return new ModelAndView("errorPage", "message", "Sorry You are not authorized ");

@@ -9,10 +9,10 @@ import org.hibernate.validator.constraints.NotEmpty;
  */
 public class LoginBean {
 
-    @NotEmpty(message = "This field can't be null")
+    @NotEmpty(message = "This field can't be empty")
     @Email
     private String email;
-    @NotEmpty(message = "This field can't be null")
+    @NotEmpty(message = "This field can't be empty")
     private String password;
 
     public LoginBean() {

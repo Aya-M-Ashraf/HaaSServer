@@ -71,7 +71,13 @@
                         </form:select>
                     </div>
                     <div class="form-group has-feedback">
-                        <form:input path="country" cssClass="form-control" placeholder="Enter Your Country"/>
+                        <form:select path="country" cssClass="form-control" >
+                            <form:option value="Cairo" label="Cairo"/>
+                            <form:option value="Giza" label="Giza"/>
+                            <form:option value="Alex" label="Alex"/>
+                            <form:option value="Mansoura" label="Mansoura"/>
+                            <form:option value="Suez" label="Suez"/>
+                        </form:select>
                         <form:errors  path="country" cssStyle="color:red" />
                         <span class="glyphicon glyphicon-map-marker form-control-feedback"></span>
                     </div>

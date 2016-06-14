@@ -12,6 +12,11 @@ public class AdminReportBean {
     private long devicesCount;
     private long connectionsCount;
     private double totalMegaBytes;
+    private long gizaDist;
+    private long mansouraDist;
+    private long suezDist;
+    private long cairoDist;
+    private long alexDist;
 
     public AdminReportBean() {
     }
@@ -63,5 +68,45 @@ public class AdminReportBean {
     public void setMaleUsersCount(long maleUsersCount) {
         this.maleUsersCount = maleUsersCount;
     }
+
+    public long getGizaDist() {
+        return gizaDist;
+    }
+
+    public void setGizaDist(long gizaDist) {
+        this.gizaDist = gizaDist;
+    }
+
+    public long getMansouraDist() {
+        return mansouraDist;
+    }
+
+    public void setMansouraDist(long mansouraDist) {
+        this.mansouraDist = mansouraDist;
+    }
+
+    public long getSuezDist() {
+        return suezDist;
+    }
+
+    public void setSuezDist(long suezDist) {
+        this.suezDist = suezDist;
+    }
+
+    public long getCairoDist() {
+        return cairoDist;
+    }
+
+    public void setCairoDist(long cairoDist) {
+        this.cairoDist = cairoDist;
+    }
+
+    public long getAlexDist() {
+        return alexDist;
+    }
+
+    public void setAlexDist(long alexDist) {
+        this.alexDist = alexDist;
+    }    
        
 }
