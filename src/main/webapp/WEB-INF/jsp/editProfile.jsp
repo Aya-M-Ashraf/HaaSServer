@@ -27,11 +27,13 @@
 
                         <div class="form-group has-feedback">
                             <form:input path="firstName" cssClass="form-control" value="${sessionScope.loggedUser.firstName}" />
+                            <form:errors  path="firstName" cssStyle="color:red" />
                             <span class="glyphicon glyphicon-user form-control-feedback"></span>
                         </div>
 
                         <div class="form-group has-feedback">
                             <form:input path="lastName" cssClass="form-control" value="${sessionScope.loggedUser.lastName}"/>
+                            <form:errors  path="lastName" cssStyle="color:red" />
                             <span class="glyphicon glyphicon-user form-control-feedback"></span>
                         </div>
 
@@ -42,6 +44,7 @@
 
                         <div class="form-group has-feedback">
                             <form:input path="phone" cssClass="form-control" value="${sessionScope.loggedUser.phone}"/>
+                            <form:errors  path="phone" cssStyle="color:red" />
                             <span class="glyphicon glyphicon-phone form-control-feedback"></span>
                         </div>
 

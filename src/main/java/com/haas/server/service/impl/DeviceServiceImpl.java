@@ -180,6 +180,125 @@ public class DeviceServiceImpl implements DeviceService {
     }
 
     @Override
+    @Transactional
+    public boolean keepAlive(String hostSerial, String geustSerial, double consumedMB, long timeStamp, int updatedVersion, String keepAliveStatus, String guestEmail, double silverCoins, double goldenCoins) {
+
+        try {
+            DeviceCurrentlyConnectedDevices deviceCurrentlyConnectedDevices = null;
+            DeviceOldSessionDevices deviceOldSessionDevices;
+            DeviceInfo hostDevice = deviceDAO.getDeviceBySerialNumber(hostSerial);
+            System.out.println("++++++ desktop host device is retrieved ");
+            DeviceInfo guestDevice = deviceDAO.getDeviceBySerialNumber(geustSerial);
+            System.out.println("++++++ desktop guest device is retrieved ");
+            UserInfo guestUser = userDAO.getUserByEmail(guestEmail);
+            System.out.println("++++++ desktop  guest user is retrieved  email: " + guestEmail);
+            UserInfo hostUser = userUsesDevicesDAO.findByDevice(deviceDAO.getDeviceBySerialNumber(geustSerial)).get(0).getUser();
+            System.out.println("++++++ desktop  host user is retrieved  email: " + hostUser.getEmail());
+            boolean success = false;
+
+            if (hostDevice != null && guestDevice != null && guestUser != null) {
+
+                switch (keepAliveStatus) {
+
+                    case Constants.INIT_STATUS: {
+                        System.out.println("**** inside keep alive desktop WS - INIT      /     EMAILLLLLL          " + guestEmail + "      Date :  " + new Date(timeStamp));
+                        if (deviceCurrentlyConnectedDevicesDAO.findById(new DeviceCurrentlyConnectedDevicesPK(hostDevice.getDeviceId(), guestDevice.getDeviceId())) == null) {
+                            deviceCurrentlyConnectedDevices = new DeviceCurrentlyConnectedDevices(new DeviceCurrentlyConnectedDevicesPK(hostDevice.getDeviceId(), guestDevice.getDeviceId()), new Date(timeStamp), updatedVersion, consumedMB);
+                            deviceCurrentlyConnectedDevicesDAO.makePersistent(deviceCurrentlyConnectedDevices);
+
+                            deviceOldSessionDevices = new DeviceOldSessionDevices(new DeviceOldSessionDevicesPK(hostDevice.getDeviceId(), guestDevice.getDeviceId(), deviceCurrentlyConnectedDevices.getStartTimestamp()), new Date(timeStamp), consumedMB);
+                            deviceOldSessionDevicesDAO.makePersistent(deviceOldSessionDevices);
+
+                            guestUser.setSilverCoins(guestUser.getSilverCoins() - silverCoins);
+                            guestUser.setGoldenCoins(guestUser.getGoldenCoins() - goldenCoins);
+                            userDAO.update(guestUser);
+
+                            hostUser.setSilverCoins(hostUser.getSilverCoins() + silverCoins);
+                            hostUser.setGoldenCoins(hostUser.getGoldenCoins() + goldenCoins);
+                            userDAO.update(hostUser);
+                            success = true;
+                        } else {
+                            deviceCurrentlyConnectedDevices = deviceCurrentlyConnectedDevicesDAO.findById(new DeviceCurrentlyConnectedDevicesPK(hostDevice.getDeviceId(), guestDevice.getDeviceId()));
+                            deviceCurrentlyConnectedDevices.setConsumedMb(consumedMB);
+                            deviceCurrentlyConnectedDevices.setUpdateVer(updatedVersion);
+                            deviceCurrentlyConnectedDevices.setStartTimestamp(new Date(timeStamp));
+
+                            deviceOldSessionDevices = new DeviceOldSessionDevices(new DeviceOldSessionDevicesPK(hostDevice.getDeviceId(), guestDevice.getDeviceId(), deviceCurrentlyConnectedDevices.getStartTimestamp()), new Date(timeStamp), consumedMB);
+                            deviceOldSessionDevicesDAO.makePersistent(deviceOldSessionDevices);
+
+                            guestUser.setSilverCoins(guestUser.getSilverCoins() - silverCoins);
+                            guestUser.setGoldenCoins(guestUser.getGoldenCoins() - goldenCoins);
+                            userDAO.update(guestUser);
+
+                            hostUser.setSilverCoins(hostUser.getSilverCoins() + silverCoins);
+                            hostUser.setGoldenCoins(hostUser.getGoldenCoins() + goldenCoins);
+                            userDAO.update(hostUser);
+
+                            success = true;
+                        }
+                    }
+                    break;
+
+                    case Constants.RUN_STATUS: {
+                        deviceCurrentlyConnectedDevices = deviceCurrentlyConnectedDevicesDAO.findById(new DeviceCurrentlyConnectedDevicesPK(hostDevice.getDeviceId(), guestDevice.getDeviceId()));
+                        deviceCurrentlyConnectedDevices.setConsumedMb(consumedMB);
+                        deviceCurrentlyConnectedDevices.setUpdateVer(updatedVersion);
+                        deviceCurrentlyConnectedDevices = deviceCurrentlyConnectedDevicesDAO.update(deviceCurrentlyConnectedDevices);
+                        System.out.println("**** inside keep alive desktop WS - RUN ");
+                        System.out.println("Date : " + new Date(timeStamp));
+
+                        deviceOldSessionDevices = deviceOldSessionDevicesDAO.findById(new DeviceOldSessionDevicesPK(hostDevice.getDeviceId(), guestDevice.getDeviceId(), deviceCurrentlyConnectedDevices.getStartTimestamp()));
+                        deviceOldSessionDevices.setConsumedMb(consumedMB);
+                        deviceOldSessionDevices.setEndTimestamp(new Date(timeStamp));
+                        deviceOldSessionDevices = deviceOldSessionDevicesDAO.update(deviceOldSessionDevices);
+
+                        guestUser.setSilverCoins(guestUser.getSilverCoins() - silverCoins);
+                        guestUser.setGoldenCoins(guestUser.getGoldenCoins() - goldenCoins);
+                        userDAO.update(guestUser);
+
+                        hostUser.setSilverCoins(hostUser.getSilverCoins() + silverCoins);
+                        hostUser.setGoldenCoins(hostUser.getGoldenCoins() + goldenCoins);
+                        userDAO.update(hostUser);
+
+                        success = true;
+                    }
+                    break;
+
+                    case Constants.END_STATUS: {
+                        System.out.println("**** inside keep alive desktop WS - END ");
+                        System.out.println("Date : " + new Date(timeStamp));
+                        deviceCurrentlyConnectedDevices = deviceCurrentlyConnectedDevicesDAO.findById(new DeviceCurrentlyConnectedDevicesPK(hostDevice.getDeviceId(), guestDevice.getDeviceId()));
+
+                        deviceOldSessionDevices = deviceOldSessionDevicesDAO.findById(new DeviceOldSessionDevicesPK(hostDevice.getDeviceId(), guestDevice.getDeviceId(), deviceCurrentlyConnectedDevices.getStartTimestamp()));
+                        deviceOldSessionDevices.setConsumedMb(consumedMB);
+                        deviceOldSessionDevices.setEndTimestamp(new Date(timeStamp));
+                        deviceOldSessionDevicesDAO.update(deviceOldSessionDevices);
+                        deviceCurrentlyConnectedDevicesDAO.makeTransient(deviceCurrentlyConnectedDevices);
+
+                        guestUser.setSilverCoins(guestUser.getSilverCoins() - silverCoins);
+                        guestUser.setGoldenCoins(guestUser.getGoldenCoins() - goldenCoins);
+                        userDAO.update(guestUser);
+
+                        hostUser.setSilverCoins(hostUser.getSilverCoins() + silverCoins);
+                        hostUser.setGoldenCoins(hostUser.getGoldenCoins() + goldenCoins);
+                        userDAO.update(hostUser);
+                        success = true;
+                    }
+                    break;
+                    default:
+                        success = false;
+                }
+            } else {
+                success = false;
+            }
+            return success;
+        } catch (Exception ex) {
+            Logger.getLogger(DeviceServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+    }
+
+    @Override
     public boolean trackingHostCoins(String hostEmail, double silverCoins, double goldenCoins) {
 
         System.out.println("@@@@@@@ Inside coins of host @@@@@@");

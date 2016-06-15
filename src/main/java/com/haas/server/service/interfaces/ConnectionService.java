@@ -13,9 +13,11 @@ public interface ConnectionService {
     public List<List<DeviceOldSessionDevices>> getPastHostConnections(UserDTO user);
 
     public List<List<DeviceOldSessionDevices>> getPastGuestConnections(UserDTO user);
-    
+
     public long getTotalNumberOfConnections();
-    
+
     public double getTotalNumberOfMegabytes();
+
+    public List<Object> getDeviceGuestsCountAndTotalMB(String serialNumber);
 
 }

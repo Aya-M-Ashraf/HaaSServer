@@ -1,8 +1,10 @@
 package com.haas.server.service.impl;
 
 import com.haas.server.dao.interfaces.DeviceCurrentlyConnectedDevicesDAO;
+import com.haas.server.dao.interfaces.DeviceDAO;
 import com.haas.server.dao.interfaces.DeviceOldSessionDevicesDAO;
 import com.haas.server.dao.interfaces.UserUsesDevicesDAO;
+import com.haas.server.entity.DeviceInfo;
 import com.haas.server.entity.DeviceOldSessionDevices;
 import com.haas.server.entity.UserUsesDevice;
 import com.haas.server.service.interfaces.ConnectionService;
@@ -25,6 +27,8 @@ public class ConnectionServiceImpl implements ConnectionService {
     DeviceOldSessionDevicesDAO deviceOldSessionDevicesDAO;
     @Autowired
     UserUsesDevicesDAO userUsesDevicesDAOImpl;
+    @Autowired
+    DeviceDAO deviceDAO;
 
     @Override
     public List<List<DeviceOldSessionDevices>> getPastHostConnections(UserDTO user) {
@@ -62,4 +66,18 @@ public class ConnectionServiceImpl implements ConnectionService {
         return totalMegabytes;
     }
 
+    @Override
+    public List<Object> getDeviceGuestsCountAndTotalMB(String serialNumber) {
+        List<Object> result = new ArrayList<>();
+
+        DeviceInfo device = deviceDAO.getDeviceBySerialNumber(serialNumber);
+        List<DeviceOldSessionDevices> list = deviceOldSessionDevicesDAO.findAllWhereHostDeviceIs(device);
+        result.add(list.size());
+        double totalMegas = 0;
+        for (DeviceOldSessionDevices connection : list) {
+            totalMegas += connection.getConsumedMb();
+        }
+        result.add(totalMegas);
+        return result;
+    }
 }

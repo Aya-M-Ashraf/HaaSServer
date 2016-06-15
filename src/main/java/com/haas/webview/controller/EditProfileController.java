@@ -27,8 +27,13 @@ public class EditProfileController {
         return new ModelAndView("editProfile", "user", new UserDTO());
     }
 
-    @RequestMapping(value = "/updateUser", method = RequestMethod.POST)    
-    public ModelAndView onSubmit(@ModelAttribute("user") @Valid UserDTO user, BindingResult result,  HttpServletRequest request) {
+    @RequestMapping(value = "/updateUser", method = RequestMethod.POST)
+    public ModelAndView onSubmit(@ModelAttribute("user") @Valid UserDTO user, BindingResult result, HttpServletRequest request) {
+
+        if (result.hasErrors()) {
+            return new ModelAndView("editProfile");
+        }
+
         UserDTO userOrigin = (UserDTO) request.getSession().getAttribute("loggedUser");
         UserDTO userModefied = (UserDTO) user;
         userModefied.setUserId(userOrigin.getUserId());
@@ -40,7 +45,7 @@ public class EditProfileController {
         userServiceImpl.updateUser(userModefied);
         request.getSession().setAttribute("loggedUser", userModefied);
         return new ModelAndView("profile");
-    
+
     }
 
 }

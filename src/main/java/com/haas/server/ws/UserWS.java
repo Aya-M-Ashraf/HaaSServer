@@ -150,8 +150,8 @@ public class UserWS {
         }
 
         if (deviceServiceImpl.linkDevice(email, serialNumber)) {
-            UserDTO user = userServiceImpl.getUserByEmail(email);
-            if (user == null) {
+        UserDTO user = userServiceImpl.getUserByEmail(email);
+        if (user == null) {
                 result.setSuccess(false);
                 result.setMsg("This Email doesn't belong to anyone");
                 result.setObj(new UserDTO());
@@ -174,7 +174,7 @@ public class UserWS {
             }
         } else {
             result.setSuccess(false);
-            result.setMsg("Linking Device Error");
+            result.setMsg("This Email doesn't belong to anyone");
             result.setObj(new UserDTO());
             result.setCode("login");
             return result;
