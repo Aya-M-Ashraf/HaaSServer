@@ -214,7 +214,9 @@ public class DeviceServiceImpl implements DeviceService {
                             userDAO.update(guestUser);
 
                             hostUser.setSilverCoins(hostUser.getSilverCoins() + silverCoins);
+                            System.out.println("@@    hostUser.getSilverCoins() + silverCoins  @@         "+ hostUser.getSilverCoins() + silverCoins );
                             hostUser.setGoldenCoins(hostUser.getGoldenCoins() + goldenCoins);
+                            System.out.println("@@    hostUser.getGoldenCoins() + goldenCoins  @@         "+ hostUser.getGoldenCoins() + goldenCoins );
                             userDAO.update(hostUser);
                             success = true;
                         } else {

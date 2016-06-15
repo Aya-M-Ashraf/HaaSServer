@@ -68,7 +68,7 @@ public class ConnectionServiceImpl implements ConnectionService {
     }
 
     @Override
-    public List<Object> getDeviceGuestsCountAndTotalMB(String serialNumber) {
+    public String getDeviceGuestsCountAndTotalMB(String serialNumber) {
         List<Object> result = new ArrayList<>();
         System.out.println("@@@@serial@@@@          " + serialNumber);
         DeviceInfo device = deviceDAO.getDeviceBySerialNumber(serialNumber);
@@ -81,7 +81,8 @@ public class ConnectionServiceImpl implements ConnectionService {
         }
         result.add(totalMegas);
         System.out.println("@@@@@The List Device @@@@@      "+  list.size() + "     @@@  The Total Mega @@@@      "+ totalMegas);
-        return result;
+        String resultSTR = list.size() + "," + totalMegas ;
+        return resultSTR;
     }
     
 //    @Override

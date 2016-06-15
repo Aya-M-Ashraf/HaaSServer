@@ -122,7 +122,7 @@ public class DeviceWS {
     @Produces(MediaType.APPLICATION_JSON)
     public Result getGuests(@QueryParam(Constants.HOST_SERIAL_NUMBER) String serial) {
         Result result = new Result();
-        List<Object> resultList = connectionServiceImpl.getDeviceGuestsCountAndTotalMB(serial);
+        String resultList = connectionServiceImpl.getDeviceGuestsCountAndTotalMB(serial);
 
         if (resultList != null) {
             result.setSuccess(true);

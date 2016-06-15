@@ -18,6 +18,6 @@ public interface ConnectionService {
 
     public double getTotalNumberOfMegabytes();
 
-    public List<Object> getDeviceGuestsCountAndTotalMB(String serialNumber);
+    public String getDeviceGuestsCountAndTotalMB(String serialNumber);
 
 }
