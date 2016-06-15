@@ -120,7 +120,7 @@ public class DeviceWS {
     @GET
     @Path("/getGuests")
     @Produces(MediaType.APPLICATION_JSON)
-    public Result getGuests(@QueryParam(Constants.GUEST_SERIAL_NUMBER) String serial) {
+    public Result getGuests(@QueryParam(Constants.HOST_SERIAL_NUMBER) String serial) {
         Result result = new Result();
         List<Object> resultList = connectionServiceImpl.getDeviceGuestsCountAndTotalMB(serial);
 
