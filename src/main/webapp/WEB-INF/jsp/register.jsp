@@ -79,7 +79,7 @@
                             <form:option value="Suez" label="Suez"/>
                         </form:select>
                         <form:errors  path="country" cssStyle="color:red" />
-                        <span class="glyphicon glyphicon-map-marker form-control-feedback"></span>
+                        <!--<span class="glyphicon glyphicon-map-marker form-control-feedback"></span>-->
                     </div>
                     <br>
                     <br>

@@ -4,6 +4,7 @@ import com.haas.server.dao.interfaces.DeviceCurrentlyConnectedDevicesDAO;
 import com.haas.server.dao.interfaces.DeviceDAO;
 import com.haas.server.dao.interfaces.DeviceOldSessionDevicesDAO;
 import com.haas.server.dao.interfaces.UserUsesDevicesDAO;
+import com.haas.server.entity.DeviceCurrentlyConnectedDevices;
 import com.haas.server.entity.DeviceInfo;
 import com.haas.server.entity.DeviceOldSessionDevices;
 import com.haas.server.entity.UserUsesDevice;
@@ -69,15 +70,34 @@ public class ConnectionServiceImpl implements ConnectionService {
     @Override
     public List<Object> getDeviceGuestsCountAndTotalMB(String serialNumber) {
         List<Object> result = new ArrayList<>();
-
+        System.out.println("@@@@serial@@@@          " + serialNumber);
         DeviceInfo device = deviceDAO.getDeviceBySerialNumber(serialNumber);
-        List<DeviceOldSessionDevices> list = deviceOldSessionDevicesDAO.findAllWhereHostDeviceIs(device);
+        System.out.println("@@@ Device is:@@@     "+ device.getSerialNumber() +"      id=    "+ device.getDeviceId() );
+        List<DeviceCurrentlyConnectedDevices> list = deviceCurrentlyConnectedDevicesDAO.findAllWhereHostDeviceIs(device);
         result.add(list.size());
         double totalMegas = 0;
-        for (DeviceOldSessionDevices connection : list) {
+        for (DeviceCurrentlyConnectedDevices connection : list) {
             totalMegas += connection.getConsumedMb();
         }
         result.add(totalMegas);
+        System.out.println("@@@@@The List Device @@@@@      "+  list.size() + "     @@@  The Total Mega @@@@      "+ totalMegas);
         return result;
     }
+    
+//    @Override
+//    public List<Object> getDeviceGuestsCountAndTotalMB(String serialNumber) {
+//        List<Object> result = new ArrayList<>();
+//
+//        DeviceInfo device = deviceDAO.getDeviceBySerialNumber(serialNumber);
+//        List<DeviceOldSessionDevices> list = deviceOldSessionDevicesDAO.findAllWhereHostDeviceIs(device);
+//        result.add(list.size());
+//        double totalMegas = 0;
+//        for (DeviceOldSessionDevices connection : list) {
+//            totalMegas += connection.getConsumedMb();
+//        }
+//        result.add(totalMegas);
+//        System.out.println("@@@@@The List Device @@@@@      "+  list.size() + "     @@@  The Total Mega @@@@      "+ totalMegas);
+//        return result;
+//    }
+    
 }

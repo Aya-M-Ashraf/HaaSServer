@@ -42,7 +42,7 @@
                                         </form:select>
                                 </div><!-- /.input group -->
 
-                                <label>Coins Type</label>
+                                <label>Coins Amount</label>
                                 <div class="input-group">
                                     <div class="input-group-addon"><i class="fa fa-money"></i></div>
                                         <form:input  path="coinsCount" cssClass="form-control" />
